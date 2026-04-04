@@ -9,6 +9,7 @@ class AddProductButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final cs = theme.colorScheme;
 
     return GestureDetector(
       onTap: onTap,
@@ -16,7 +17,7 @@ class AddProductButton extends StatelessWidget {
         width: double.infinity,
         height: 50.h,
         decoration: BoxDecoration(
-          color: theme.colorScheme.primary,
+          color: cs.primary,
           borderRadius: BorderRadius.circular(8.r),
         ),
         child: Row(
@@ -25,13 +26,13 @@ class AddProductButton extends StatelessWidget {
             Icon(
               Icons.add,
               size: 24.sp,
-              color: Colors.white,
+              color: cs.onPrimary,
             ),
             SizedBox(width: 8.w),
             Text(
               'Add Product',
               style: theme.textTheme.titleMedium?.copyWith(
-                color: Colors.white,
+                color: cs.onPrimary,
                 fontWeight: FontWeight.w600,
                 fontSize: 16.sp,
               ),

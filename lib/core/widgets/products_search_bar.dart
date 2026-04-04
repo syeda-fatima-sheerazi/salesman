@@ -9,30 +9,38 @@ class ProductsSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
 
     return Container(
       height: 45.h,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cs.surfaceContainerHigh,
         borderRadius: BorderRadius.circular(8.r),
+        border: Border.all(
+          color: cs.outlineVariant.withOpacity(isDark ? 0.7 : 0.35),
+        ),
         boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
+          if (!isDark)
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 4,
+              offset: const Offset(0, 2),
+            ),
         ],
       ),
       child: TextField(
         onChanged: onChanged,
+        style: theme.textTheme.bodyMedium?.copyWith(color: cs.onSurface),
+        cursorColor: cs.primary,
         decoration: InputDecoration(
           hintText: 'Search products...',
           hintStyle: theme.textTheme.bodyMedium?.copyWith(
-            color: Colors.grey.shade400,
+            color: cs.onSurfaceVariant,
           ),
           prefixIcon: Icon(
             Icons.search,
-            color: Colors.grey.shade400,
+            color: cs.onSurfaceVariant,
             size: 22.sp,
           ),
           border: InputBorder.none,

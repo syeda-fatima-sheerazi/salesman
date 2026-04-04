@@ -10,11 +10,18 @@ class ShopCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+
     return GestureDetector(
       onTap: onTap,
       child: Card(
-        color: const Color.fromARGB(255, 232, 228, 228),
-
+        color: cs.surfaceContainerHigh,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.r),
+          side: BorderSide(color: cs.outlineVariant.withOpacity(0.6)),
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -23,9 +30,16 @@ class ShopCard extends StatelessWidget {
                 Container(
                   height: 50.h,
                   width: 50.w,
-                  decoration: BoxDecoration(),
-                  child: Image.network(
-                    "https://img.freepik.com/premium-vector/shops-stores-icons-set-flat-design-style-vector-illustration_498048-1862.jpg?semt=ais_hybrid&w=740&q=80",
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.r),
+                    color: cs.surfaceContainerLow,
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8.r),
+                    child: Image.network(
+                      'https://img.freepik.com/premium-vector/shops-stores-icons-set-flat-design-style-vector-illustration_498048-1862.jpg?semt=ais_hybrid&w=740&q=80',
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 SizedBox(width: 10.w),
@@ -34,19 +48,28 @@ class ShopCard extends StatelessWidget {
                   children: [
                     Text(
                       shop.shopName,
-                      style: Theme.of(context).textTheme.labelLarge,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        color: cs.onSurface,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     Text(
-                      "Owner : ${shop.shopOwner}",
-                      style: Theme.of(context).textTheme.labelSmall,
+                      'Owner : ${shop.shopOwner}',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: cs.onSurfaceVariant,
+                      ),
                     ),
                     Text(
-                      "Cell : ${shop.cellPhone}",
-                      style: Theme.of(context).textTheme.labelSmall,
+                      'Cell : ${shop.cellPhone}',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: cs.onSurfaceVariant,
+                      ),
                     ),
                     Text(
                       shop.address,
-                      style: Theme.of(context).textTheme.labelSmall,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: cs.onSurfaceVariant,
+                      ),
                     ),
                   ],
                 ),
@@ -59,17 +82,17 @@ class ShopCard extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.green.shade600,
+                      foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                        borderRadius: BorderRadius.all(Radius.circular(8.r)),
                       ),
                     ),
-                    child: Text("Visited"),
+                    child: const Text('Visited'),
                   ),
-
                   IconButton(
                     onPressed: () {},
-                    icon: Icon(Icons.location_on, color: Colors.red),
+                    icon: Icon(Icons.location_on, color: cs.error),
                   ),
                 ],
               ),

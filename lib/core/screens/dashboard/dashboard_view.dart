@@ -1,56 +1,78 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:practices/core/screens/dashboard/dashboard_controller.dart';
+import 'package:practices/core/screens/drawer/custom_drawer_view.dart';
+import 'package:practices/core/screens/notifications/notifications_controller.dart';
+import 'package:practices/core/themes/app_theme.dart';
+import 'package:practices/core/screens/notifications/notifications_view.dart';
 
 class DashboardView extends StatelessWidget {
   const DashboardView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Initialize notifications controller for global access
+    final notificationsController = Get.put(NotificationsController());
+
     return GetBuilder<DashboardController>(
       init: DashboardController(),
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(
+            automaticallyImplyLeading: false,
             title: Text("SalesMan"),
             actions: [
-              // Notification icon with badge
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.notifications_outlined),
-                  ),
-                  Positioned(
-                    right: 8,
-                    top: 8,
-                    child: Container(
-                      padding: EdgeInsets.all(2),
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      constraints: BoxConstraints(
-                        minWidth: 16,
-                        minHeight: 16,
-                      ),
-                      child: Text(
-                        '2',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
+              // Notification icon with dynamic badge
+              Obx(
+                () => Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Get.to(() => const NotificationsView());
+                      },
+                      icon: Icon(Icons.notifications_outlined),
                     ),
-                  ),
-                ],
+                    if (notificationsController.unreadCount.value > 0)
+                      Positioned(
+                        right: 8.w,
+                        top: 8.h,
+                        child: Container(
+                          padding: EdgeInsets.all(2.w),
+                          decoration: BoxDecoration(
+                            color: AppTheme.badgeRed,
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
+                          constraints: BoxConstraints(
+                            minWidth: 16.w,
+                            minHeight: 16.h,
+                          ),
+                          child: Text(
+                            '${notificationsController.unreadCount.value}',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
               ),
-              IconButton(onPressed: () {}, icon: Icon(Icons.menu)),
+              Builder(
+                builder: (context) => IconButton(
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  icon: Icon(Icons.menu),
+                ),
+              ),
             ],
           ),
+          drawer: CustomDrawerView(),
           body: IndexedStack(
             index: controller.currentIndex.value,
             children: controller.tabs,
@@ -72,10 +94,6 @@ class DashboardView extends StatelessWidget {
               BottomNavigationBarItem(
                 icon: Icon(Icons.bar_chart),
                 label: "Statement",
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.cloud_upload),
-                label: "Backup",
               ),
             ],
           ),

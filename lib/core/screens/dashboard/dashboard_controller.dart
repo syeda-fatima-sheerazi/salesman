@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:practices/core/screens/backup/backup_view.dart';
 import 'package:practices/core/screens/home/home_view.dart';
 import 'package:practices/core/screens/products/products_view.dart';
 import 'package:practices/core/screens/statement/statement_view.dart';
@@ -18,6 +17,5 @@ class DashboardController extends GetxController {
     ProductsView(),
     TodayOrderView(),
     StatementView(),
-    BackupView(),
   ];
 }

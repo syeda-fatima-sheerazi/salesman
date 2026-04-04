@@ -10,6 +10,8 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
     return GetBuilder<HomeController>(
       init: HomeController(),
       builder: (controller) {
@@ -27,9 +29,11 @@ class HomeView extends StatelessWidget {
                         return Container(
                           padding: EdgeInsets.only(left: 5.sp),
                           decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 235, 228, 228),
-
+                            color: cs.surfaceContainerHigh,
                             borderRadius: BorderRadius.circular(5.r),
+                            border: Border.all(
+                              color: cs.outlineVariant.withOpacity(0.6),
+                            ),
                           ),
                           child: DropdownButton<String>(
                             hint: Text(
@@ -57,9 +61,11 @@ class HomeView extends StatelessWidget {
                         return Container(
                           padding: EdgeInsets.only(left: 5.sp),
                           decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 235, 228, 228),
-
+                            color: cs.surfaceContainerHigh,
                             borderRadius: BorderRadius.circular(5.r),
+                            border: Border.all(
+                              color: cs.outlineVariant.withOpacity(0.6),
+                            ),
                           ),
                           child: DropdownButton<String>(
                             hint: Text(
@@ -92,27 +98,33 @@ class HomeView extends StatelessWidget {
                           padding: EdgeInsets.only(left: 5.sp),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5.r),
-                            color: const Color.fromARGB(255, 235, 228, 228),
+                            color: cs.surfaceContainerHigh,
+                            border: Border.all(
+                              color: cs.outlineVariant.withOpacity(0.6),
+                            ),
                           ),
                           child: DropdownButton<String>(
-                            underline: SizedBox(),
+                            underline: const SizedBox.shrink(),
                             hint: Text(
-                              'Select District',
+                              'Select Area',
                               style: Theme.of(context).textTheme.labelSmall,
                             ),
-                            value: controller.selectedDistrict.value.isEmpty
+                            value: controller.selectedArea.value.isEmpty
                                 ? null
-                                : controller.selectedDistrict.value,
-                            items: controller.districts
-                                .map(
-                                  (e) => DropdownMenuItem(
-                                    value: e,
-                                    child: Text(e),
-                                  ),
-                                )
-                                .toList(),
+                                : controller.selectedArea.value,
+                            items: controller.selectedTown.value.isEmpty
+                                ? []
+                                : (controller.areas[controller.selectedTown.value] ??
+                                        <String>[])
+                                    .map(
+                                      (e) => DropdownMenuItem(
+                                        value: e,
+                                        child: Text(e),
+                                      ),
+                                    )
+                                    .toList(),
                             onChanged: (val) {
-                              controller.selectedDistrict.value = val!;
+                              controller.selectedArea.value = val!;
                             },
                           ),
                         );

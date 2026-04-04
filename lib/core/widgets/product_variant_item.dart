@@ -18,6 +18,7 @@ class ProductVariantItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final cs = theme.colorScheme;
 
     return Container(
       height: 45.h,
@@ -25,7 +26,7 @@ class ProductVariantItem extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
-            color: Colors.grey.shade300,
+            color: cs.outlineVariant,
             width: 0.5,
           ),
         ),
@@ -39,7 +40,7 @@ class ProductVariantItem extends StatelessWidget {
               weight,
               style: theme.textTheme.bodyMedium?.copyWith(
                 fontSize: 14.sp,
-                color: Colors.black87,
+                color: cs.onSurface,
               ),
             ),
           ),
@@ -50,7 +51,7 @@ class ProductVariantItem extends StatelessWidget {
               price,
               style: theme.textTheme.bodyMedium?.copyWith(
                 fontSize: 14.sp,
-                color: Colors.black87,
+                color: cs.onSurface,
               ),
             ),
           ),
@@ -82,16 +83,16 @@ class ProductVariantItem extends StatelessWidget {
               width: 35.w,
               height: 35.h,
               decoration: BoxDecoration(
-                color: Colors.grey.shade200,
+                color: cs.surfaceContainerLow,
                 borderRadius: BorderRadius.circular(6.r),
                 border: Border.all(
-                  color: Colors.grey.shade400,
+                  color: cs.outlineVariant,
                 ),
               ),
               child: Icon(
                 Icons.delete_outline,
                 size: 18.sp,
-                color: Colors.grey.shade600,
+                color: cs.onSurfaceVariant,
               ),
             ),
           ),

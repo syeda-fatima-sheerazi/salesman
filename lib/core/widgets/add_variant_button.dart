@@ -9,6 +9,7 @@ class AddVariantButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final cs = theme.colorScheme;
 
     return GestureDetector(
       onTap: onTap,
@@ -16,10 +17,10 @@ class AddVariantButton extends StatelessWidget {
         height: 40.h,
         margin: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: cs.surfaceContainerLow,
           borderRadius: BorderRadius.circular(6.r),
           border: Border.all(
-            color: Colors.grey.shade300,
+            color: cs.outlineVariant,
           ),
         ),
         child: Row(

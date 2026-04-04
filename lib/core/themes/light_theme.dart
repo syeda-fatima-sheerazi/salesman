@@ -2,33 +2,60 @@ import 'package:flutter/material.dart';
 import 'package:practices/core/themes/app_theme.dart';
 
 class LightTheme {
-  // LIGHT THEME
   static final ThemeData light = ThemeData(
     useMaterial3: true,
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: AppTheme.primaryColor,
+    colorScheme: ColorScheme.light(
       primary: AppTheme.primaryColor,
-      secondary: Colors.white,
-      brightness: Brightness.light,
+      onPrimary: Colors.white,
+      primaryContainer: AppTheme.primaryLight.withOpacity(0.22),
+      onPrimaryContainer: AppTheme.textPrimary,
+      secondary: AppTheme.secondaryColor,
+      onSecondary: AppTheme.textPrimary,
+      surface: Colors.white,
+      onSurface: AppTheme.textPrimary,
+      onSurfaceVariant: AppTheme.textSecondary,
+      error: AppTheme.error,
+      onError: Colors.white,
+      outline: const Color(0xFFD0D8DC),
+      outlineVariant: const Color(0xFFE8ECEF),
     ),
 
-    // Scaffold background
     scaffoldBackgroundColor: AppTheme.backgroundColor,
 
-    // Text styles
-    textTheme: const TextTheme(
-      titleMedium: TextStyle(
+    textTheme: TextTheme(
+      titleLarge: const TextStyle(
+        fontSize: 22,
+        fontWeight: FontWeight.w600,
+        color: AppTheme.textPrimary,
+        letterSpacing: -0.3,
+      ),
+      titleMedium: const TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+        color: AppTheme.textPrimary,
+      ),
+      bodyLarge: const TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w500,
-        color: Colors.black87,
+        color: AppTheme.textPrimary,
       ),
-      bodyMedium: TextStyle(
+      bodyMedium: const TextStyle(
         fontSize: 14,
-        color: Colors.black87,
+        fontWeight: FontWeight.w400,
+        color: AppTheme.textPrimary,
+      ),
+      bodySmall: const TextStyle(
+        fontSize: 12,
+        fontWeight: FontWeight.w400,
+        color: AppTheme.textSecondary,
+      ),
+      labelLarge: const TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w600,
+        color: AppTheme.textPrimary,
       ),
     ),
 
-    // AppBar
     appBarTheme: const AppBarTheme(
       backgroundColor: AppTheme.primaryColor,
       foregroundColor: Colors.white,
@@ -38,26 +65,39 @@ class LightTheme {
         fontSize: 20,
         fontWeight: FontWeight.w600,
         color: Colors.white,
+        letterSpacing: 0.2,
       ),
+      iconTheme: IconThemeData(color: Colors.white),
     ),
 
-    // Buttons
+    dividerTheme: const DividerThemeData(
+      color: Color(0xFFE0E6EA),
+      thickness: 1,
+      space: 1,
+    ),
+
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppTheme.primaryColor,
         foregroundColor: Colors.white,
+        elevation: 0,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     ),
 
-    // BottomNavigationBar
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: Colors.white,
       selectedItemColor: AppTheme.primaryColor,
-      unselectedItemColor: Colors.black54,
+      unselectedItemColor: AppTheme.textSecondary,
       showUnselectedLabels: true,
       type: BottomNavigationBarType.fixed,
       elevation: 8,
+    ),
+
+    drawerTheme: const DrawerThemeData(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
     ),
   );
 }
