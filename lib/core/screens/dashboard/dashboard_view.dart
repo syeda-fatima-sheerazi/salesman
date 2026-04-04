@@ -12,9 +12,42 @@ class DashboardView extends StatelessWidget {
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(
-            title: Text("Sales Man"),
+            title: Text("SalesMan"),
             actions: [
-              IconButton(onPressed: () {}, icon: Icon(Icons.notifications)),
+              // Notification icon with badge
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.notifications_outlined),
+                  ),
+                  Positioned(
+                    right: 8,
+                    top: 8,
+                    child: Container(
+                      padding: EdgeInsets.all(2),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      constraints: BoxConstraints(
+                        minWidth: 16,
+                        minHeight: 16,
+                      ),
+                      child: Text(
+                        '2',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               IconButton(onPressed: () {}, icon: Icon(Icons.menu)),
             ],
           ),
@@ -33,12 +66,16 @@ class DashboardView extends StatelessWidget {
                 label: "Products",
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.task_alt),
+                icon: Icon(Icons.calendar_today),
                 label: "Today",
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.signal_cellular_alt),
+                icon: Icon(Icons.bar_chart),
                 label: "Statement",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.cloud_upload),
+                label: "Backup",
               ),
             ],
           ),
