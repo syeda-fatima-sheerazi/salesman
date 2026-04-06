@@ -3,8 +3,11 @@ import 'package:practices/core/models/notification_model.dart';
 
 class NotificationsController extends GetxController {
   final RxList<NotificationModel> notifications = <NotificationModel>[].obs;
+
   final RxInt unreadCount = 0.obs;
   final RxInt selectedTabIndex = 0.obs;
+
+  final RxString searchQuery = ''.obs;
 
   @override
   void onInit() {
@@ -64,6 +67,9 @@ class NotificationsController extends GetxController {
     ];
   }
 
+  // notifications ab initializeNotifications() function mein set hoti hain, jahan static dummy list banai ja rahi hai.
+  // Jab bhi koi notification read mark ya delete hoti hai, _updateUnreadCount() call hota hai aur unreadCount update ho jata hai.
+  // Ye function unread notifications ki ginti (count) nikal ke unreadCount reactive variable me save karta hai.
   void _updateUnreadCount() {
     unreadCount.value = notifications.where((n) => !n.isRead).length;
   }
@@ -94,11 +100,30 @@ class NotificationsController extends GetxController {
     selectedTabIndex.value = index;
   }
 
+  /// Tab 0: all notifications. Tab 1: unread only. Search applies within the
+  /// current tab’s list; empty query shows the full tab list.
   List<NotificationModel> get filteredNotifications {
-    if (selectedTabIndex.value == 0) {
-      return notifications;
-    } else {
-      return notifications.where((n) => !n.isRead).toList();
+    final tabIndex = selectedTabIndex.value;
+    final q = searchQuery.value.trim().toLowerCase();
+
+    Iterable<NotificationModel> base = tabIndex == 0
+        ? notifications
+        : notifications.where((n) => !n.isRead);
+
+    if (q.isEmpty) {
+      return base.toList();
     }
+
+    return base
+        .where(
+          (n) =>
+              n.title.toLowerCase().contains(q) ||
+              n.subtitle.toLowerCase().contains(q),
+        )
+        .toList();
+  }
+
+  void onSearchQueryChanged(String query) {
+    searchQuery.value = query;
   }
 }

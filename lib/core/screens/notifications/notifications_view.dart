@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:practices/core/screens/notifications/notifications_controller.dart';
 import 'package:practices/core/widgets/notification_card.dart';
 import 'package:practices/core/widgets/products_search_bar.dart';
+import 'package:practices/core/screens/notifications/widgets/notification_tab_button.dart';
+import 'package:practices/core/screens/notifications/widgets/mark_all_read_button.dart';
 
 class NotificationsView extends StatelessWidget {
   const NotificationsView({super.key});
@@ -27,8 +29,15 @@ class NotificationsView extends StatelessWidget {
               children: [
                 // Search Bar Section
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-                  child: const ProductsSearchBar(),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 12.h,
+                  ),
+                  child: ProductsSearchBar(
+                    onChanged: (query) {
+                      controller.onSearchQueryChanged(query);
+                    },
+                  ),
                 ),
 
                 // Tab Bar
@@ -39,88 +48,30 @@ class NotificationsView extends StatelessWidget {
                     color: cs.surfaceContainer,
                     borderRadius: BorderRadius.circular(10.r),
                   ),
-                  child: Obx(() => Row(
-                        children: [
-                          Expanded(
-                            child: GestureDetector(
-                              onTap: () => controller.changeTab(0),
-                              child: Container(
-                                padding: EdgeInsets.symmetric(vertical: 10.h),
-                                decoration: BoxDecoration(
-                                  color: controller.selectedTabIndex.value == 0
-                                      ? cs.surfaceContainerHighest
-                                      : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(8.r),
-                                  boxShadow:
-                                      controller.selectedTabIndex.value == 0
-                                          ? [
-                                              BoxShadow(
-                                                color: Colors.black
-                                                    .withValues(alpha: 0.08),
-                                                blurRadius: 4,
-                                                offset: const Offset(0, 2),
-                                              ),
-                                            ]
-                                          : null,
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    'Notifications',
-                                    style: theme.textTheme.bodyMedium?.copyWith(
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color:
-                                          controller.selectedTabIndex.value == 0
-                                              ? cs.onSurface
-                                              : cs.onSurfaceVariant,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
+                  child: Obx(
+                    () => Row(
+                      children: [
+                        Expanded(
+                          child: NotificationTabButton(
+                            label: const Text('Notifications'),
+                            isSelected: controller.selectedTabIndex.value == 0,
+                            onTap: () => controller.changeTab(0),
                           ),
-                          Expanded(
-                            child: GestureDetector(
-                              onTap: () => controller.changeTab(1),
-                              child: Container(
-                                padding: EdgeInsets.symmetric(vertical: 10.h),
-                                decoration: BoxDecoration(
-                                  color: controller.selectedTabIndex.value == 1
-                                      ? cs.primary
-                                      : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(8.r),
-                                  boxShadow:
-                                      controller.selectedTabIndex.value == 1
-                                          ? [
-                                              BoxShadow(
-                                                color: Colors.black
-                                                    .withValues(alpha: 0.12),
-                                                blurRadius: 4,
-                                                offset: const Offset(0, 2),
-                                              ),
-                                            ]
-                                          : null,
-                                ),
-                                child: Center(
-                                  child: Obx(() => Text(
-                                        'New (${controller.unreadCount})',
-                                        style:
-                                            theme.textTheme.bodyMedium?.copyWith(
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w500,
-                                          color: controller
-                                                      .selectedTabIndex.value ==
-                                                  1
-                                              ? cs.onPrimary
-                                              : cs.onSurfaceVariant,
-                                        ),
-                                      )),
-                                ),
-                              ),
+                        ),
+                        Expanded(
+                          child: NotificationTabButton(
+                            label: Obx(
+                              () => Text('New (${controller.unreadCount})'),
                             ),
+                            isSelected: controller.selectedTabIndex.value == 1,
+                            onTap: () => controller.changeTab(1),
+                            selectedColor: cs.primary,
+                            selectedTextColor: cs.onPrimary,
                           ),
-                        ],
-                      )),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
 
                 SizedBox(height: 16.h),
@@ -172,29 +123,13 @@ class NotificationsView extends StatelessWidget {
                 // Mark All as Read Button
                 Padding(
                   padding: EdgeInsets.all(16.w),
-                  child: Obx(() => controller.unreadCount.value > 0
-                      ? GestureDetector(
-                          onTap: () => controller.markAllAsRead(),
-                          child: Container(
-                            width: double.infinity,
-                            height: 50.h,
-                            decoration: BoxDecoration(
-                              color: theme.colorScheme.primary,
-                              borderRadius: BorderRadius.circular(10.r),
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Mark All as Read',
-                                style: theme.textTheme.titleMedium?.copyWith(
-                                  color: cs.onPrimary,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      : const SizedBox.shrink()),
+                  child: Obx(
+                    () => controller.unreadCount.value > 0
+                        ? MarkAllReadButton(
+                            onTap: () => controller.markAllAsRead(),
+                          )
+                        : const SizedBox.shrink(),
+                  ),
                 ),
               ],
             ),
