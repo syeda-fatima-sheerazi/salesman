@@ -3,11 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:practices/core/models/notification_model.dart';
 
 class NotificationCard extends StatelessWidget {
-  const NotificationCard({
-    super.key,
-    required this.notification,
-    this.onTap,
-  });
+  const NotificationCard({super.key, required this.notification, this.onTap});
 
   final NotificationModel notification;
   final VoidCallback? onTap;
@@ -27,12 +23,12 @@ class NotificationCard extends StatelessWidget {
           color: cs.surfaceContainerHigh,
           borderRadius: BorderRadius.circular(12.r),
           border: Border.all(
-            color: cs.outlineVariant.withOpacity(isDark ? 0.65 : 0.4),
+            color: cs.outlineVariant.withValues(alpha: isDark ? 0.65 : 0.4),
           ),
           boxShadow: [
             if (!isDark)
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: Colors.black.withValues(alpha: 0.05),
                 blurRadius: 8,
                 offset: const Offset(0, 2),
               ),
@@ -72,8 +68,7 @@ class NotificationCard extends StatelessWidget {
                       color: cs.onSurface,
                     ),
                   ),
-                  if (notification.subtitle.isNotEmpty)
-                    SizedBox(height: 4.h),
+                  if (notification.subtitle.isNotEmpty) SizedBox(height: 4.h),
                   if (notification.subtitle.isNotEmpty)
                     Text(
                       notification.subtitle,
@@ -100,7 +95,7 @@ class NotificationCard extends StatelessWidget {
                 SizedBox(height: 8.h),
                 Icon(
                   Icons.chevron_right,
-                  color: cs.onSurfaceVariant.withOpacity(0.85),
+                  color: cs.onSurfaceVariant.withValues(alpha: 0.85),
                   size: 20.sp,
                 ),
               ],

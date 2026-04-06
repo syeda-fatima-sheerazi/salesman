@@ -18,12 +18,12 @@ class ProductsSearchBar extends StatelessWidget {
         color: cs.surfaceContainerHigh,
         borderRadius: BorderRadius.circular(8.r),
         border: Border.all(
-          color: cs.outlineVariant.withOpacity(isDark ? 0.7 : 0.35),
+          color: cs.outlineVariant.withValues(alpha: isDark ? 0.7 : 0.35),
         ),
         boxShadow: [
           if (!isDark)
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 4,
               offset: const Offset(0, 2),
             ),
