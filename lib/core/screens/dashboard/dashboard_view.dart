@@ -6,6 +6,7 @@ import 'package:practices/core/screens/drawer/custom_drawer_view.dart';
 import 'package:practices/core/screens/notifications/notifications_controller.dart';
 import 'package:practices/core/themes/app_theme.dart';
 import 'package:practices/core/screens/notifications/notifications_view.dart';
+import 'package:practices/core/widgets/notification_icon_widget.dart';
 
 class DashboardView extends StatelessWidget {
   const DashboardView({super.key});
@@ -25,41 +26,11 @@ class DashboardView extends StatelessWidget {
             actions: [
               // Notification icon with dynamic badge
               Obx(
-                () => Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Get.to(() => const NotificationsView());
-                      },
-                      icon: Icon(Icons.notifications_outlined),
-                    ),
-                    if (notificationsController.unreadCount.value > 0)
-                      Positioned(
-                        right: 8.w,
-                        top: 8.h,
-                        child: Container(
-                          padding: EdgeInsets.all(2.w),
-                          decoration: BoxDecoration(
-                            color: AppTheme.badgeRed,
-                            borderRadius: BorderRadius.circular(10.r),
-                          ),
-                          constraints: BoxConstraints(
-                            minWidth: 16.w,
-                            minHeight: 16.h,
-                          ),
-                          child: Text(
-                            '${notificationsController.unreadCount.value}',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 10.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                  ],
+                () => NotificationIconWidget(
+                  unreadCount: notificationsController.unreadCount.value,
+                  onPressed: () {
+                    Get.to(() => NotificationsView());
+                  },
                 ),
               ),
               Builder(
