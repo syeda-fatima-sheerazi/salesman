@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:practices/core/screens/dashboard/dashboard_view.dart';
+import 'package:practices/core/screens/splash/splash_view.dart';
 import 'package:practices/core/themes/app_theme.dart';
 
 void main() {
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           theme: AppTheme.light,
-          darkTheme: AppTheme.light,
+          darkTheme: AppTheme.dark,
           themeMode: ThemeMode.dark,
           home: DashboardView(),
         );
