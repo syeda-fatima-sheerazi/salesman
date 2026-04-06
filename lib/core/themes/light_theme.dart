@@ -7,7 +7,8 @@ class LightTheme {
     colorScheme: ColorScheme.light(
       primary: AppTheme.primaryColor,
       onPrimary: Colors.white,
-      primaryContainer: AppTheme.primaryLight.withOpacity(0.22),
+
+      primaryContainer: AppTheme.primaryLight.withValues(alpha: 0.22),
       onPrimaryContainer: AppTheme.textPrimary,
       secondary: AppTheme.secondaryColor,
       onSecondary: AppTheme.textPrimary,

@@ -104,20 +104,19 @@ class DarkTheme {
       shadowColor: Colors.black54,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: _scheme.outlineVariant.withOpacity(0.55)),
+        side: BorderSide(color: _scheme.outlineVariant.withValues(alpha: .55)),
       ),
     ),
 
-    dividerTheme: DividerThemeData(
-      color: _scheme.outlineVariant,
-      thickness: 1,
-    ),
+    dividerTheme: DividerThemeData(color: _scheme.outlineVariant, thickness: 1),
 
     dividerColor: _scheme.outlineVariant,
 
     dropdownMenuTheme: DropdownMenuThemeData(
       menuStyle: MenuStyle(
-        backgroundColor: WidgetStatePropertyAll(_scheme.surfaceContainerHighest),
+        backgroundColor: WidgetStatePropertyAll(
+          _scheme.surfaceContainerHighest,
+        ),
       ),
     ),
 
