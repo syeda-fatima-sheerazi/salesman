@@ -6,7 +6,7 @@ import 'package:practices/core/screens/splash/splash_view.dart';
 import 'package:practices/core/themes/app_theme.dart';
 
 void main() {
-  //WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: AppTheme.light,
           darkTheme: AppTheme.dark,
-          themeMode: ThemeMode.dark,
+          themeMode: ThemeMode.light,
           home: DashboardView(),
         );
       },
