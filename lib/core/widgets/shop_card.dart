@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:practices/core/models/shop.dart';
+import 'package:practices/core/widgets/custom_tile.dart';
 
 class ShopCard extends StatelessWidget {
   const ShopCard({super.key, this.onTap, required this.shop});
@@ -23,23 +24,20 @@ class ShopCard extends StatelessWidget {
           side: BorderSide(color: cs.outlineVariant.withValues(alpha: 0.6)),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(10.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Row(
                 children: [
                   Container(
-                    height: 50.h,
-                    width: 50.w,
+                    height: 60.h,
+                    width: 60.w,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.r),
                       color: cs.surfaceContainerLow,
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.r),
-                      child: Image.network(
-                        'https://img.freepik.com/premium-vector/shops-stores-icons-set-flat-design-style-vector-illustration_498048-1862.jpg?semt=ais_hybrid&w=740&q=80',
+                      image: DecorationImage(
+                        image: AssetImage(shop.shopImagUrl),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -57,26 +55,26 @@ class ShopCard extends StatelessWidget {
                       ),
                       SizedBox(height: 2.h),
 
-                      Text(
-                        'Owner : ${shop.shopOwner}',
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: cs.onSurfaceVariant,
-                        ),
+                      CustomTile(
+                        cs: cs,
+                        text: shop.shopOwner,
+                        icon: Icons.person,
+                        theme: theme,
                       ),
                       SizedBox(height: 2.h),
 
-                      Text(
-                        'Cell : ${shop.cellPhone}',
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: cs.onSurfaceVariant,
-                        ),
+                      CustomTile(
+                        cs: cs,
+                        text: shop.cellPhone,
+                        icon: Icons.phone,
+                        theme: theme,
                       ),
-                      SizedBox(height: 15.h),
-                      Text(
-                        'Address : ${shop.address}',
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: cs.onSurfaceVariant,
-                        ),
+                      SizedBox(height: 2.h),
+                      CustomTile(
+                        cs: cs,
+                        text: shop.address,
+                        icon: Icons.place_outlined,
+                        theme: theme,
                       ),
                     ],
                   ),
@@ -87,18 +85,13 @@ class ShopCard extends StatelessWidget {
                 child: Column(
                   children: [
                     Chip(
-                      avatar: Icon(
-                        shop.isVisited ? Icons.done : Icons.close,
-                        size: 18,
-                        color: cs.outlineVariant,
-                      ),
                       label: shop.isVisited
                           ? Text(
                               'Visited',
                               style: TextStyle(color: cs.outlineVariant),
                             )
                           : Text(
-                              'Not Visited',
+                              'Pending',
                               style: TextStyle(color: cs.outlineVariant),
                             ),
                       backgroundColor: shop.isVisited
