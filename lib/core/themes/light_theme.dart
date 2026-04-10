@@ -100,5 +100,8 @@ class LightTheme {
       backgroundColor: Colors.transparent,
       elevation: 0,
     ),
+    progressIndicatorTheme: const ProgressIndicatorThemeData(
+      color: AppTheme.primaryColor,
+    ),
   );
 }

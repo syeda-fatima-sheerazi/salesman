@@ -167,5 +167,8 @@ class DarkTheme {
     ),
 
     iconTheme: IconThemeData(color: _scheme.onSurfaceVariant),
+    progressIndicatorTheme: const ProgressIndicatorThemeData(
+      color: AppTheme.primaryLight,
+    ),
   );
 }
