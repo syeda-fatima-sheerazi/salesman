@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:practices/core/models/shop.dart';
+import 'package:practices/core/enums/data_state.dart';
 import 'package:practices/core/screens/home/home_controller.dart';
 import 'package:practices/core/widgets/shop_card.dart';
+import 'package:practices/core/widgets/custom_dropdown.dart';
+import 'package:practices/core/widgets/empty_state.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
+    // theme/color scheme read by child widgets when needed
 
     return GetBuilder<HomeController>(
       init: HomeController(),
@@ -18,194 +20,99 @@ class HomeView extends StatelessWidget {
         return Scaffold(
           body: Padding(
             padding: EdgeInsets.all(8.w),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Obx(() {
-                        return Container(
-                          padding: EdgeInsets.only(left: 5.sp),
-                          decoration: BoxDecoration(
-                            color: cs.surfaceContainerHigh,
-                            borderRadius: BorderRadius.circular(5.r),
-                            border: Border.all(
-                              color: cs.outlineVariant.withOpacity(0.6),
-                            ),
-                          ),
-                          child: DropdownButton<String>(
-                            hint: Text(
-                              'Select District',
-                              style: Theme.of(context).textTheme.labelSmall,
-                            ),
-                            value: controller.selectedDistrict.value.isEmpty
-                                ? null
-                                : controller.selectedDistrict.value,
-                            items: controller.districts
-                                .map(
-                                  (e) => DropdownMenuItem(
-                                    value: e,
-                                    child: Text(e),
-                                  ),
-                                )
-                                .toList(),
-                            onChanged: (val) {
-                              controller.selectedDistrict.value = val!;
-                            },
-                          ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Expanded(
+                      child: Obx(() {
+                        return CustomDropdown(
+                          value: controller.selectedDistrict.value.isEmpty
+                              ? null
+                              : controller.selectedDistrict.value,
+                          items: controller.districts,
+                          onChanged: (v) =>
+                              controller.selectedDistrict.value = v ?? '',
+                          hint: 'Select District',
                         );
                       }),
-                      Obx(() {
-                        return Container(
-                          padding: EdgeInsets.only(left: 5.sp),
-                          decoration: BoxDecoration(
-                            color: cs.surfaceContainerHigh,
-                            borderRadius: BorderRadius.circular(5.r),
-                            border: Border.all(
-                              color: cs.outlineVariant.withOpacity(0.6),
-                            ),
-                          ),
-                          child: DropdownButton<String>(
-                            hint: Text(
-                              'Select Town',
-                              style: Theme.of(context).textTheme.labelSmall,
-                            ),
-                            value: controller.selectedTown.value.isEmpty
-                                ? null
-                                : controller.selectedTown.value,
-                            items: controller.selectedDistrict.value.isEmpty
-                                ? []
-                                : controller
-                                      .towns[controller.selectedDistrict.value]
-                                      .map(
-                                        (e) => DropdownMenuItem(
-                                          value: e,
-                                          child: Text(e),
-                                        ),
-                                      )
-                                      .toList(),
-                            onChanged: (val) {
-                              controller.selectedTown.value = val!;
-                              controller.selectedArea.value = "";
-                            },
-                          ),
-                        );
-                      }),
-                      Obx(() {
-                        return Container(
-                          padding: EdgeInsets.only(left: 5.sp),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5.r),
-                            color: cs.surfaceContainerHigh,
-                            border: Border.all(
-                              color: cs.outlineVariant.withOpacity(0.6),
-                            ),
-                          ),
-                          child: DropdownButton<String>(
-                            underline: const SizedBox.shrink(),
-                            hint: Text(
-                              'Select Area',
-                              style: Theme.of(context).textTheme.labelSmall,
-                            ),
-                            value: controller.selectedArea.value.isEmpty
-                                ? null
-                                : controller.selectedArea.value,
-                            items: controller.selectedTown.value.isEmpty
-                                ? []
-                                : (controller.areas[controller.selectedTown.value] ??
-                                        <String>[])
-                                    .map(
-                                      (e) => DropdownMenuItem(
-                                        value: e,
-                                        child: Text(e),
-                                      ),
-                                    )
-                                    .toList(),
-                            onChanged: (val) {
-                              controller.selectedArea.value = val!;
-                            },
-                          ),
-                        );
-                      }),
-                      SizedBox(height: 20),
-                    ],
-                  ),
-                  Text("Shops", style: Theme.of(context).textTheme.bodyLarge),
+                    ),
+                    SizedBox(width: 5.w),
 
-                  ShopCard(
-                    onTap: controller.gotoDetailedView,
-                    shop: Shop(
-                      shopName: "Ghafor Cosmetic Store",
-                      shopOwner: "Muhammad Ghafor",
-                      cellPhone: "0303684795739",
-                      shopImagUrl: "",
-                      address: "Gulshan_e_Iqbal , Karachi",
+                    Expanded(
+                      child: Obx(() {
+                        return CustomDropdown(
+                          value: controller.selectedTown.value.isEmpty
+                              ? null
+                              : controller.selectedTown.value,
+                          items:
+                              controller.towns[controller
+                                  .selectedDistrict
+                                  .value] ??
+                              [],
+                          onChanged: (v) =>
+                              controller.selectedTown.value = v ?? '',
+                          hint: 'Select Town',
+                        );
+                      }),
                     ),
-                  ),
-                  ShopCard(
-                    onTap: controller.gotoDetailedView,
-                    shop: Shop(
-                      shopName: "Ghafor Cosmetic Store",
-                      shopOwner: "Muhammad Ghafor",
-                      cellPhone: "0303684795739",
-                      shopImagUrl: "",
-                      address: "Gulshan_e_Iqbal , Karachi",
+                    SizedBox(width: 5.w),
+
+                    Expanded(
+                      child: Obx(() {
+                        return CustomDropdown(
+                          value: controller.selectedArea.value.isEmpty
+                              ? null
+                              : controller.selectedArea.value,
+                          items:
+                              controller.areas[controller.selectedTown.value] ??
+                              [],
+                          onChanged: (v) =>
+                              controller.selectedArea.value = v ?? '',
+                          hint: 'Select Area',
+                        );
+                      }),
                     ),
+                  ],
+                ),
+                SizedBox(height: 20.h),
+
+                Text(
+                  "Shops List",
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                SizedBox(height: 10.h),
+
+                Expanded(
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: Obx(() {
+                      final shops = controller.shopList;
+                      final dataState = controller.dataState.value;
+
+                      if (dataState == DataState.loading) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      if (dataState == DataState.empty || shops.isEmpty) {
+                        return const EmptyState(
+                          icon: Icons.store_outlined,
+                          text: 'No shops found',
+                        );
+                      }
+
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: shops.length,
+                        itemBuilder: (context, index) {
+                          return ShopCard(shop: shops[index]!);
+                        },
+                      );
+                    }),
                   ),
-                  ShopCard(
-                    onTap: controller.gotoDetailedView,
-                    shop: Shop(
-                      shopName: "Ghafor Cosmetic Store",
-                      shopOwner: "Muhammad Ghafor",
-                      cellPhone: "0303684795739",
-                      shopImagUrl: "",
-                      address: "Gulshan_e_Iqbal , Karachi",
-                    ),
-                  ),
-                  ShopCard(
-                    onTap: controller.gotoDetailedView,
-                    shop: Shop(
-                      shopName: "Ghafor Cosmetic Store",
-                      shopOwner: "Muhammad Ghafor",
-                      cellPhone: "0303684795739",
-                      shopImagUrl: "",
-                      address: "Gulshan_e_Iqbal , Karachi",
-                    ),
-                  ),
-                  ShopCard(
-                    onTap: controller.gotoDetailedView,
-                    shop: Shop(
-                      shopName: "Ghafor Cosmetic Store",
-                      shopOwner: "Muhammad Ghafor",
-                      cellPhone: "0303684795739",
-                      shopImagUrl: "",
-                      address: "Gulshan_e_Iqbal , Karachi",
-                    ),
-                  ),
-                  ShopCard(
-                    onTap: controller.gotoDetailedView,
-                    shop: Shop(
-                      shopName: "Ghafor Cosmetic Store",
-                      shopOwner: "Muhammad Ghafor",
-                      cellPhone: "0303684795739",
-                      shopImagUrl: "",
-                      address: "Gulshan_e_Iqbal , Karachi",
-                    ),
-                  ),
-                  ShopCard(
-                    onTap: controller.gotoDetailedView,
-                    shop: Shop(
-                      shopName: "Ghafor Cosmetic Store",
-                      shopOwner: "Muhammad Ghafor",
-                      cellPhone: "0303684795739",
-                      shopImagUrl: "",
-                      address: "Gulshan_e_Iqbal , Karachi",
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           persistentFooterButtons: [
