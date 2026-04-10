@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:practices/core/models/notification_model.dart';
+import 'package:practices/core/enums/notification_type.dart';
 
 class NotificationsController extends GetxController {
   final RxList<NotificationModel> notifications = <NotificationModel>[].obs;
