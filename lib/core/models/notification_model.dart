@@ -1,12 +1,5 @@
 import 'package:flutter/material.dart';
-
-enum NotificationType {
-  order,
-  payment,
-  visit,
-  meeting,
-  report,
-}
+import 'package:practices/core/enums/notification_type.dart';
 
 class NotificationModel {
   final String id;
