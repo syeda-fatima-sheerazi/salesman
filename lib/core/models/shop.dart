@@ -10,8 +10,8 @@ class Shop {
     required this.shopName,
     required this.shopOwner,
     required this.cellPhone,
-    required this.shopImagUrl,
     required this.address,
     this.isVisited = false,
+    this.shopImagUrl = 'assets/images/shop.png',
   });
 }
