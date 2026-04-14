@@ -9,8 +9,8 @@ class SplashCtrl extends GetxController {
   }
 
   void _navigateToHome() {
-    Timer(Duration(seconds: 3), () {
-      Get.offNamed('/home'); // navigate to home after 3 seconds
+    Timer(const Duration(seconds: 3), () {
+      Get.offAllNamed('/login'); // navigate to login after 3 seconds
     });
   }
 }

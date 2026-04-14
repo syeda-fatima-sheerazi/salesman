@@ -91,7 +91,7 @@ class DarkTheme {
       elevation: 0,
       centerTitle: true,
       titleTextStyle: TextStyle(
-        fontSize: 20,
+        fontSize: 23,
         fontWeight: FontWeight.w600,
         color: _scheme.onSurface,
       ),
@@ -137,6 +137,8 @@ class DarkTheme {
 
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
+        maximumSize: const Size(double.infinity, 50),
+        minimumSize: const Size(double.infinity, 50),
         backgroundColor: AppTheme.primaryColor,
         foregroundColor: Colors.white,
         elevation: 0,

@@ -40,7 +40,7 @@ class CustomDropdown extends StatelessWidget {
       child: DropdownButton<String>(
         iconEnabledColor: cs.primary,
         underline: underline ? null : const SizedBox.shrink(),
-        hint: Text(hint, style: Theme.of(context).textTheme.labelSmall),
+        hint: Text(hint, style: Theme.of(context).textTheme.bodySmall),
         value: value,
         items: items
             .map((e) => DropdownMenuItem(value: e, child: Text(e)))

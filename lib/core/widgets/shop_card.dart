@@ -37,7 +37,9 @@ class ShopCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8.r),
                       color: cs.surfaceContainerLow,
                       image: DecorationImage(
-                        image: AssetImage(shop.shopImagUrl),
+                        image: shop.shopImagUrl.startsWith('http')
+                            ? NetworkImage(shop.shopImagUrl)
+                            : AssetImage(shop.shopImagUrl),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -56,25 +58,19 @@ class ShopCard extends StatelessWidget {
                       SizedBox(height: 2.h),
 
                       CustomTile(
-                        cs: cs,
                         text: shop.shopOwner,
                         icon: Icons.person,
-                        theme: theme,
                       ),
                       SizedBox(height: 2.h),
 
                       CustomTile(
-                        cs: cs,
                         text: shop.cellPhone,
                         icon: Icons.phone,
-                        theme: theme,
                       ),
                       SizedBox(height: 2.h),
                       CustomTile(
-                        cs: cs,
                         text: shop.address,
                         icon: Icons.place_outlined,
-                        theme: theme,
                       ),
                     ],
                   ),

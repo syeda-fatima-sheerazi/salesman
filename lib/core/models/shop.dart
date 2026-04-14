@@ -5,6 +5,7 @@ class Shop {
   final String shopImagUrl;
   final String address;
   final bool isVisited;
+  final String? description;
 
   Shop({
     required this.shopName,
@@ -13,5 +14,6 @@ class Shop {
     required this.address,
     this.isVisited = false,
     this.shopImagUrl = 'assets/images/shop.png',
+    this.description,
   });
 }

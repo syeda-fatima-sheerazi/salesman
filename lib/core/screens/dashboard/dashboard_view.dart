@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:practices/core/screens/dashboard/dashboard_controller.dart';
 import 'package:practices/core/screens/drawer/custom_drawer_view.dart';
 import 'package:practices/core/screens/notifications/notifications_controller.dart';
-import 'package:practices/core/themes/app_theme.dart';
 import 'package:practices/core/screens/notifications/notifications_view.dart';
 import 'package:practices/core/widgets/notification_icon_widget.dart';
 

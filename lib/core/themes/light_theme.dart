@@ -63,7 +63,7 @@ class LightTheme {
       elevation: 0,
       centerTitle: true,
       titleTextStyle: TextStyle(
-        fontSize: 20,
+        fontSize: 23,
         fontWeight: FontWeight.w600,
         color: Colors.white,
         letterSpacing: 0.2,
@@ -72,13 +72,15 @@ class LightTheme {
     ),
 
     dividerTheme: const DividerThemeData(
-      color: Color(0xFFE0E6EA),
+      color: AppTheme.textPrimary,
       thickness: 1,
       space: 1,
     ),
 
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
+        maximumSize: const Size(double.infinity, 50),
+        minimumSize: const Size(double.infinity, 50),
         backgroundColor: AppTheme.primaryColor,
         foregroundColor: Colors.white,
         elevation: 0,
