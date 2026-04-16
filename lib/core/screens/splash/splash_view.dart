@@ -2,6 +2,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:practices/core/screens/splash/splash_ctrl.dart';
 
@@ -18,21 +19,61 @@ class SplashView extends StatelessWidget {
             body: Center(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 40.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 28.w,
+                    vertical: 40.h,
+                  ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        'Sales Man',
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          // color: Theme.of(context).primaryColor,
+                      SizedBox(
+                        width: double.infinity,
+                        child: AnimatedTextKit(
+                          repeatForever: false,
+                          totalRepeatCount: 1,
+                          animatedTexts: [
+                            BounceAnimatedText(
+                              'Sales Man',
+                              textAlign: TextAlign.center,
+                              textStyle: Theme.of(context).textTheme.bodyLarge
+                                  ?.copyWith(
+                                    // fontStyle: GoogleFonts.roboto().fontStyle,
+                                    fontFamily:
+                                        GoogleFonts.racingSansOne().fontFamily,
+
+                                    fontSize: 28.sp,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primary,
+                                  ),
+                              duration: const Duration(milliseconds: 1100),
+                            ),
+                          ],
                         ),
                       ),
-                      SizedBox(height: 5.h),
-                      Text(
-                        'Track, Manage, Grow Your Sales',
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Theme.of(context).primaryColor,
+                      SizedBox(height: 10.h),
+                      SizedBox(
+                        width: double.infinity,
+                        child: AnimatedTextKit(
+                          repeatForever: false,
+                          totalRepeatCount: 1,
+                          animatedTexts: [
+                            TyperAnimatedText(
+                              'Track, Manage and Grow Your Sales',
+                              textAlign: TextAlign.center,
+                              textStyle: Theme.of(context).textTheme.bodyLarge
+                                  ?.copyWith(
+                                    fontSize: 15.sp,
+                                    fontWeight: FontWeight.w500,
+                                    height: 1.4,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primary,
+                                  ),
+                              speed: const Duration(milliseconds: 100),
+                            ),
+                          ],
                         ),
                       ),
                       SizedBox(height: 30.h),
@@ -41,6 +82,7 @@ class SplashView extends StatelessWidget {
                         height: 250.h,
                         width: 250.w,
                         fit: BoxFit.contain,
+                       // repeat: false,
                       ),
                       SizedBox(height: 30.h),
                       AnimatedTextKit(

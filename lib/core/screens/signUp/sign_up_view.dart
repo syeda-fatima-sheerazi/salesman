@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:practices/core/screens/signUp/signUp_controller.dart';
+import 'package:practices/core/screens/signUp/sign_up_controller.dart';
 import 'package:practices/core/themes/app_theme.dart';
 import 'package:practices/core/widgets/custom_input_field.dart';
 import 'package:practices/core/widgets/divider_with_text.dart';

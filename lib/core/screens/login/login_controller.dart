@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:practices/core/screens/dashboard/dashboard_view.dart';
+import 'package:practices/core/screens/signUp/sign_up_view.dart';
 
 class LoginController extends GetxController {
   bool _googleSignInInitialized = false;
@@ -91,7 +93,9 @@ class LoginController extends GetxController {
   }
 
   void signUp() {
-    Get.toNamed('/signup');
+    emailError.value = '';
+    passwordError.value = '';
+    Get.to(() => const SignUpView());
   }
 
   Future<void> _ensureGoogleSignInInitialized() async {
@@ -131,10 +135,8 @@ class LoginController extends GetxController {
         return;
       }
 
-      final GoogleSignInAccount account =
-          await GoogleSignIn.instance.authenticate(
-        scopeHint: const <String>['email', 'profile'],
-      );
+      final GoogleSignInAccount account = await GoogleSignIn.instance
+          .authenticate(scopeHint: const <String>['email', 'profile']);
 
       final String? idToken = account.authentication.idToken;
       debugPrint(
@@ -142,7 +144,7 @@ class LoginController extends GetxController {
       );
 
       // TODO: Send idToken to your backend for session creation.
-      Get.offAllNamed('/dashboard');
+      Get.offAll(() => const DashboardView());
     } on GoogleSignInException catch (e) {
       if (e.code == GoogleSignInExceptionCode.canceled ||
           e.code == GoogleSignInExceptionCode.interrupted) {
@@ -170,9 +172,5 @@ class LoginController extends GetxController {
 
   void signInWithGoogle() {
     loginWithGoogle();
-  }
-
-  void signInWithFacebook() {
-    // TODO: Implement Facebook Sign In
   }
 }

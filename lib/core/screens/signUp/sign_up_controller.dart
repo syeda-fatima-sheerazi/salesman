@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:practices/core/screens/login/login_view.dart';
 
 class SignUpController extends GetxController {
   // Controllers
@@ -30,11 +31,11 @@ class SignUpController extends GetxController {
   }
 
   void togglePasswordVisibility() {
-    isPasswordVisible.value = !isPasswordVisible.value;
+    isPasswordVisible.toggle();
   }
 
   void toggleConfirmPasswordVisibility() {
-    isConfirmPasswordVisible.value = !isConfirmPasswordVisible.value;
+    isConfirmPasswordVisible.toggle();
   }
 
   bool _validateFields() {
@@ -51,12 +52,13 @@ class SignUpController extends GetxController {
       fullNameError.value = '';
     }
 
-    // Validate mobile number
-    if (emailController.text.trim().isEmpty) {
-      emailError.value = 'Please enter your mobile number';
+    // Validate email address
+    String email = emailController.text.trim();
+    if (email.isEmpty) {
+      emailError.value = 'Please enter your email address';
       isValid = false;
-    } else if (emailController.text.trim().length < 11) {
-      emailError.value = 'Please enter a valid mobile number';
+    } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)) {
+      emailError.value = 'Please enter a valid email address';
       isValid = false;
     } else {
       emailError.value = '';
@@ -68,6 +70,12 @@ class SignUpController extends GetxController {
       isValid = false;
     } else if (passwordController.text.length < 6) {
       passwordError.value = 'Password must be at least 6 characters';
+      isValid = false;
+    } else if (!RegExp(
+      r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#\$%^&*(),.?":{}|<>]).{6,}$',
+    ).hasMatch(passwordController.text)) {
+      passwordError.value =
+          'Please enter a strong password (uppercase, lowercase, number, special char)';
       isValid = false;
     } else {
       passwordError.value = '';
@@ -98,7 +106,7 @@ class SignUpController extends GetxController {
 
       // TODO: Implement actual signup logic here
       // For now, just navigate to login
-      Get.offAllNamed('/login');
+      Get.to(() => const LoginView());
 
       Get.snackbar(
         'Success',
@@ -122,14 +130,14 @@ class SignUpController extends GetxController {
 
   void login() {
     // Navigate to login screen
-    Get.toNamed('/login');
+    emailError.value = '';
+    passwordError.value = '';
+    confirmPasswordError.value = '';
+    fullNameError.value = '';
+    Get.to(() => const LoginView());
   }
 
   void signUpWithGoogle() {
     // TODO: Implement Google Sign Up
-  }
-
-  void signUpWithFacebook() {
-    // TODO: Implement Facebook Sign Up
   }
 }
