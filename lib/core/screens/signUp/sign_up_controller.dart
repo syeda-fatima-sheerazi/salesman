@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:practices/core/dialogs/app_result_dialog.dart';
+import 'package:practices/core/enums/app_dialog_variant.dart';
+import 'package:practices/core/screens/dashboard/dashboard_view.dart';
 import 'package:practices/core/screens/login/login_view.dart';
+import 'package:practices/core/utils/app_validators.dart';
 
 class SignUpController extends GetxController {
   // Controllers
@@ -41,52 +45,36 @@ class SignUpController extends GetxController {
   bool _validateFields() {
     bool isValid = true;
 
-    // Validate full name
-    if (fullNameController.text.trim().isEmpty) {
-      fullNameError.value = 'Please enter your full name';
-      isValid = false;
-    } else if (fullNameController.text.trim().length < 3) {
-      fullNameError.value = 'Name must be at least 3 characters';
+    final fullNameErr = AppValidators.fullNameError(fullNameController.text);
+    if (fullNameErr != null) {
+      fullNameError.value = fullNameErr;
       isValid = false;
     } else {
       fullNameError.value = '';
     }
 
-    // Validate email address
-    String email = emailController.text.trim();
-    if (email.isEmpty) {
-      emailError.value = 'Please enter your email address';
-      isValid = false;
-    } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)) {
-      emailError.value = 'Please enter a valid email address';
+    final emailErr = AppValidators.emailError(emailController.text);
+    if (emailErr != null) {
+      emailError.value = emailErr;
       isValid = false;
     } else {
       emailError.value = '';
     }
 
-    // Validate password
-    if (passwordController.text.isEmpty) {
-      passwordError.value = 'Please enter a password';
-      isValid = false;
-    } else if (passwordController.text.length < 6) {
-      passwordError.value = 'Password must be at least 6 characters';
-      isValid = false;
-    } else if (!RegExp(
-      r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#\$%^&*(),.?":{}|<>]).{6,}$',
-    ).hasMatch(passwordController.text)) {
-      passwordError.value =
-          'Please enter a strong password (uppercase, lowercase, number, special char)';
+    final passwordErr = AppValidators.passwordError(passwordController.text);
+    if (passwordErr != null) {
+      passwordError.value = passwordErr;
       isValid = false;
     } else {
       passwordError.value = '';
     }
 
-    // Validate confirm password
-    if (confirmPasswordController.text.isEmpty) {
-      confirmPasswordError.value = 'Please confirm your password';
-      isValid = false;
-    } else if (confirmPasswordController.text != passwordController.text) {
-      confirmPasswordError.value = 'Passwords do not match';
+    final confirmErr = AppValidators.confirmPasswordError(
+      passwordController.text,
+      confirmPasswordController.text,
+    );
+    if (confirmErr != null) {
+      confirmPasswordError.value = confirmErr;
       isValid = false;
     } else {
       confirmPasswordError.value = '';
@@ -106,22 +94,18 @@ class SignUpController extends GetxController {
 
       // TODO: Implement actual signup logic here
       // For now, just navigate to login
-      Get.to(() => const LoginView());
+      Get.to(() => const DashboardView());
 
-      Get.snackbar(
-        'Success',
-        'Account created successfully!',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.green,
-        colorText: Colors.white,
+      await AppResultDialog.show(
+        title: 'Success',
+        message: 'Account created successfully!',
+        variant: AppDialogVariant.success,
       );
     } catch (e) {
-      Get.snackbar(
-        'Error',
-        'Failed to create account. Please try again.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
+      await AppResultDialog.show(
+        title: 'Error',
+        message: 'Failed to create account. Please try again.',
+        variant: AppDialogVariant.error,
       );
     } finally {
       isLoading.value = false;

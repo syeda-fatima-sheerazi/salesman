@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:practices/core/themes/app_theme.dart';
+import 'package:practices/core/themes/app_typography.dart';
 
 class DarkTheme {
   static ColorScheme get _scheme {
@@ -29,59 +30,80 @@ class DarkTheme {
   static final ThemeData dark = ThemeData(
     useMaterial3: true,
     brightness: Brightness.dark,
+    fontFamily: AppTypography.fontFamily,
     colorScheme: _scheme,
 
     scaffoldBackgroundColor: _scheme.surface,
 
     textTheme: TextTheme(
-      displayLarge: TextStyle(
-        color: _scheme.onSurface,
-        fontWeight: FontWeight.w600,
+      displayLarge: AppTypography.apply(
+        TextStyle(
+          color: _scheme.onSurface,
+          fontWeight: FontWeight.w600,
+        ),
       ),
-      titleLarge: TextStyle(
-        color: _scheme.onSurface,
-        fontWeight: FontWeight.w600,
-        fontSize: 22,
+      titleLarge: AppTypography.apply(
+        TextStyle(
+          color: _scheme.onSurface,
+          fontWeight: FontWeight.w600,
+          fontSize: 22,
+        ),
       ),
-      titleMedium: TextStyle(
-        color: _scheme.onSurface,
-        fontWeight: FontWeight.w600,
-        fontSize: 16,
+      titleMedium: AppTypography.apply(
+        TextStyle(
+          color: _scheme.onSurface,
+          fontWeight: FontWeight.w600,
+          fontSize: 16,
+        ),
       ),
-      titleSmall: TextStyle(
-        color: _scheme.onSurface,
-        fontWeight: FontWeight.w600,
-        fontSize: 14,
+      titleSmall: AppTypography.apply(
+        TextStyle(
+          color: _scheme.onSurface,
+          fontWeight: FontWeight.w600,
+          fontSize: 14,
+        ),
       ),
-      bodyLarge: TextStyle(
-        color: _scheme.onSurface,
-        fontSize: 16,
-        fontWeight: FontWeight.w500,
+      bodyLarge: AppTypography.apply(
+        TextStyle(
+          color: _scheme.onSurface,
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+        ),
       ),
-      bodyMedium: TextStyle(
-        color: _scheme.onSurface,
-        fontSize: 14,
-        fontWeight: FontWeight.w400,
+      bodyMedium: AppTypography.apply(
+        TextStyle(
+          color: _scheme.onSurface,
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+        ),
       ),
-      bodySmall: TextStyle(
-        color: _scheme.onSurfaceVariant,
-        fontSize: 13,
-        fontWeight: FontWeight.w400,
+      bodySmall: AppTypography.apply(
+        TextStyle(
+          color: _scheme.onSurfaceVariant,
+          fontSize: 13,
+          fontWeight: FontWeight.w400,
+        ),
       ),
-      labelLarge: TextStyle(
-        color: _scheme.onSurface,
-        fontSize: 14,
-        fontWeight: FontWeight.w600,
+      labelLarge: AppTypography.apply(
+        TextStyle(
+          color: _scheme.onSurface,
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+        ),
       ),
-      labelMedium: TextStyle(
-        color: _scheme.onSurfaceVariant,
-        fontSize: 12,
-        fontWeight: FontWeight.w500,
+      labelMedium: AppTypography.apply(
+        TextStyle(
+          color: _scheme.onSurfaceVariant,
+          fontSize: 12,
+          fontWeight: FontWeight.w500,
+        ),
       ),
-      labelSmall: TextStyle(
-        color: _scheme.onSurfaceVariant,
-        fontSize: 11,
-        fontWeight: FontWeight.w400,
+      labelSmall: AppTypography.apply(
+        TextStyle(
+          color: _scheme.onSurfaceVariant,
+          fontSize: 11,
+          fontWeight: FontWeight.w400,
+        ),
       ),
     ),
 
@@ -90,10 +112,12 @@ class DarkTheme {
       foregroundColor: _scheme.onSurface,
       elevation: 0,
       centerTitle: true,
-      titleTextStyle: TextStyle(
-        fontSize: 23,
-        fontWeight: FontWeight.w600,
-        color: _scheme.onSurface,
+      titleTextStyle: AppTypography.apply(
+        TextStyle(
+          fontSize: 23,
+          fontWeight: FontWeight.w600,
+          color: _scheme.onSurface,
+        ),
       ),
       iconTheme: IconThemeData(color: _scheme.onSurface),
     ),
@@ -123,8 +147,12 @@ class DarkTheme {
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: _scheme.surfaceContainerHigh,
-      hintStyle: TextStyle(color: _scheme.onSurfaceVariant),
-      labelStyle: TextStyle(color: _scheme.onSurfaceVariant),
+      hintStyle: AppTypography.apply(
+        TextStyle(color: _scheme.onSurfaceVariant),
+      ),
+      labelStyle: AppTypography.apply(
+        TextStyle(color: _scheme.onSurfaceVariant),
+      ),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide(color: _scheme.outline),
@@ -150,13 +178,17 @@ class DarkTheme {
       backgroundColor: _scheme.surfaceContainerHigh,
       selectedItemColor: AppTheme.primaryLight,
       unselectedItemColor: _scheme.onSurfaceVariant,
-      selectedLabelStyle: const TextStyle(
-        fontWeight: FontWeight.w600,
-        fontSize: 12,
+      selectedLabelStyle: AppTypography.apply(
+        const TextStyle(
+          fontWeight: FontWeight.w600,
+          fontSize: 12,
+        ),
       ),
-      unselectedLabelStyle: const TextStyle(
-        fontWeight: FontWeight.w500,
-        fontSize: 12,
+      unselectedLabelStyle: AppTypography.apply(
+        const TextStyle(
+          fontWeight: FontWeight.w500,
+          fontSize: 12,
+        ),
       ),
       showUnselectedLabels: true,
       type: BottomNavigationBarType.fixed,

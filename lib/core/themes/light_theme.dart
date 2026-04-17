@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:practices/core/themes/app_theme.dart';
+import 'package:practices/core/themes/app_typography.dart';
 
 class LightTheme {
   static final ThemeData light = ThemeData(
     useMaterial3: true,
+    fontFamily: AppTypography.fontFamily,
     colorScheme: ColorScheme.light(
       primary: AppTheme.primaryColor,
       onPrimary: Colors.white,
@@ -24,51 +26,65 @@ class LightTheme {
     scaffoldBackgroundColor: AppTheme.backgroundColor,
 
     textTheme: TextTheme(
-      titleLarge: const TextStyle(
-        fontSize: 22,
-        fontWeight: FontWeight.w600,
-        color: AppTheme.textPrimary,
-        letterSpacing: -0.3,
+      titleLarge: AppTypography.apply(
+        const TextStyle(
+          fontSize: 22,
+          fontWeight: FontWeight.w600,
+          color: AppTheme.textPrimary,
+          letterSpacing: -0.3,
+        ),
       ),
-      titleMedium: const TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.w600,
-        color: AppTheme.textPrimary,
+      titleMedium: AppTypography.apply(
+        const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: AppTheme.textPrimary,
+        ),
       ),
-      bodyLarge: const TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.w500,
-        color: AppTheme.textPrimary,
+      bodyLarge: AppTypography.apply(
+        const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+          color: AppTheme.textPrimary,
+        ),
       ),
-      bodyMedium: const TextStyle(
-        fontSize: 14,
-        fontWeight: FontWeight.w400,
-        color: AppTheme.textPrimary,
+      bodyMedium: AppTypography.apply(
+        const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          color: AppTheme.textPrimary,
+        ),
       ),
-      bodySmall: const TextStyle(
-        fontSize: 12,
-        fontWeight: FontWeight.w400,
-        color: AppTheme.textSecondary,
+      bodySmall: AppTypography.apply(
+        const TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w400,
+          color: AppTheme.textSecondary,
+        ),
       ),
-      labelLarge: const TextStyle(
-        fontSize: 14,
-        fontWeight: FontWeight.w600,
-        color: AppTheme.textPrimary,
+      labelLarge: AppTypography.apply(
+        const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          color: AppTheme.textPrimary,
+        ),
       ),
     ),
 
-    appBarTheme: const AppBarTheme(
+    appBarTheme: AppBarTheme(
       backgroundColor: AppTheme.primaryColor,
       foregroundColor: Colors.white,
       elevation: 0,
       centerTitle: true,
-      titleTextStyle: TextStyle(
-        fontSize: 23,
-        fontWeight: FontWeight.w600,
-        color: Colors.white,
-        letterSpacing: 0.2,
+      titleTextStyle: AppTypography.apply(
+        const TextStyle(
+          fontSize: 23,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+          letterSpacing: 0.2,
+        ),
       ),
-      iconTheme: IconThemeData(color: Colors.white),
+      iconTheme: const IconThemeData(color: Colors.white),
     ),
 
     dividerTheme: const DividerThemeData(
@@ -76,7 +92,6 @@ class LightTheme {
       thickness: 1,
       space: 1,
     ),
-
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         maximumSize: const Size(double.infinity, 50),

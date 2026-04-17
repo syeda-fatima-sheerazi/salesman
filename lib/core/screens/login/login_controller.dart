@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:practices/core/dialogs/app_result_dialog.dart';
+import 'package:practices/core/enums/app_dialog_variant.dart';
 import 'package:practices/core/screens/dashboard/dashboard_view.dart';
 import 'package:practices/core/screens/signUp/sign_up_view.dart';
+import 'package:practices/core/services/remember_login_storage.dart';
+import 'package:practices/core/utils/app_validators.dart';
 
 class LoginController extends GetxController {
   bool _googleSignInInitialized = false;
@@ -38,22 +42,18 @@ class LoginController extends GetxController {
     bool isValid = true;
 
     // Validate mobile number
-    if (emailController.text.trim().isEmpty) {
-      emailError.value = 'Please enter your mobile number';
-      isValid = false;
-    } else if (emailController.text.trim().length < 11) {
-      emailError.value = 'Please enter a valid mobile number';
+    final emailErr = AppValidators.emailError(emailController.text);
+    if (emailErr != null) {
+      emailError.value = emailErr;
       isValid = false;
     } else {
       emailError.value = '';
     }
 
     // Validate password
-    if (passwordController.text.isEmpty) {
-      passwordError.value = 'Please enter your password';
-      isValid = false;
-    } else if (passwordController.text.length < 6) {
-      passwordError.value = 'Password must be at least 6 characters';
+    final passwordErr = AppValidators.passwordError(passwordController.text);
+    if (passwordErr != null) {
+      passwordError.value = passwordErr;
       isValid = false;
     } else {
       passwordError.value = '';
@@ -71,9 +71,7 @@ class LoginController extends GetxController {
       // Simulate API call
       await Future.delayed(const Duration(seconds: 2));
 
-      // TODO: Implement actual login logic here
-      // For now, just navigate to dashboard
-      Get.offAllNamed('/dashboard');
+      Get.offAll(() => const DashboardView());
     } catch (e) {
       Get.snackbar(
         'Error',
