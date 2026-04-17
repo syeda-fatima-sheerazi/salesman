@@ -15,7 +15,6 @@ class AddShopView extends StatelessWidget {
       init: AddShopController(),
       builder: (controller) {
         return Scaffold(
-          backgroundColor: AppTheme.backgroundColor,
           appBar: AppBar(
             backgroundColor: AppTheme.primaryColor,
             elevation: 0,
@@ -24,39 +23,33 @@ class AddShopView extends StatelessWidget {
               icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
               onPressed: () => Get.back(),
             ),
-            title: Text(
-              'Add Shop',
-              style: theme.appBarTheme.titleTextStyle,
-            ),
+            title: Text('Add Shop', style: theme.appBarTheme.titleTextStyle),
           ),
-          body: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Padding(
-              padding: EdgeInsets.all(16.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Shop Photo Section
-                  _buildShopPhotoSection(context, controller),
-                  SizedBox(height: 20.h),
+          body: Padding(
+            padding: EdgeInsets.all(16.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Shop Photo Section
+                _buildShopPhotoSection(context, controller),
+                SizedBox(height: 20.h),
 
-                  // Basic Information Card
-                  _buildBasicInformationCard(context, controller),
-                  SizedBox(height: 16.h),
+                // Basic Information Card
+                _buildBasicInformationCard(context, controller),
+                SizedBox(height: 16.h),
 
-                  // Address Card
-                  _buildAddressCard(context, controller),
-                  SizedBox(height: 16.h),
+                // Address Card
+                _buildAddressCard(context, controller),
+                SizedBox(height: 16.h),
 
-                  // Location Card
-                  _buildLocationCard(context, controller),
-                  SizedBox(height: 24.h),
+                // Location Card
+                _buildLocationCard(context, controller),
+                SizedBox(height: 24.h),
 
-                  // Submit Button
-                  _buildSubmitButton(context, controller),
-                  SizedBox(height: 16.h),
-                ],
-              ),
+                // Submit Button
+                _buildSubmitButton(context, controller),
+                SizedBox(height: 16.h),
+              ],
             ),
           ),
         );
@@ -64,7 +57,10 @@ class AddShopView extends StatelessWidget {
     );
   }
 
-  Widget _buildShopPhotoSection(BuildContext context, AddShopController controller) {
+  Widget _buildShopPhotoSection(
+    BuildContext context,
+    AddShopController controller,
+  ) {
     final theme = Theme.of(context);
 
     return Container(
@@ -74,7 +70,7 @@ class AddShopView extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -91,11 +87,11 @@ class AddShopView extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: AppTheme.primaryColor.withOpacity(0.3),
+                    color: AppTheme.primaryColor.withValues(alpha: 0.3),
                     width: 2,
                     style: BorderStyle.solid,
                   ),
-                  color: AppTheme.primaryColor.withOpacity(0.1),
+                  color: AppTheme.primaryColor.withValues(alpha: 0.1),
                 ),
                 child: Obx(() {
                   if (controller.shopPhoto.value != null) {
@@ -193,7 +189,10 @@ class AddShopView extends StatelessWidget {
     );
   }
 
-  Widget _buildBasicInformationCard(BuildContext context, AddShopController controller) {
+  Widget _buildBasicInformationCard(
+    BuildContext context,
+    AddShopController controller,
+  ) {
     final theme = Theme.of(context);
 
     return Container(
@@ -203,7 +202,7 @@ class AddShopView extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -295,7 +294,7 @@ class AddShopView extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -363,7 +362,10 @@ class AddShopView extends StatelessWidget {
     );
   }
 
-  Widget _buildLocationCard(BuildContext context, AddShopController controller) {
+  Widget _buildLocationCard(
+    BuildContext context,
+    AddShopController controller,
+  ) {
     final theme = Theme.of(context);
 
     return Container(
@@ -373,7 +375,7 @@ class AddShopView extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -450,10 +452,7 @@ class AddShopView extends StatelessWidget {
                               color: Colors.white,
                             ),
                           )
-                        : Icon(
-                            Icons.location_on,
-                            size: 18.w,
-                          ),
+                        : Icon(Icons.location_on, size: 18.w),
                     label: Text(
                       controller.isGettingLocation.value
                           ? 'Getting...'
@@ -501,11 +500,7 @@ class AddShopView extends StatelessWidget {
           // Label with icon
           Row(
             children: [
-              Icon(
-                icon,
-                size: 18.w,
-                color: AppTheme.primaryColor,
-              ),
+              Icon(icon, size: 18.w, color: AppTheme.primaryColor),
               SizedBox(width: 8.w),
               Text(
                 '$label ${isRequired ? '*' : ''}',
@@ -528,7 +523,7 @@ class AddShopView extends StatelessWidget {
             decoration: InputDecoration(
               hintText: hint,
               hintStyle: theme.textTheme.bodyMedium?.copyWith(
-                color: AppTheme.textSecondary.withOpacity(0.6),
+                color: AppTheme.textSecondary.withValues(alpha: 0.6),
               ),
               contentPadding: EdgeInsets.symmetric(
                 horizontal: 14.w,
@@ -580,7 +575,10 @@ class AddShopView extends StatelessWidget {
     });
   }
 
-  Widget _buildSubmitButton(BuildContext context, AddShopController controller) {
+  Widget _buildSubmitButton(
+    BuildContext context,
+    AddShopController controller,
+  ) {
     final theme = Theme.of(context);
 
     return Obx(() {
@@ -595,7 +593,7 @@ class AddShopView extends StatelessWidget {
             backgroundColor: AppTheme.primaryColor,
             foregroundColor: Colors.white,
             elevation: 2,
-            shadowColor: AppTheme.primaryColor.withOpacity(0.4),
+            shadowColor: AppTheme.primaryColor.withValues(alpha: 0.4),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12.r),
             ),
