@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:practices/core/screens/products/product_controller.dart';
-import 'package:practices/core/widgets/add_product_button.dart';
+import 'package:practices/core/widgets/app_primary_action_button.dart';
 import 'package:practices/core/widgets/product_card.dart';
 import 'package:practices/core/widgets/products_search_bar.dart';
 
@@ -22,7 +22,9 @@ class ProductsView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ProductsSearchBar(
+                controller: controller.searchFieldController,
                 onChanged: controller.onSearchChanged,
+                onClear: controller.clearSearch,
               ),
               SizedBox(height: 16.h),
               Text(
@@ -37,6 +39,29 @@ class ProductsView extends StatelessWidget {
               Expanded(
                 child: Obx(() {
                   final list = controller.filteredProducts;
+                  if (list.isEmpty) {
+                    final hasQuery = controller.searchQuery.value
+                        .toLowerCase()
+                        .trim() // remove extra spaces from the start and end of the search value
+                        .isNotEmpty; // check if the search value is not empty
+                    final emptyCatalog = controller.products.isEmpty;
+                    final message =
+                        emptyCatalog &&
+                            !hasQuery // if the catalog is empty and the search value is empty, show the message 'No products yet.'
+                        ? 'No products yet.'
+                        : hasQuery // if the catalog is not empty and the search value is not empty, show the message 'No products match your search.'
+                        ? 'No products match your search.'
+                        : 'No products yet.'; // if the catalog is empty and the search value is not empty, show the message 'No products yet.'
+                    return Center(
+                      child: Text(
+                        message,
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  }
                   return ListView.builder(
                     itemCount: list.length,
                     padding: EdgeInsets.zero,
@@ -44,9 +69,9 @@ class ProductsView extends StatelessWidget {
                       final product = list[index];
                       final variants = product.variants
                           .map(
-                            (v) => {
-                              'weight': v.weight,
-                              'price': v.price,
+                            (variant) => {
+                              'weight': variant.weight,
+                              'price': variant.price,
                             },
                           )
                           .toList();
@@ -55,19 +80,20 @@ class ProductsView extends StatelessWidget {
                         productImage: product.imageUrl,
                         variants: variants,
                         onAddVariant: () =>
-                            controller.addVariant(product.id),
-                        onEditVariant: (variantIndex) => controller
-                            .editVariant(product.id, variantIndex),
-                        onDeleteVariant: (variantIndex) => controller
-                            .deleteVariant(product.id, variantIndex),
+                            controller.showVariantSheet(product.id),
+                        onEditVariant: (variantIndex) =>
+                            controller.editVariant(product.id, variantIndex),
+                        onDeleteVariant: (variantIndex) =>
+                            controller.deleteVariant(product.id, variantIndex),
                       );
                     },
                   );
                 }),
               ),
               SizedBox(height: 12.h),
-              AddProductButton(
-                onTap: controller.addProduct,
+              AppPrimaryActionButton(
+                label: 'Add Product',
+                onPressed: controller.addProduct,
               ),
             ],
           ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:practices/core/screens/products/widgets/add_variant_button.dart';
 import 'package:practices/core/widgets/product_variant_item.dart';
-import 'package:practices/core/widgets/add_variant_button.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({
@@ -17,9 +17,9 @@ class ProductCard extends StatelessWidget {
   final String productName;
   final String productImage;
   final List<Map<String, String>> variants;
-  final VoidCallback? onAddVariant;
-  final Function(int index)? onEditVariant;
-  final Function(int index)? onDeleteVariant;
+  final void Function()? onAddVariant;
+  final void Function(int index)? onEditVariant;
+  final void Function(int index)? onDeleteVariant;
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +31,7 @@ class ProductCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: cs.surfaceContainerHigh,
         borderRadius: BorderRadius.circular(8.r),
-        border: Border.all(
-          color: cs.outlineVariant.withOpacity(0.5),
-        ),
+        border: Border.all(color: cs.outlineVariant.withValues(alpha: 0.5)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,7 +58,7 @@ class ProductCard extends StatelessWidget {
                     color: cs.surfaceContainerLow,
                     borderRadius: BorderRadius.circular(4.r),
                     image: DecorationImage(
-                      image: NetworkImage(productImage),
+                      image: AssetImage(productImage),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -85,13 +83,16 @@ class ProductCard extends StatelessWidget {
             return ProductVariantItem(
               weight: variant['weight'] ?? '',
               price: variant['price'] ?? '',
-              onEdit: onEditVariant != null ? () => onEditVariant!(index) : null,
+              // Agar onEditVariant null nahi hai to edit button ko enabled kia jayega (yani onEdit callback assign hoga),
+              // warna null hoga to edit button disabled ho jayega (ya kuch bhi nahi hoga):
+              onEdit: onEditVariant != null
+                  ? () => onEditVariant!(index)
+                  : null,
               onDelete: onDeleteVariant != null
                   ? () => onDeleteVariant!(index)
                   : null,
             );
           }),
-          // Add Variant Button
           AddVariantButton(onTap: onAddVariant),
           SizedBox(height: 4.h),
         ],

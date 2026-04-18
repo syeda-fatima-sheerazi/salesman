@@ -12,8 +12,8 @@ class ProductVariantItem extends StatelessWidget {
 
   final String weight;
   final String price;
-  final VoidCallback? onEdit;
-  final VoidCallback? onDelete;
+  final void Function()? onEdit;
+  final void Function()? onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +25,7 @@ class ProductVariantItem extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 12.w),
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(
-            color: cs.outlineVariant,
-            width: 0.5,
-          ),
+          bottom: BorderSide(color: cs.outlineVariant, width: 0.5),
         ),
       ),
       child: Row(
@@ -62,10 +59,10 @@ class ProductVariantItem extends StatelessWidget {
               width: 35.w,
               height: 35.h,
               decoration: BoxDecoration(
-                color: theme.colorScheme.primary.withOpacity(0.1),
+                color: theme.colorScheme.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(6.r),
                 border: Border.all(
-                  color: theme.colorScheme.primary.withOpacity(0.3),
+                  color: theme.colorScheme.primary.withValues(alpha: 0.3),
                 ),
               ),
               child: Icon(
@@ -85,9 +82,7 @@ class ProductVariantItem extends StatelessWidget {
               decoration: BoxDecoration(
                 color: cs.surfaceContainerLow,
                 borderRadius: BorderRadius.circular(6.r),
-                border: Border.all(
-                  color: cs.outlineVariant,
-                ),
+                border: Border.all(color: cs.outlineVariant),
               ),
               child: Icon(
                 Icons.delete_outline,
