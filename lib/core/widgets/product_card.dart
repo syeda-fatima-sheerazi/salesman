@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:practices/core/screens/products/widgets/add_variant_button.dart';
+import 'package:practices/core/utils/product_image_provider.dart';
 import 'package:practices/core/widgets/product_variant_item.dart';
 
 class ProductCard extends StatelessWidget {
@@ -58,7 +59,7 @@ class ProductCard extends StatelessWidget {
                     color: cs.surfaceContainerLow,
                     borderRadius: BorderRadius.circular(4.r),
                     image: DecorationImage(
-                      image: AssetImage(productImage),
+                      image: productImageProvider(productImage),
                       fit: BoxFit.cover,
                     ),
                   ),

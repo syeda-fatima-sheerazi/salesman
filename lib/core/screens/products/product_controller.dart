@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:practices/core/models/product_model.dart';
+import 'package:practices/core/screens/products/add_product_controller.dart';
 import 'package:practices/core/screens/products/add_product_view.dart';
 import 'package:practices/core/screens/products/widgets/variant_sheet.dart';
 
@@ -77,7 +78,34 @@ class ProductController extends GetxController {
   }
 
   void addProduct() {
-    Get.to(() => const AddProductView());
+    Get.to(
+      () => const AddProductView(),
+      binding: BindingsBuilder(() {
+        Get.put(AddProductController());
+      }),
+    );
+  }
+
+  /// New product: [imagePath] device file path from gallery, or omit for placeholder asset.
+  void addProductWithName(
+    String name, {
+    String? imagePath,
+    required List<ProductVariantModel> variants,
+  }) {
+    final trimmed = name.trim();
+    final id = DateTime.now().millisecondsSinceEpoch.toString();
+    final image = (imagePath != null && imagePath.trim().isNotEmpty)
+        ? imagePath.trim()
+        : 'assets/images/shop.png';
+    products.add(
+      ProductModel(
+        id: id,
+        name: trimmed,
+        imageUrl: image,
+        variants: List<ProductVariantModel>.from(variants),
+      ),
+    );
+    products.refresh();
   }
 
   void addVariant(String productId, String weight, String price) {
