@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:practices/core/enums/data_state.dart';
 import 'package:practices/core/screens/add_shop/add_shop_view.dart';
 import 'package:practices/core/screens/home/home_controller.dart';
-import 'package:practices/core/widgets/custom_tile.dart';
+import 'package:practices/core/widgets/app_primary_action_button.dart';
 import 'package:practices/core/widgets/shop_card.dart';
 import 'package:practices/core/widgets/custom_dropdown.dart';
 import 'package:practices/core/widgets/empty_state.dart';
@@ -21,7 +21,8 @@ class HomeView extends StatelessWidget {
       builder: (controller) {
         return Scaffold(
           body: Padding(
-            padding: EdgeInsets.all(8.w),
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -114,21 +115,15 @@ class HomeView extends StatelessWidget {
                     }),
                   ),
                 ),
+                AppPrimaryActionButton(
+                  label: "Add Shop",
+                  onPressed: () {
+                    Get.to(AddShopView());
+                  },
+                ),
               ],
             ),
           ),
-          persistentFooterButtons: [
-            ElevatedButton(
-              onPressed: () {
-                Get.to(AddShopView());
-              },
-              child: CustomTile(
-                text: "Add Shop",
-                icon: Icons.add,
-                onSurfaceVariantColor: Theme.of(context).colorScheme.onSurface,
-              ),
-            ),
-          ],
         );
       },
     );
