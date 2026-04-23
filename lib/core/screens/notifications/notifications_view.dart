@@ -34,22 +34,23 @@ class NotificationsView extends StatelessWidget {
                     vertical: 12.h,
                   ),
                   child: ProductsSearchBar(
-                    onChanged: (query) {
-                      controller.onSearchQueryChanged(query);
-                    },
+                    controller: controller.searchFieldController,
+                    hintText: 'Search notifications...',
+                    onChanged: controller.onSearchQueryChanged,
+                    onClear: controller.clearSearch,
                   ),
                 ),
 
                 // Tab Bar
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16.w),
-                  padding: EdgeInsets.all(4.w),
-                  decoration: BoxDecoration(
-                    color: cs.surfaceContainer,
-                    borderRadius: BorderRadius.circular(10.r),
-                  ),
-                  child: Obx(
-                    () => Row(
+                Obx(() {
+                  return Container(
+                    margin: EdgeInsets.symmetric(horizontal: 16.w),
+                    padding: EdgeInsets.all(4.w),
+                    decoration: BoxDecoration(
+                      color: cs.surfaceContainer,
+                      borderRadius: BorderRadius.circular(10.r),
+                    ),
+                    child: Row(
                       children: [
                         Expanded(
                           child: NotificationTabButton(
@@ -60,9 +61,7 @@ class NotificationsView extends StatelessWidget {
                         ),
                         Expanded(
                           child: NotificationTabButton(
-                            label: Obx(
-                              () => Text('New (${controller.unreadCount})'),
-                            ),
+                            label: Text('New (${controller.unreadCount.value})'),
                             isSelected: controller.selectedTabIndex.value == 1,
                             onTap: () => controller.changeTab(1),
                             selectedColor: cs.primary,
@@ -71,8 +70,8 @@ class NotificationsView extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ),
-                ),
+                  );
+                }),
 
                 SizedBox(height: 16.h),
 
