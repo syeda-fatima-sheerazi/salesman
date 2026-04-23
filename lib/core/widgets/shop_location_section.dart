@@ -63,23 +63,19 @@ class ShopLocationSection extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.all(12.w),
                   decoration: BoxDecoration(
-                    color: AppTheme.primaryColor.withValues(alpha: 0.1),
+                    color: Colors.green.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8.r),
                   ),
                   child: Row(
                     children: [
-                      Icon(
-                        Icons.location_on,
-                        color: AppTheme.primaryColor,
-                        size: 20.w,
-                      ),
+                      Icon(Icons.location_on, color: Colors.green, size: 20.w),
                       SizedBox(width: 8.w),
                       Expanded(
                         child: Text(
                           'Lat: ${latitude.toStringAsFixed(4)}\nLng: ${longitude.toStringAsFixed(4)}',
                           style: TextStyle(
                             fontSize: 12.sp,
-                            color: AppTheme.primaryColor,
+                            color: Colors.green,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
