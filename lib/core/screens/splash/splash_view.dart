@@ -77,14 +77,51 @@ class SplashView extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 30.h),
-                      Lottie.asset(
-                        'assets/animations/splash.json',
-                        height: 250.h,
-                        width: 250.w,
-                        fit: BoxFit.contain,
-                       // repeat: false,
+                      // Lottie.asset(
+                      //   'assets/animations/splash.json',
+                      //   height: 250.h,
+                      //   width: 250.w,
+                      //   fit: BoxFit.contain,
+                      //   // repeat: false,
+                      // ),
+                      // SizedBox(
+                      //   height: 150.h,
+                      //   width: 150.w,
+                      //   child: Image.asset(
+                      //     "assets/icons/splash_icon_bg.png", // Changed 'icon' to 'icons'
+                      //     fit: BoxFit.contain,
+                      //     errorBuilder: (context, error, stackTrace) => Center(
+                      //       child: Icon(
+                      //         Icons.error_outline,
+                      //         color: Colors.red,
+                      //         size: 40.sp,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                      TweenAnimationBuilder<double>(
+                        tween: Tween<double>(begin: 0.8, end: 1.0),
+                        duration: const Duration(seconds: 3),
+                        curve: Curves.elasticOut,
+                        builder: (context, scale, child) {
+                          return Transform.scale(
+                            scale: scale,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                    "assets/images/splash_icon_bg.png",
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              height: 400.h,
+                              width: 400.w,
+                            ),
+                          );
+                        },
                       ),
-                      SizedBox(height: 30.h),
+
                       AnimatedTextKit(
                         animatedTexts: [
                           TyperAnimatedText(

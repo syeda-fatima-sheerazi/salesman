@@ -39,93 +39,101 @@ class LoginView extends StatelessWidget {
                 // Form fields
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 24.w),
-                  child: Column(
-                    children: [
-                      // Mobile Number Field
-                      CustomInputField(
-                        controller: controller.emailController,
-                        hintText: 'Email',
-                        prefixIcon: Icons.email,
-                        keyboardType: TextInputType.emailAddress,
-                        errorText: controller.emailError,
-                      ),
-                      SizedBox(height: 16.h),
-
-                      // Password Field
-                      CustomInputField(
-                        controller: controller.passwordController,
-                        hintText: 'Password',
-                        prefixIcon: Icons.lock,
-                        isVisible: controller.isPasswordVisible,
-                        onVisibilityToggle: controller.togglePasswordVisibility,
-                        errorText: controller.passwordError,
-                      ),
-                      SizedBox(height: 12.h),
-
-                      // Forgot Password
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: GestureDetector(
-                          onTap: controller.forgotPassword,
-                          child: Text(
-                            'Forgot Password?',
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: AppTheme.primaryColor,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 12.sp,
-                            ),
-                          ),
+                  child: Obx(() {
+                    return Column(
+                      children: [
+                        // Email Field
+                        CustomInputField(
+                          controller: controller.emailController,
+                          hintText: 'Email',
+                          prefixIcon: Icons.email,
+                          keyboardType: TextInputType.emailAddress,
+                          errorText: controller.emailError.value.isNotEmpty
+                              ? controller.emailError.value
+                              : null,
                         ),
-                      ),
-                      SizedBox(height: 24.h),
+                        SizedBox(height: 16.h),
 
-                      // Login Button
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(),
-                        onPressed: controller.login,
-                        child: Text('Log In'),
-                      ),
-                      SizedBox(height: 24.h),
+                        // Password Field
+                        CustomInputField(
+                          controller: controller.passwordController,
+                          hintText: 'Password',
+                          prefixIcon: Icons.lock,
+                          isVisible: controller.isPasswordVisible.value,
+                          onVisibilityToggle:
+                              controller.togglePasswordVisibility,
+                          errorText: controller.passwordError.value.isNotEmpty
+                              ? controller.passwordError.value
+                              : null,
+                        ),
+                        SizedBox(height: 12.h),
 
-                      // Or continue with divider
-                      DividerWithText(text: 'Or continue with'),
-                      SizedBox(height: 20.h),
-
-                      // Social Login Buttons
-                      SocialButton(
-                        onTap: () => controller.loginWithGoogle(),
-                        icon: 'assets/images/google.png',
-                        text: 'Log in with Google',
-                      ),
-                      SizedBox(height: 32.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Don\'t have an account?',
-                            style: theme.textTheme.bodyMedium?.copyWith(
-                              color: AppTheme.textSecondary,
-                              fontSize: 14.sp,
-                            ),
-                          ),
-                          SizedBox(width: 4.w),
-                          GestureDetector(
-                            onTap: controller.signUp,
+                        // Forgot Password
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: GestureDetector(
+                            onTap: controller.forgotPassword,
                             child: Text(
-                              'Sign Up',
-                              style: theme.textTheme.bodyMedium?.copyWith(
+                              'Forgot Password?',
+                              style: theme.textTheme.bodySmall?.copyWith(
                                 color: AppTheme.primaryColor,
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w600,
-                                decoration: TextDecoration.underline,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 12.sp,
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                      // Sign Up Row
-                    ],
-                  ),
+                        ),
+                        SizedBox(height: 24.h),
+
+                        // Login Button
+                        controller.isLoading.value
+                            ? const CircularProgressIndicator()
+                            : ElevatedButton(
+                                style: ElevatedButton.styleFrom(),
+                                onPressed: controller.login,
+                                child: Text('Log In'),
+                              ),
+                        SizedBox(height: 24.h),
+
+                        // Or continue with divider
+                        DividerWithText(text: 'Or continue with'),
+                        SizedBox(height: 20.h),
+
+                        // Social Login Buttons
+                        SocialButton(
+                          onTap: () => controller.loginWithGoogle(),
+                          icon: 'assets/images/google.png',
+                          text: 'Log in with Google',
+                        ),
+                        SizedBox(height: 32.h),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Don\'t have an account?',
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                color: AppTheme.textSecondary,
+                                fontSize: 14.sp,
+                              ),
+                            ),
+                            SizedBox(width: 4.w),
+                            GestureDetector(
+                              onTap: controller.signUp,
+                              child: Text(
+                                'Sign Up',
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: AppTheme.primaryColor,
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w600,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  }),
                 ),
               ],
             ),

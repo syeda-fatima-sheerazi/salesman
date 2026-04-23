@@ -5,7 +5,6 @@ import 'package:practices/core/dialogs/app_result_dialog.dart';
 import 'package:practices/core/enums/app_dialog_variant.dart';
 import 'package:practices/core/screens/dashboard/dashboard_view.dart';
 import 'package:practices/core/screens/signUp/sign_up_view.dart';
-import 'package:practices/core/services/remember_login_storage.dart';
 import 'package:practices/core/utils/app_validators.dart';
 
 class LoginController extends GetxController {

@@ -11,7 +11,7 @@ class SplashCtrl extends GetxController {
   }
 
   void gotoSignUp() {
-    Timer(const Duration(seconds: 5), () {
+    Timer(const Duration(seconds: 8), () {
       Get.off(() => const SignUpView()); // navigate to login after 3 seconds
     });
   }

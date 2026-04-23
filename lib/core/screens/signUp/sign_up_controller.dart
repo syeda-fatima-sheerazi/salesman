@@ -93,14 +93,19 @@ class SignUpController extends GetxController {
       await Future.delayed(const Duration(seconds: 2));
 
       // TODO: Implement actual signup logic here
-      // For now, just navigate to login
-      Get.to(() => const DashboardView());
-
-      await AppResultDialog.show(
+      // Do not `await` the dialog if you auto-close below — `await` blocks until dialog closes.
+      AppResultDialog.show(
         title: 'Success',
         message: 'Account created successfully!',
         variant: AppDialogVariant.success,
+        showPrimaryButton: false,
       );
+      await Future.delayed(const Duration(seconds: 3));
+      // Close success dialog, then go to dashboard (use offAll so login/signup are cleared)
+      if (Get.isDialogOpen == true) {
+        Get.back();
+      }
+      Get.offAll(() => const DashboardView());
     } catch (e) {
       await AppResultDialog.show(
         title: 'Error',

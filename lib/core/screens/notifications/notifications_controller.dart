@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:practices/core/models/notification_model.dart';
 import 'package:practices/core/enums/notification_type.dart';
@@ -9,12 +10,19 @@ class NotificationsController extends GetxController {
   final RxInt selectedTabIndex = 0.obs;
 
   final RxString searchQuery = ''.obs;
+  final TextEditingController searchFieldController = TextEditingController();
 
   @override
   void onInit() {
     super.onInit();
     _loadDummyData();
     _updateUnreadCount();
+  }
+
+  @override
+  void onClose() {
+    searchFieldController.dispose();
+    super.onClose();
   }
 
   void _loadDummyData() {
@@ -126,5 +134,10 @@ class NotificationsController extends GetxController {
 
   void onSearchQueryChanged(String query) {
     searchQuery.value = query;
+  }
+
+  void clearSearch() {
+    searchFieldController.clear();
+    searchQuery.value = '';
   }
 }
