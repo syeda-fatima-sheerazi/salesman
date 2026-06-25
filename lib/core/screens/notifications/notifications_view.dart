@@ -7,7 +7,7 @@ import 'package:practices/core/widgets/products_search_bar.dart';
 import 'package:practices/core/screens/notifications/widgets/notification_tab_button.dart';
 import 'package:practices/core/screens/notifications/widgets/mark_all_read_button.dart';
 
-class NotificationsView extends StatelessWidget {
+class NotificationsView extends GetView<NotificationsController> {
   const NotificationsView({super.key});
 
   @override
@@ -15,9 +15,7 @@ class NotificationsView extends StatelessWidget {
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
 
-    return GetBuilder<NotificationsController>(
-      init: NotificationsController(),
-      builder: (controller) {
+    
         return Scaffold(
           appBar: AppBar(
             title: Text("Notifications"),
@@ -134,7 +132,7 @@ class NotificationsView extends StatelessWidget {
             ),
           ),
         );
-      },
-    );
+      
+    
   }
 }

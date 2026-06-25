@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:practices/core/screens/products/product_controller.dart';
+import 'package:practices/core/services/snackbar/app_snackbar_service.dart';
 
 /// Add / edit variant form — fields + submit. [onClose] par controllers dispose.
 final class VariantSheetController extends GetxController {
@@ -49,12 +50,11 @@ final class VariantSheetController extends GetxController {
     final w = weightController.text.trim();
     final p = priceController.text.trim();
     if (w.isEmpty || p.isEmpty) {
-      Get.snackbar(
-        'Missing fields',
+      AppSnackbarService.warning(
         'Please enter weight and price',
-        snackPosition: SnackPosition.BOTTOM,
-        margin: const EdgeInsets.all(16),
+        title: 'Missing fields',
         duration: const Duration(seconds: 2),
+        margin: const EdgeInsets.all(16),
       );
       return;
     }

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:practices/core/models/user_model.dart';
+import 'package:practices/core/routes/route_names.dart';
 
 class CustomDrawerController extends GetxController {
   final Rx<UserModel?> currentUser = Rx<UserModel?>(null);
@@ -16,7 +17,6 @@ class CustomDrawerController extends GetxController {
       id: '1',
       name: 'Asad Khan',
       email: 'asad@example.com',
-      avatarUrl: null,
     );
   }
 
@@ -34,6 +34,6 @@ class CustomDrawerController extends GetxController {
   void logout() {
     // Clear user data and navigate to login
     currentUser.value = null;
-    // Get.offAllNamed('/login');
+    Get.offAllNamed(Routes.login); // Adjust the route as per your app's routing
   }
 }

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:practices/core/screens/dashboard/dashboard_view.dart';
-import 'package:practices/core/screens/splash/splash_view.dart';
+import 'package:practices/core/routes/app_pages.dart';
 import 'package:practices/core/themes/app_theme.dart';
 
 void main() {
@@ -25,14 +24,8 @@ class MyApp extends StatelessWidget {
           theme: AppTheme.light,
           darkTheme: AppTheme.dark,
           themeMode: ThemeMode.light,
-          home: const DashboardView(),
-          // initialRoute: '/',
-          // getPages: [
-          //   GetPage(name: '/', page: () => const SplashView()),
-          //   GetPage(name: '/login', page: () => const LoginView()),
-          //   GetPage(name: '/signup', page: () => const SignUpView()),
-          //   GetPage(name: '/dashboard', page: () => const DashboardView()),
-          // ],
+          initialRoute: AppPages.initial,
+          getPages: AppPages.routes,
         );
       },
     );

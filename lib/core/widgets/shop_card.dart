@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:practices/core/models/shop.dart';
-import 'package:practices/core/widgets/custom_tile.dart';
 
 class ShopCard extends StatelessWidget {
-  const ShopCard({super.key, this.onTap, required this.shop});
+  const ShopCard({
+    super.key,
+    this.cardOnTap,
+    this.visitedOnTap,
+    required this.shop,
+  });
 
-  final void Function()? onTap;
+  final void Function()? cardOnTap;
+  final void Function()? visitedOnTap;
   final Shop shop;
 
   @override
@@ -15,13 +20,14 @@ class ShopCard extends StatelessWidget {
     final cs = theme.colorScheme;
 
     return GestureDetector(
-      onTap: onTap,
+      onTap: cardOnTap,
       child: Card(
-        color: cs.surfaceContainerHigh,
+        color: cs.surface,
+
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.r),
-          side: BorderSide(color: cs.outlineVariant.withValues(alpha: 0.6)),
+          side: BorderSide(color: cs.onSurfaceVariant.withValues(alpha: 0.2)),
         ),
         child: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -57,20 +63,12 @@ class ShopCard extends StatelessWidget {
                       ),
                       SizedBox(height: 2.h),
 
-                      CustomTile(
-                        text: shop.shopOwner,
-                        icon: Icons.person,
-                      ),
-                      SizedBox(height: 2.h),
-
-                      CustomTile(
-                        text: shop.cellPhone,
-                        icon: Icons.phone,
-                      ),
-                      SizedBox(height: 2.h),
-                      CustomTile(
-                        text: shop.address,
-                        icon: Icons.place_outlined,
+                      Text(
+                        shop.shopOwner,
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          color: cs.onSurfaceVariant,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ],
                   ),
@@ -80,19 +78,29 @@ class ShopCard extends StatelessWidget {
                 padding: EdgeInsets.only(left: 8.h),
                 child: Column(
                   children: [
-                    Chip(
-                      label: shop.isVisited
-                          ? Text(
-                              'Visited',
-                              style: TextStyle(color: cs.outlineVariant),
-                            )
-                          : Text(
-                              'Pending',
-                              style: TextStyle(color: cs.outlineVariant),
-                            ),
-                      backgroundColor: shop.isVisited
-                          ? Colors.green.shade600
-                          : cs.error,
+                    TextButton(
+                      onPressed: visitedOnTap,
+                      style: TextButton.styleFrom(
+                        backgroundColor: shop.isVisited
+                            ? Colors.green.shade600
+                            : cs.error,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 4,
+                        ),
+                        // minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.r),
+                        ),
+                      ),
+                      child: Text(
+                        shop.isVisited ? 'Visited' : 'Pending',
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: cs.onPrimary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
 
                     Tooltip(

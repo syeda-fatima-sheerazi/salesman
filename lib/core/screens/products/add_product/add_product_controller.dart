@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:practices/core/models/product_model.dart';
 import 'package:practices/core/screens/products/product_controller.dart';
+import 'package:practices/core/services/snackbar/app_snackbar_service.dart';
 
 class _VariantRow {
   _VariantRow()
@@ -51,8 +52,8 @@ class AddProductController extends GetxController {
 
   @override
   void onClose() {
-    for (final r in _variantRows) {
-      r.dispose();
+    for (final variantRow in _variantRows) {
+      variantRow.dispose();
     }
     _variantRows.clear();
     productNameController.dispose();
@@ -81,10 +82,10 @@ class AddProductController extends GetxController {
   }
 
   bool _hasAtLeastOneCompleteVariant() {
-    for (final r in _variantRows) {
-      final w = r.weight.text.trim();
-      final p = r.price.text.trim();
-      if (w.isNotEmpty && p.isNotEmpty) {
+    for (final variantRow in _variantRows) {
+      final weight = variantRow.weight.text.trim();
+      final price = variantRow.price.text.trim();
+      if (weight.isNotEmpty && price.isNotEmpty) {
         return true;
       }
     }
@@ -92,15 +93,15 @@ class AddProductController extends GetxController {
   }
 
   List<ProductVariantModel> _collectCompleteVariants() {
-    final out = <ProductVariantModel>[];
-    for (final r in _variantRows) {
-      final w = r.weight.text.trim();
-      final p = r.price.text.trim();
-      if (w.isNotEmpty && p.isNotEmpty) {
-        out.add(ProductVariantModel(weight: w, price: p));
+    final variantList = <ProductVariantModel>[];
+    for (final variantRow in _variantRows) {
+      final weight = variantRow.weight.text.trim();
+      final price = variantRow.price.text.trim();
+      if (weight.isNotEmpty && price.isNotEmpty) {
+        variantList.add(ProductVariantModel(weight: weight, price: price));
       }
     }
-    return out;
+    return variantList;
   }
 
   void saveProduct() {
@@ -129,11 +130,9 @@ class AddProductController extends GetxController {
       variants: variants,
     );
     Get.back();
-    Get.snackbar(
-      'Product added',
+    AppSnackbarService.success(
       name,
-      snackPosition: SnackPosition.BOTTOM,
-      margin: const EdgeInsets.all(12),
+      title: 'Product added',
       duration: const Duration(seconds: 2),
     );
   }
@@ -167,20 +166,14 @@ class AddProductController extends GetxController {
         imageErrorMessage.value = '';
       }
     } on PlatformException catch (e) {
-      Get.snackbar(
-        'Photos',
+      AppSnackbarService.error(
         e.message ?? 'Could not open gallery',
-        snackPosition: SnackPosition.BOTTOM,
-        margin: const EdgeInsets.all(12),
-        duration: const Duration(seconds: 3),
+        title: 'Photos',
       );
     } catch (_) {
-      Get.snackbar(
-        'Photos',
+      AppSnackbarService.error(
         'Something went wrong',
-        snackPosition: SnackPosition.BOTTOM,
-        margin: const EdgeInsets.all(12),
-        duration: const Duration(seconds: 3),
+        title: 'Photos',
       );
     }
   }

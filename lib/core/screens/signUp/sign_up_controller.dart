@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:practices/core/dialogs/app_result_dialog.dart';
 import 'package:practices/core/enums/app_dialog_variant.dart';
-import 'package:practices/core/screens/dashboard/dashboard_view.dart';
-import 'package:practices/core/screens/login/login_view.dart';
+import 'package:practices/core/routes/route_names.dart';
 import 'package:practices/core/utils/app_validators.dart';
+import 'package:practices/core/models/user_model.dart';
 
 class SignUpController extends GetxController {
   // Controllers
@@ -105,7 +105,12 @@ class SignUpController extends GetxController {
       if (Get.isDialogOpen == true) {
         Get.back();
       }
-      Get.offAll(() => const DashboardView());
+      final user = UserModel(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        name: fullNameController.text.trim(),
+        email: emailController.text.trim(),
+      );
+      Get.offAllNamed(Routes.dashboard, arguments: user);
     } catch (e) {
       await AppResultDialog.show(
         title: 'Error',
@@ -123,10 +128,20 @@ class SignUpController extends GetxController {
     passwordError.value = '';
     confirmPasswordError.value = '';
     fullNameError.value = '';
-    Get.to(() => const LoginView());
+    Get.toNamed(Routes.login);
   }
 
   void signUpWithGoogle() {
     // TODO: Implement Google Sign Up
+  }
+
+  void dummySignUp() {
+    // Simulate a successful signup for testing
+    final user = UserModel(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      name: fullNameController.text.trim(),
+      email: emailController.text.trim(),
+    );
+    Get.offAllNamed(Routes.dashboard, arguments: user);
   }
 }

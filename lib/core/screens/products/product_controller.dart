@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:practices/core/models/product_model.dart';
-import 'package:practices/core/screens/products/add_product_controller.dart';
-import 'package:practices/core/screens/products/add_product_view.dart';
+import 'package:practices/core/routes/route_names.dart';
+import 'package:practices/core/screens/products/add_product/add_product_controller.dart';
+import 'package:practices/core/screens/products/add_product/add_product_view.dart';
 import 'package:practices/core/screens/products/widgets/variant_sheet.dart';
 
 class ProductController extends GetxController {
@@ -77,13 +78,17 @@ class ProductController extends GetxController {
     searchQuery.value = '';
   }
 
+  // void addProduct() {
+  //   Get.to(
+  //     () => const AddProductView(),
+  //     binding: BindingsBuilder(() {
+  //       Get.put(AddProductController());
+  //     }),
+  //   );
+  // }
+
   void addProduct() {
-    Get.to(
-      () => const AddProductView(),
-      binding: BindingsBuilder(() {
-        Get.put(AddProductController());
-      }),
-    );
+    Get.toNamed(Routes.addProduct);
   }
 
   /// New product: [imagePath] device file path from gallery, or omit for placeholder asset.

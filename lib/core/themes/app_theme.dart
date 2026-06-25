@@ -29,3 +29,4 @@ class AppTheme {
   static ThemeData light = LightTheme.light;
   static ThemeData dark = DarkTheme.dark;
 }
+

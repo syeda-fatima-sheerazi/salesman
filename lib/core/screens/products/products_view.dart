@@ -6,12 +6,11 @@ import 'package:practices/core/widgets/app_primary_action_button.dart';
 import 'package:practices/core/widgets/product_card.dart';
 import 'package:practices/core/widgets/products_search_bar.dart';
 
-class ProductsView extends StatelessWidget {
+class ProductsView extends GetView<ProductController> {
   const ProductsView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(ProductController());
     final theme = Theme.of(context);
 
     return Scaffold(

@@ -92,11 +92,13 @@ class AppResultDialog extends StatelessWidget {
           children: [
             Icon(resolvedIcon, color: iconColor, size: 48),
             const SizedBox(height: 16),
-            Text(
-              title,
-              style: theme.textTheme.titleMedium?.copyWith(color: titleColor),
-            ),
-            const SizedBox(height: 8),
+            if (title.trim().isNotEmpty) ...[
+              Text(
+                title,
+                style: theme.textTheme.titleMedium?.copyWith(color: titleColor),
+              ),
+              const SizedBox(height: 8),
+            ],
             Text(
               message,
               textAlign: TextAlign.center,

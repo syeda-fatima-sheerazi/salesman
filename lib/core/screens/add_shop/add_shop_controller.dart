@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:geocoding/geocoding.dart';
 import 'dart:io';
+import 'package:practices/core/models/shop.dart';
+import 'package:practices/core/services/snackbar/app_snackbar_service.dart';
 
 class AddShopController extends GetxController {
   // Text Controllers
@@ -55,13 +58,7 @@ class AddShopController extends GetxController {
         shopPhoto.value = File(photo.path);
       }
     } catch (e) {
-      Get.snackbar(
-        'Error',
-        'Failed to capture photo: $e',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red.withValues(alpha: 0.1),
-        colorText: Colors.red,
-      );
+      AppSnackbarService.error('Failed to capture photo: $e');
     }
   }
 
@@ -73,23 +70,64 @@ class AddShopController extends GetxController {
       latitude.value = 24.8607; // Example: Karachi latitude
       longitude.value = 67.0011; // Example: Karachi longitude
 
-      Get.snackbar(
-        'Success',
-        'Location captured successfully',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.green.withOpacity(0.1),
-        colorText: Colors.green,
-      );
+      // Perform reverse geocoding to get address details
+      await _performReverseGeocoding(latitude.value, longitude.value);
+
+      AppSnackbarService.success('Location captured successfully');
     } catch (e) {
-      Get.snackbar(
-        'Error',
-        'Failed to get location: $e',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red.withOpacity(0.1),
-        colorText: Colors.red,
-      );
+      AppSnackbarService.error('Failed to get location: $e');
     } finally {
       isGettingLocation.value = false;
+    }
+  }
+
+  /// Performs reverse geocoding to auto-fill Area, Town, and District
+  Future<void> _performReverseGeocoding(double lat, double lng) async {
+    try {
+      final List<Placemark> placemarks = await placemarkFromCoordinates(
+        lat,
+        lng,
+      );
+
+      if (placemarks.isNotEmpty) {
+        final Placemark place = placemarks.first;
+
+        // Auto-fill the fields with geocoding data
+        // Note: In Pakistan context:
+        // - subLocality = Area/Neighborhood
+        // - locality = Town/City
+        // - subAdministrativeArea or administrativeArea = District
+        final String area = place.subLocality ?? place.locality ?? '';
+        final String town = place.locality ?? place.subAdministrativeArea ?? '';
+        final String district =
+            place.subAdministrativeArea ?? place.administrativeArea ?? '';
+
+        // Only update if fields are empty (preserve user edits if they exist)
+        if (areaController.text.isEmpty && area.isNotEmpty) {
+          areaController.text = area;
+        }
+        if (townController.text.isEmpty && town.isNotEmpty) {
+          townController.text = town;
+        }
+        if (districtController.text.isEmpty && district.isNotEmpty) {
+          districtController.text = district;
+        }
+
+        // Force UI rebuild to show updated text fields
+        // update();
+
+        // Show info snackbar if any fields were auto-filled
+        if (area.isNotEmpty || town.isNotEmpty || district.isNotEmpty) {
+          AppSnackbarService.info(
+            'Area, Town and District have been auto-filled from location. You can edit them if needed.',
+            title: 'Address Auto-detected',
+            duration: AppSnackbarService.longDuration,
+          );
+        }
+      }
+    } catch (e) {
+      // Silently fail - reverse geocoding is a nice-to-have, not required
+      debugPrint('Reverse geocoding failed: $e');
     }
   }
 
@@ -130,26 +168,10 @@ class AddShopController extends GetxController {
       cnicError.value = '';
     }
 
-    if (areaController.text.trim().isEmpty) {
-      areaError.value = 'Area is required';
-      isValid = false;
-    } else {
-      areaError.value = '';
-    }
-
-    if (townController.text.trim().isEmpty) {
-      townError.value = 'Town is required';
-      isValid = false;
-    } else {
-      townError.value = '';
-    }
-
-    if (districtController.text.trim().isEmpty) {
-      districtError.value = 'District is required';
-      isValid = false;
-    } else {
-      districtError.value = '';
-    }
+    // Area, Town, District are optional - clear any previous errors
+    areaError.value = '';
+    townError.value = '';
+    districtError.value = '';
 
     return isValid;
   }
@@ -168,40 +190,82 @@ class AddShopController extends GetxController {
 
   Future<void> submitShop() async {
     if (!validateForm()) {
-      Get.snackbar(
-        'Validation Error',
+      AppSnackbarService.warning(
         'Please fill all required fields correctly',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.orange.withOpacity(0.1),
-        colorText: Colors.orange,
+        title: 'Validation Error',
+      );
+      return;
+    }
+
+    // Check if location is captured
+    if (latitude.value == 0.0 || longitude.value == 0.0) {
+      AppSnackbarService.warning(
+        'Please capture shop location',
+        title: 'Location Required',
       );
       return;
     }
 
     isSubmitting.value = true;
     try {
-      // Simulate API call - replace with actual shop creation service
-      await Future.delayed(const Duration(seconds: 2));
+      // 3 seconds delay before processing
+      await Future.delayed(const Duration(seconds: 3));
 
-      Get.snackbar(
-        'Success',
-        'Shop added successfully',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.green.withOpacity(0.1),
-        colorText: Colors.green,
+      // Create shop model
+      final shop = Shop(
+        shopName: shopNameController.text.trim(),
+        shopOwner: ownerNameController.text.trim(),
+        cellPhone: mobileNumberController.text.trim(),
+        cnic: cnicController.text.trim(),
+        address:
+            '${areaController.text.trim()}, ${townController.text.trim()}, ${districtController.text.trim()}',
+        area: areaController.text.trim(),
+        town: townController.text.trim(),
+        district: districtController.text.trim(),
+        latitude: latitude.value,
+        longitude: longitude.value,
+        photoPath: shopPhoto.value?.path,
+        createdAt: DateTime.now(),
+      );
+
+      // TODO: Save shop to storage (SharedPreferences/Backend)
+      // For now, just print the shop data
+      print('Shop created: ${shop.toMap()}');
+
+      // Show success dialog
+      Get.defaultDialog(
+        title: 'Success',
+        middleText: 'Shop added Successfully',
+        backgroundColor: Colors.white,
+        titleStyle: const TextStyle(
+          color: Colors.green,
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+        ),
+        middleTextStyle: const TextStyle(color: Colors.black87, fontSize: 16),
+        confirm: ElevatedButton(
+          onPressed: () {
+            Get.back(); // Close dialog
+            Get.back(); // Go back to home
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.green,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+          child: const Text(
+            'OK',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+        ),
+        barrierDismissible: false,
       );
 
       // Clear form after successful submission
       clearForm();
-      Get.back();
     } catch (e) {
-      Get.snackbar(
-        'Error',
-        'Failed to add shop: $e',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red.withOpacity(0.1),
-        colorText: Colors.red,
-      );
+      AppSnackbarService.error('Failed to add shop: $e');
     } finally {
       isSubmitting.value = false;
     }

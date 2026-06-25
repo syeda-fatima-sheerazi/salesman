@@ -43,7 +43,7 @@ class LightTheme {
       ),
       bodyLarge: AppTypography.apply(
         const TextStyle(
-          fontSize: 16,
+          fontSize: 14,
           fontWeight: FontWeight.w500,
           color: AppTheme.textPrimary,
         ),
@@ -51,7 +51,7 @@ class LightTheme {
       bodyMedium: AppTypography.apply(
         const TextStyle(
           fontSize: 14,
-          fontWeight: FontWeight.w400,
+          fontWeight: FontWeight.w600,
           color: AppTheme.textPrimary,
         ),
       ),

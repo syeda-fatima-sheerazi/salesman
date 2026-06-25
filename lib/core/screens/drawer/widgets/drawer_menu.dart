@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:practices/core/screens/drawer/custom_drawer_controller.dart';
 import 'package:practices/core/widgets/drawer_item.dart';
 
 class DrawerMenuWidget extends StatelessWidget {
-  const DrawerMenuWidget({super.key, required this.controller});
+  const DrawerMenuWidget({super.key, this.onTap, this.title = '1.0.0'});
 
-  final CustomDrawerController controller;
-
+  final void Function()? onTap;
+  final String title;
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -20,14 +19,10 @@ class DrawerMenuWidget extends StatelessWidget {
         width: double.infinity,
         decoration: BoxDecoration(
           color: cs.surface,
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(28.r),
-          ),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(28.r)),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(
-                alpha: isDark ? 0.35 : 0.07,
-              ),
+              color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.07),
               blurRadius: 18,
               offset: Offset(0, -4.h),
             ),
@@ -45,30 +40,30 @@ class DrawerMenuWidget extends StatelessWidget {
                     onTap: () => Get.back(),
                   ),
                   DrawerItem(
-                    icon: Icons.storefront_rounded,
-                    title: 'My Shops',
-                    onTap: () => Get.back(),
-                  ),
-                  DrawerItem(
-                    icon: Icons.shopping_cart_outlined,
-                    title: 'Orders',
-                    onTap: () => Get.back(),
-                  ),
-                  DrawerItem(
-                    icon: Icons.inventory_2_outlined,
-                    title: 'Products',
-                    onTap: () => Get.back(),
-                  ),
-                  DrawerItem(
-                    icon: Icons.calendar_today_outlined,
-                    title: 'Meetings',
+                    icon: Icons.notifications_outlined,
+                    title: 'Notifications',
                     onTap: () => Get.back(),
                   ),
                   DrawerItem(
                     icon: Icons.pie_chart_outline_rounded,
-                    title: 'Sales Reports',
+                    title: 'BackUp',
                     onTap: () => Get.back(),
                   ),
+                  // DrawerItem(
+                  //   icon: Icons.inventory_2_outlined,
+                  //   title: 'Products',
+                  //   onTap: () => Get.back(),
+                  // ),
+                  // DrawerItem(
+                  //   icon: Icons.calendar_today_outlined,
+                  //   title: 'Meetings',
+                  //   onTap: () => Get.back(),
+                  // ),
+                  // DrawerItem(
+                  //   icon: Icons.pie_chart_outline_rounded,
+                  //   title: 'Sales Reports',
+                  //   onTap: () => Get.back(),
+                  // ),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 6.h),
                     child: Divider(
@@ -86,8 +81,6 @@ class DrawerMenuWidget extends StatelessWidget {
                   DrawerItem(
                     icon: Icons.settings_outlined,
                     title: 'Settings',
-                    iconColor: cs.onSurfaceVariant,
-                    textColor: cs.onSurface,
                     onTap: () => Get.back(),
                   ),
                   DrawerItem(
@@ -95,10 +88,7 @@ class DrawerMenuWidget extends StatelessWidget {
                     title: 'Logout',
                     iconColor: cs.error,
                     textColor: cs.error,
-                    onTap: () {
-                      Get.back();
-                      controller.logout();
-                    },
+                    onTap: onTap,
                   ),
                 ],
               ),
@@ -111,7 +101,7 @@ class DrawerMenuWidget extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 14.h),
               child: Obx(
                 () => Text(
-                  'App Version ${controller.appVersion.value}',
+                  'App Version: $title',
                   textAlign: TextAlign.center,
                   style: theme.textTheme.bodySmall?.copyWith(
                     fontSize: 12.sp,
@@ -126,4 +116,3 @@ class DrawerMenuWidget extends StatelessWidget {
     );
   }
 }
-

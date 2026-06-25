@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:practices/core/dialogs/app_result_dialog.dart';
-import 'package:practices/core/enums/app_dialog_variant.dart';
-import 'package:practices/core/screens/dashboard/dashboard_view.dart';
-import 'package:practices/core/screens/signUp/sign_up_view.dart';
+import 'package:practices/core/routes/route_names.dart';
 import 'package:practices/core/utils/app_validators.dart';
+import 'package:practices/core/services/snackbar/app_snackbar_service.dart';
+import 'package:practices/core/models/user_model.dart';
 
 class LoginController extends GetxController {
   bool _googleSignInInitialized = false;
@@ -70,15 +69,14 @@ class LoginController extends GetxController {
       // Simulate API call
       await Future.delayed(const Duration(seconds: 2));
 
-      Get.offAll(() => const DashboardView());
-    } catch (e) {
-      Get.snackbar(
-        'Error',
-        'Failed to login. Please try again.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
+      final user = UserModel(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        name: emailController.text.split('@').first,
+        email: emailController.text.trim(),
       );
+      Get.offAllNamed(Routes.dashboard, arguments: user);
+    } catch (e) {
+      AppSnackbarService.error('Failed to login. Please try again.');
     } finally {
       isLoading.value = false;
     }
@@ -92,7 +90,7 @@ class LoginController extends GetxController {
   void signUp() {
     emailError.value = '';
     passwordError.value = '';
-    Get.to(() => const SignUpView());
+    Get.toNamed(Routes.signup);
   }
 
   Future<void> _ensureGoogleSignInInitialized() async {
@@ -109,12 +107,8 @@ class LoginController extends GetxController {
     try {
       await _ensureGoogleSignInInitialized();
     } catch (e) {
-      Get.snackbar(
-        'Error',
+      AppSnackbarService.error(
         'Could not start Google Sign-In. Check app configuration.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
       );
       return;
     }
@@ -122,12 +116,9 @@ class LoginController extends GetxController {
     isLoading.value = true;
     try {
       if (!GoogleSignIn.instance.supportsAuthenticate()) {
-        Get.snackbar(
-          'Not supported',
+        AppSnackbarService.warning(
           'Google Sign-In is not available on this platform.',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.orange,
-          colorText: Colors.white,
+          title: 'Not supported',
         );
         return;
       }
@@ -141,27 +132,23 @@ class LoginController extends GetxController {
       );
 
       // TODO: Send idToken to your backend for session creation.
-      Get.offAll(() => const DashboardView());
+      final user = UserModel(
+        id: account.id ?? DateTime.now().millisecondsSinceEpoch.toString(),
+        name: account.displayName ?? account.email.split('@').first,
+        email: account.email,
+      );
+      Get.offAllNamed(Routes.dashboard, arguments: user);
     } on GoogleSignInException catch (e) {
       if (e.code == GoogleSignInExceptionCode.canceled ||
           e.code == GoogleSignInExceptionCode.interrupted) {
         return;
       }
-      Get.snackbar(
-        'Google Sign-In failed',
+      AppSnackbarService.error(
         e.description ?? e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
+        title: 'Google Sign-In failed',
       );
     } catch (e) {
-      Get.snackbar(
-        'Error',
-        'Google Sign-In failed: $e',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
+      AppSnackbarService.error('Google Sign-In failed: $e');
     } finally {
       isLoading.value = false;
     }

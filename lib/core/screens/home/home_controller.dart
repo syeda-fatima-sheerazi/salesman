@@ -2,7 +2,7 @@ import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:practices/core/enums/data_state.dart';
 import 'package:practices/core/models/shop.dart';
-import 'package:practices/core/screens/home/detailed/detailed_view.dart';
+import 'package:practices/core/routes/route_names.dart';
 import 'package:practices/core/services/shop_service.dart';
 import 'package:practices/core/services/location_service.dart';
 
@@ -39,10 +39,13 @@ class HomeController extends GetxController {
   Future<void> loadDummyShops() async {
     final shops = await _shopService.fetchDummyShops();
     shopList.assignAll(shops);
-    update();
   }
 
-  void gotoDetailedView() {
-    Get.to(DetailedView());
+  void gotoDetailedView(Shop shop) {
+    Get.toNamed(Routes.detailed, arguments: shop);
+  }
+
+  void toggleVisited(bool isVisited, String shopId) {
+    //TODO: if shop is visited false he to true krna Hai
   }
 }

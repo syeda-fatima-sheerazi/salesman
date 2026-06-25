@@ -41,6 +41,7 @@ dependencies:
   image_picker: ^1.1.2
   google_sign_in: ^7.2.0
   google_fonts: ^6.3.3
+  geocoding: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -98,15 +99,15 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
 
-# App icon: save square PNG as assets/icon/app_icon.png then run:
+# App icon: save square PNG as assets/icons/app_icon.png then run:
 #   dart run flutter_launcher_icons
 # adaptive_icon_background: mask ke bahar jo rang dikhe (white ki jagah brand blue)
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: assets/icon/app_icon.png
-  adaptive_icon_background: "#1565C0"
-  adaptive_icon_foreground: assets/icon/app_icon.png
+  image_path: assets/icons/app_icon.png
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: assets/icons/app_icon.png
   # Foreground inset % — zyada = chhota / “safe” icon; 0 = bahut bara. ~12–16 typical.
   adaptive_icon_foreground_inset: 14
   remove_alpha_ios: false
