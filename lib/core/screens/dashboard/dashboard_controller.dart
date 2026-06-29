@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:practices/core/routes/route_names.dart';
 import 'package:practices/core/screens/home/home_view.dart';
 import 'package:practices/core/screens/products/products_view.dart';
-import 'package:practices/core/screens/statement/statement_view.dart';
+import 'package:practices/core/screens/analytics/analytics_view.dart';
 import 'package:practices/core/screens/todo/todo_view.dart';
 
 class DashboardController extends GetxController {
@@ -13,7 +13,7 @@ class DashboardController extends GetxController {
     update();
   }
 
-  List<Widget> tabs = [HomeView(), ProductsView(), TodoView(), StatementView()];
+  List<Widget> tabs = [HomeView(), ProductsView(), TodoView(), AnalyticsView()];
 
   void gotoNotifications() {
     Get.toNamed(Routes.notifications);

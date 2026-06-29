@@ -39,30 +39,34 @@ class DashboardView extends StatelessWidget {
         ],
       ),
       drawer: CustomDrawerView(user: user),
-      body: IndexedStack(
-        index: dashboardController.currentIndex.value,
-        children: dashboardController.tabs,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        onTap: dashboardController.changeTab,
-        currentIndex: dashboardController.currentIndex.value,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.view_agenda),
-            label: "Products",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today),
-            label: "Todo",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bar_chart),
-            label: "Statement",
-          ),
-        ],
-      ),
+      body: Obx(() {
+        return IndexedStack(
+          index: dashboardController.currentIndex.value,
+          children: dashboardController.tabs,
+        );
+      }),
+      bottomNavigationBar: Obx(() {
+        return BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          onTap: dashboardController.changeTab,
+          currentIndex: dashboardController.currentIndex.value,
+          items: [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.view_agenda),
+              label: "Products",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.calendar_today),
+              label: "Todo",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.bar_chart),
+              label: "Analytics",
+            ),
+          ],
+        );
+      }),
     );
   }
 }
