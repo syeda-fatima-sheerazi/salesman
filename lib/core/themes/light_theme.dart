@@ -70,6 +70,7 @@ class LightTheme {
         ),
       ),
     ),
+    iconTheme: IconThemeData(color: Colors.white),
 
     appBarTheme: AppBarTheme(
       backgroundColor: AppTheme.primaryColor,
@@ -119,6 +120,18 @@ class LightTheme {
     ),
     progressIndicatorTheme: const ProgressIndicatorThemeData(
       color: AppTheme.primaryColor,
+    ),
+
+    //
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: AppTheme.primaryColor,
+      foregroundColor: Colors.white, // ye icon/text color control karega
+      elevation: 8,
+      focusElevation: 6,
+      hoverElevation: 10,
+      highlightElevation: 12,
+      iconSize: 30,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
     ),
   );
 }
