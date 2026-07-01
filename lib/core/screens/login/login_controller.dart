@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:practices/core/routes/route_names.dart';
+import 'package:practices/core/services/database_service.dart';
+import 'package:practices/core/services/session_service.dart';
 import 'package:practices/core/utils/app_validators.dart';
 import 'package:practices/core/services/snackbar/app_snackbar_service.dart';
 import 'package:practices/core/models/user_model.dart';
@@ -66,14 +68,16 @@ class LoginController extends GetxController {
     isLoading.value = true;
 
     try {
-      // Simulate API call
-      await Future.delayed(const Duration(seconds: 2));
+      final email = emailController.text.trim();
+      final password = passwordController.text;
 
-      final user = UserModel(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
-        name: emailController.text.split('@').first,
-        email: emailController.text.trim(),
-      );
+      final user = await DatabaseService.instance.loginUser(email, password);
+      if (user == null) {
+        AppSnackbarService.error('Invalid email or password.');
+        return;
+      }
+
+      await SessionService.instance.saveSession(email);
       Get.offAllNamed(Routes.dashboard, arguments: user);
     } catch (e) {
       AppSnackbarService.error('Failed to login. Please try again.');
@@ -131,12 +135,12 @@ class LoginController extends GetxController {
         'Google sign-in: ${account.email} (idToken: ${idToken != null})',
       );
 
-      // TODO: Send idToken to your backend for session creation.
       final user = UserModel(
         id: account.id ?? DateTime.now().millisecondsSinceEpoch.toString(),
         name: account.displayName ?? account.email.split('@').first,
         email: account.email,
       );
+      await SessionService.instance.saveSession(account.email);
       Get.offAllNamed(Routes.dashboard, arguments: user);
     } on GoogleSignInException catch (e) {
       if (e.code == GoogleSignInExceptionCode.canceled ||

@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:practices/core/routes/app_pages.dart';
+import 'package:practices/core/services/database_service.dart';
 import 'package:practices/core/themes/app_theme.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await DatabaseService.instance.database;
   runApp(const MyApp());
 }
 

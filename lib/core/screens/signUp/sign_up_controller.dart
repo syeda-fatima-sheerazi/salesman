@@ -3,6 +3,9 @@ import 'package:get/get.dart';
 import 'package:practices/core/dialogs/app_result_dialog.dart';
 import 'package:practices/core/enums/app_dialog_variant.dart';
 import 'package:practices/core/routes/route_names.dart';
+import 'package:practices/core/services/database_service.dart';
+import 'package:practices/core/services/session_service.dart';
+import 'package:practices/core/services/snackbar/app_snackbar_service.dart';
 import 'package:practices/core/utils/app_validators.dart';
 import 'package:practices/core/models/user_model.dart';
 
@@ -89,11 +92,30 @@ class SignUpController extends GetxController {
     isLoading.value = true;
 
     try {
-      // Simulate API call
-      await Future.delayed(const Duration(seconds: 2));
+      final email = emailController.text.trim();
+      final existing = await DatabaseService.instance.getUserByEmail(email);
+      if (existing != null) {
+        AppSnackbarService.error(
+          'An account with this email already exists.',
+        );
+        return;
+      }
 
-      // TODO: Implement actual signup logic here
-      // Do not `await` the dialog if you auto-close below — `await` blocks until dialog closes.
+      final user = UserModel(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        name: fullNameController.text.trim(),
+        email: email,
+        password: passwordController.text,
+      );
+
+      final success = await DatabaseService.instance.registerUser(user);
+      if (!success) {
+        AppSnackbarService.error('Failed to create account. Please try again.');
+        return;
+      }
+
+      await SessionService.instance.saveSession(email);
+
       AppResultDialog.show(
         title: 'Success',
         message: 'Account created successfully!',
@@ -101,22 +123,12 @@ class SignUpController extends GetxController {
         showPrimaryButton: false,
       );
       await Future.delayed(const Duration(seconds: 3));
-      // Close success dialog, then go to dashboard (use offAll so login/signup are cleared)
       if (Get.isDialogOpen == true) {
         Get.back();
       }
-      final user = UserModel(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
-        name: fullNameController.text.trim(),
-        email: emailController.text.trim(),
-      );
       Get.offAllNamed(Routes.dashboard, arguments: user);
     } catch (e) {
-      await AppResultDialog.show(
-        title: 'Error',
-        message: 'Failed to create account. Please try again.',
-        variant: AppDialogVariant.error,
-      );
+      AppSnackbarService.error('Failed to create account. Please try again.');
     } finally {
       isLoading.value = false;
     }
@@ -136,12 +148,15 @@ class SignUpController extends GetxController {
   }
 
   void dummySignUp() {
-    // Simulate a successful signup for testing
+    final email = emailController.text.trim();
     final user = UserModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       name: fullNameController.text.trim(),
-      email: emailController.text.trim(),
+      email: email,
+      password: passwordController.text,
     );
+    DatabaseService.instance.registerUser(user);
+    SessionService.instance.saveSession(email);
     Get.offAllNamed(Routes.dashboard, arguments: user);
   }
 }
