@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:practices/core/models/order.dart';
 import 'package:practices/core/models/shop.dart';
 import 'package:practices/core/screens/home/detailed/detailed_view_controller.dart';
 import 'package:practices/core/screens/home/widgets/history_order_card.dart';
@@ -60,16 +59,28 @@ class DetailedView extends GetView<DetailedViewController> {
             ),
             SizedBox(height: 8),
             Expanded(
-              child: ListView.separated(
-                itemCount: shop.orders.length,
-                itemBuilder: (context, index) {
-                  Order order = shop.orders[index];
-                  return HistoryOrderCard(order: order);
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return SizedBox(height: 20);
-                },
-              ),
+              child: Obx(() {
+                if (controller.orders.isEmpty) {
+                  return Center(
+                    child: Text(
+                      'No orders yet',
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  );
+                }
+                return ListView.separated(
+                  itemCount: controller.orders.length,
+                  itemBuilder: (context, index) {
+                    final order = controller.orders[index];
+                    return HistoryOrderCard(order: order);
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return SizedBox(height: 20);
+                  },
+                );
+              }),
             ),
 
             // ListView.builder(

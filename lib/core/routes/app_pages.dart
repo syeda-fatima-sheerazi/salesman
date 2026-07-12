@@ -2,11 +2,12 @@ import 'package:get/get.dart';
 import 'package:practices/core/models/shop.dart';
 import 'package:practices/core/models/user_model.dart';
 import 'package:practices/core/screens/home/detailed/detailed_view_binding.dart';
-import 'package:practices/core/screens/products/add_product/add_product_binding.dart';
+import 'package:practices/core/screens/products/add_product/add_product_binding.dart'
+    as products_add;
 import 'package:practices/core/screens/add_shop/add_shop_binding.dart';
 import 'package:practices/core/screens/dashboard/dashboard_binding.dart';
 import 'package:practices/core/screens/login/login_binding.dart';
-import 'package:practices/core/screens/place_order/place_order_binding.dart';
+import 'package:practices/core/screens/products/product_view_binding.dart';
 import 'package:practices/core/screens/profile/profile_binding.dart';
 import 'package:practices/core/screens/signUp/signup_binding.dart';
 import 'package:practices/core/screens/splash/splash_binding.dart';
@@ -16,8 +17,15 @@ import 'package:practices/core/screens/dashboard/dashboard_view.dart';
 import 'package:practices/core/screens/home/detailed/detailed_view.dart';
 import 'package:practices/core/screens/login/login_view.dart';
 import 'package:practices/core/screens/notifications/notifications_view.dart';
+import 'package:practices/core/screens/orders/order_detail_binding.dart';
+import 'package:practices/core/screens/orders/order_detail_view.dart';
+import 'package:practices/core/screens/place_order/place_order_binding.dart';
 import 'package:practices/core/screens/place_order/place_order_view.dart';
-import 'package:practices/core/screens/products/add_product/add_product_view.dart';
+import 'package:practices/core/screens/place_order/select_product/select_product_view.dart';
+import 'package:practices/core/screens/place_order/quick_order/quick_order_view.dart';
+import 'package:practices/core/screens/place_order/success/order_success_view.dart';
+import 'package:practices/core/screens/products/add_product/add_product_view.dart'
+    as products;
 import 'package:practices/core/screens/products/products_view.dart';
 import 'package:practices/core/screens/signUp/sign_up_view.dart';
 import 'package:practices/core/screens/splash/splash_view.dart';
@@ -25,6 +33,8 @@ import 'package:practices/core/screens/todo/todo_view.dart';
 import 'package:practices/core/screens/profile/profile_view.dart';
 import 'package:practices/core/screens/home/home_view.dart';
 import 'package:practices/core/screens/analytics/analytics_view.dart';
+
+import '../screens/place_order/select_product/select_product_binding.dart';
 
 class AppPages {
   AppPages._();
@@ -50,9 +60,6 @@ class AppPages {
     GetPage(
       name: Routes.dashboard,
       page: () {
-        // return DashboardView(
-        //   user: UserModel(id: "id", name: "name", email: "email"),
-        // );
         final arguments = Get.arguments;
         if (arguments is UserModel) {
           return DashboardView(user: arguments);
@@ -82,11 +89,22 @@ class AppPages {
       },
       binding: PlaceOrderBinding(),
     ),
-    GetPage(name: Routes.products, page: () => const ProductsView()),
+    GetPage(
+      name: Routes.selectproduct,
+      page: () => SelectProductView(),
+      binding: SelectProductBinding(),
+    ),
+    GetPage(name: Routes.quickOrder, page: () => const QuickOrderView()),
+    GetPage(name: Routes.orderSuccess, page: () => const OrderSuccessView()),
+    GetPage(
+      name: Routes.products,
+      page: () => const ProductsView(),
+      binding: ProductViewBinding(),
+    ),
     GetPage(
       name: Routes.addProduct,
-      page: () => const AddProductView(),
-      binding: AddProductBinding(),
+      page: () => const products.AddProductView(),
+      binding: products_add.AddProductBinding(),
     ),
     GetPage(name: Routes.notifications, page: () => const NotificationsView()),
     GetPage(name: Routes.todo, page: () => const TodoView()),
@@ -108,6 +126,11 @@ class AppPages {
         );
       },
       binding: DetailedViewBinding(),
+    ),
+    GetPage(
+      name: Routes.orderDetail,
+      page: () => const OrderDetailView(),
+      binding: OrderDetailBinding(),
     ),
   ];
 }
