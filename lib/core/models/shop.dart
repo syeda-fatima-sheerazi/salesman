@@ -64,7 +64,9 @@ class Shop {
 
   factory Shop.fromMap(Map<String, dynamic> map) {
     return Shop(
-      orders: map["list"],
+      orders: map["orders"] != null
+          ? (map["orders"] as List).map((e) => Order.fromMap(e)).toList()
+          : [],
       id: map['id'],
       shopName: map['shopName'],
       shopOwner: map['shopOwner'],

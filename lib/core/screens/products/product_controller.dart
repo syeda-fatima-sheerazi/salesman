@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:practices/core/models/order_item.dart';
 import 'package:practices/core/models/product_model.dart';
 import 'package:practices/core/routes/route_names.dart';
-import 'package:practices/core/screens/products/add_product/add_product_controller.dart';
-import 'package:practices/core/screens/products/add_product/add_product_view.dart';
 import 'package:practices/core/screens/products/widgets/variant_sheet.dart';
 
 class ProductController extends GetxController {
+  ProductController({this.isSelectionMode = false});
+
+  final bool isSelectionMode;
   final RxString searchQuery = ''.obs;
   final RxList<ProductModel> products = <ProductModel>[].obs;
+  final RxList<OrderItem> selectedItems = <OrderItem>[].obs;
   final TextEditingController searchFieldController = TextEditingController();
 
   @override
@@ -62,7 +65,6 @@ class ProductController extends GetxController {
     final searchValue = searchQuery.value.toLowerCase();
 
     if (searchValue.isEmpty) return products.toList();
-    // filter the products based on the search value
 
     return products
         .where((product) => product.name.toLowerCase().contains(searchValue))
@@ -78,20 +80,10 @@ class ProductController extends GetxController {
     searchQuery.value = '';
   }
 
-  // void addProduct() {
-  //   Get.to(
-  //     () => const AddProductView(),
-  //     binding: BindingsBuilder(() {
-  //       Get.put(AddProductController());
-  //     }),
-  //   );
-  // }
-
   void addProduct() {
     Get.toNamed(Routes.addProduct);
   }
 
-  /// New product: [imagePath] device file path from gallery, or omit for placeholder asset.
   void addProductWithName(
     String name, {
     String? imagePath,
@@ -155,11 +147,44 @@ class ProductController extends GetxController {
     products.refresh();
   }
 
-  /// Add / edit variant — floating card ([VariantSheet.show]).
   void showVariantSheet(String productId, {int? variantIndex}) {
     final ctx = Get.context;
     if (ctx == null) return;
     VariantSheet.show(ctx, productId, variantIndex: variantIndex);
+  }
+
+  void addToSelection(OrderItem item) {
+    selectedItems.add(item);
+  }
+
+  void removeFromSelection(int index) {
+    if (index >= 0 && index < selectedItems.length) {
+      selectedItems.removeAt(index);
+    }
+  }
+
+  void updateSelectionQuantity(int index, int delta) {
+    if (index < 0 || index >= selectedItems.length) return;
+    final item = selectedItems[index];
+    final newQty = item.qty + delta;
+    if (newQty < 1) {
+      selectedItems.removeAt(index);
+    } else {
+      selectedItems[index] = OrderItem(
+        productId: item.productId,
+        productName: item.productName,
+        qty: newQty,
+        price: item.price,
+        variant: item.variant,
+        imageUrl: item.imageUrl,
+      );
+    }
+  }
+
+  int get selectedCount => selectedItems.length;
+
+  void confirmSelection() {
+    Get.back(result: selectedItems.toList());
   }
 
   ProductModel? _productById(String id) {

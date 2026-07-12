@@ -35,16 +35,12 @@ class LightTheme {
         ),
       ),
       titleMedium: AppTypography.apply(
-        const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-          color: AppTheme.textPrimary,
-        ),
+        const TextStyle(fontSize: 16, color: AppTheme.textPrimary),
       ),
       bodyLarge: AppTypography.apply(
         const TextStyle(
           fontSize: 14,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w800,
           color: AppTheme.textPrimary,
         ),
       ),
@@ -58,7 +54,7 @@ class LightTheme {
       bodySmall: AppTypography.apply(
         const TextStyle(
           fontSize: 12,
-          fontWeight: FontWeight.w400,
+          fontWeight: FontWeight.bold,
           color: AppTheme.textSecondary,
         ),
       ),

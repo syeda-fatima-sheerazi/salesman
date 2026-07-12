@@ -1,9 +1,8 @@
-import 'package:get/route_manager.dart';
-import 'package:get/state_manager.dart';
+import 'package:get/get.dart';
 import 'package:practices/core/enums/data_state.dart';
 import 'package:practices/core/models/shop.dart';
 import 'package:practices/core/routes/route_names.dart';
-import 'package:practices/core/services/shop_service.dart';
+import 'package:practices/core/screens/add_shop/repositories/shop_repository.dart';
 import 'package:practices/core/services/location_service.dart';
 
 class HomeController extends GetxController {
@@ -17,14 +16,14 @@ class HomeController extends GetxController {
   Map<String, dynamic> towns = {};
   Map<String, dynamic> areas = {};
 
-  final ShopService _shopService = ShopService();
+  final ShopRepository _shopRepository = Get.find<ShopRepository>();
   final LocationService _locationService = LocationService();
 
   @override
   void onInit() {
     super.onInit();
     _loadLocationData();
-    loadDummyShops();
+    loadShops();
   }
 
   Future<void> _loadLocationData() async {
@@ -36,8 +35,8 @@ class HomeController extends GetxController {
     update();
   }
 
-  Future<void> loadDummyShops() async {
-    final shops = await _shopService.fetchDummyShops();
+  Future<void> loadShops() async {
+    final shops = await _shopRepository.getAllShops();
     shopList.assignAll(shops);
   }
 

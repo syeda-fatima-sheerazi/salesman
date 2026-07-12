@@ -6,6 +6,11 @@ class ProductVariantModel {
 
   String weight;
   String price;
+
+  double get numericPrice {
+    final cleaned = price.replaceAll(RegExp(r'[^0-9.]'), '');
+    return double.tryParse(cleaned) ?? 0;
+  }
 }
 
 class ProductModel {

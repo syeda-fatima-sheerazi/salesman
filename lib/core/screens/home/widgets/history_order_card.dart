@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:practices/core/models/order.dart';
 
 class HistoryOrderCard extends StatelessWidget {
@@ -29,7 +30,7 @@ class HistoryOrderCard extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(" Date : ${order.orderDate.toString()}"),
+                Text(DateFormat('d MMMM yyyy').format(order.orderDate)),
                 const SizedBox(height: 8),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(minimumSize: Size(10, 20)),

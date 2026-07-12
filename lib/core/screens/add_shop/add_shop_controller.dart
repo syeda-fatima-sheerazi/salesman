@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:geocoding/geocoding.dart';
+import 'package:geocoding/geocoding.dart' hide Location;
+import 'package:location/location.dart';
 import 'dart:io';
 import 'package:practices/core/models/shop.dart';
+import 'package:practices/core/screens/add_shop/repositories/shop_repository.dart';
 import 'package:practices/core/services/snackbar/app_snackbar_service.dart';
 
 class AddShopController extends GetxController {
+  final ShopRepository _shopRepository = Get.find<ShopRepository>();
+
   // Text Controllers
   final shopNameController = TextEditingController();
   final ownerNameController = TextEditingController();
@@ -65,10 +69,33 @@ class AddShopController extends GetxController {
   Future<void> getCurrentLocation() async {
     isGettingLocation.value = true;
     try {
-      // Simulate location fetching - replace with actual location service
-      await Future.delayed(const Duration(seconds: 2));
-      latitude.value = 24.8607; // Example: Karachi latitude
-      longitude.value = 67.0011; // Example: Karachi longitude
+      final location = Location();
+
+      // Check and request permission
+      PermissionStatus permission = await location.hasPermission();
+      if (permission == PermissionStatus.denied) {
+        permission = await location.requestPermission();
+        if (permission != PermissionStatus.granted &&
+            permission != PermissionStatus.grantedLimited) {
+          AppSnackbarService.error('Location permission denied');
+          return;
+        }
+      }
+
+      // Check if GPS is enabled
+      bool serviceEnabled = await location.serviceEnabled();
+      if (!serviceEnabled) {
+        serviceEnabled = await location.requestService();
+        if (!serviceEnabled) {
+          AppSnackbarService.error('Please enable GPS services');
+          return;
+        }
+      }
+
+      // Get current position
+      final locationData = await location.getLocation();
+      latitude.value = locationData.latitude ?? 0.0;
+      longitude.value = locationData.longitude ?? 0.0;
 
       // Perform reverse geocoding to get address details
       await _performReverseGeocoding(latitude.value, longitude.value);
@@ -208,9 +235,6 @@ class AddShopController extends GetxController {
 
     isSubmitting.value = true;
     try {
-      // 3 seconds delay before processing
-      await Future.delayed(const Duration(seconds: 3));
-
       // Create shop model
       final shop = Shop(
         shopName: shopNameController.text.trim(),
@@ -228,42 +252,11 @@ class AddShopController extends GetxController {
         createdAt: DateTime.now(),
       );
 
-      // TODO: Save shop to storage (SharedPreferences/Backend)
-      // For now, just print the shop data
-      print('Shop created: ${shop.toMap()}');
+      await _shopRepository.insertShop(shop);
 
-      // Show success dialog
-      Get.defaultDialog(
-        title: 'Success',
-        middleText: 'Shop added Successfully',
-        backgroundColor: Colors.white,
-        titleStyle: const TextStyle(
-          color: Colors.green,
-          fontWeight: FontWeight.bold,
-          fontSize: 20,
-        ),
-        middleTextStyle: const TextStyle(color: Colors.black87, fontSize: 16),
-        confirm: ElevatedButton(
-          onPressed: () {
-            Get.back(); // Close dialog
-            Get.back(); // Go back to home
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.green,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-          child: const Text(
-            'OK',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-        ),
-        barrierDismissible: false,
-      );
-
-      // Clear form after successful submission
+      AppSnackbarService.success('Shop added successfully');
       clearForm();
+      Get.back(result: true);
     } catch (e) {
       AppSnackbarService.error('Failed to add shop: $e');
     } finally {

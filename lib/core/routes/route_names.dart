@@ -16,4 +16,8 @@ abstract class Routes {
   static const addProduct = '/products/add';
   static const addShop = '/add-shop';
   static const placeOrder = '/place-order';
+  static const quickOrder = '/place-order/quick-order';
+  static const orderSuccess = '/place-order/success';
+  static const orderDetail = '/order-detail';
+  static const selectproduct = '/select-product';
 }

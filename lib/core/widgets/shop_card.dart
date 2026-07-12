@@ -24,7 +24,7 @@ class ShopCard extends StatelessWidget {
       child: Card(
         color: cs.surface,
 
-        elevation: 0,
+        elevation: 2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.r),
           side: BorderSide(color: cs.onSurfaceVariant.withValues(alpha: 0.2)),

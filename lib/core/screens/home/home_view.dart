@@ -111,7 +111,12 @@ class HomeView extends GetView<HomeController> {
             ),
             AppPrimaryActionButton(
               label: "Add Shop",
-              onPressed: () => Get.toNamed(Routes.addShop),
+              onPressed: () async {
+                final result = await Get.toNamed(Routes.addShop);
+                if (result == true) {
+                  controller.loadShops();
+                }
+              },
             ),
           ],
         ),

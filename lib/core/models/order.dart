@@ -13,12 +13,16 @@ class Order {
     this.createdBy,
     this.orderNo,
     this.isDelivered = false,
-    this.orderDate,
+    required this.orderDate,
     this.remainingAmount = 0,
     this.isCollected = false,
     required this.totalBill,
     this.collectedAmount = 0,
-  });
+    this.deliveryDate,
+    this.paymentDate,
+    this.notes,
+    DateTime? createdAt,
+  }) : createdAt = createdAt ?? DateTime.now();
 
   final String? id;
   final String shopId;
@@ -30,11 +34,15 @@ class Order {
   final String? orderNo;
   final List<OrderItem> items;
   bool isDelivered;
-  final DateTime? orderDate;
-  final int remainingAmount;
+  final DateTime orderDate;
+  int remainingAmount;
   bool isCollected;
   final int totalBill;
-  final int collectedAmount;
+  int collectedAmount;
+  DateTime? deliveryDate;
+  DateTime? paymentDate;
+  String? notes;
+  final DateTime createdAt;
 
   int get totalQuantity => items.fold(0, (sum, item) => sum + item.qty);
   String get displayShopPhotoAsset =>
@@ -56,8 +64,10 @@ class Order {
       'isCollected': isCollected,
       'totalBill': totalBill,
       'collectedAmount': collectedAmount,
-
-      'items': items.map((item) => item.toMap()).toList(),
+      'deliveryDate': deliveryDate?.toIso8601String(),
+      'paymentDate': paymentDate?.toIso8601String(),
+      'notes': notes,
+      'createdAt': createdAt.toIso8601String(),
     };
   }
 
@@ -71,17 +81,25 @@ class Order {
       cell: map['cell'],
       shopPhotoAsset: map['shopPhotoAsset'],
       orderNo: map['orderNo'],
-      isDelivered: map['isDelivered'],
-      orderDate: map['orderDate'] != null
-          ? DateTime.parse(map['orderDate'])
-          : null,
-      remainingAmount: map['remainingAmount'],
-      isCollected: map['isCollected'],
-      totalBill: map['totalBill'],
-      collectedAmount: map['collectedAmount'],
+      isDelivered: map['isDelivered'] ?? false,
+      orderDate: map['orderDate'],
 
+      remainingAmount: map['remainingAmount'] ?? 0,
+      isCollected: map['isCollected'] ?? false,
+      totalBill: map['totalBill'] ?? 0,
+      collectedAmount: map['collectedAmount'] ?? 0,
+      deliveryDate: map['deliveryDate'] != null
+          ? DateTime.parse(map['deliveryDate'])
+          : null,
+      paymentDate: map['paymentDate'] != null
+          ? DateTime.parse(map['paymentDate'])
+          : null,
+      notes: map['notes'],
+      createdAt: map['createdAt'] != null
+          ? DateTime.parse(map['createdAt'])
+          : DateTime.now(),
       items: List<OrderItem>.from(
-        (map['items'] as List).map((item) => OrderItem.fromMap(item)),
+        (map['items'] as List?)?.map((item) => OrderItem.fromMap(item)) ?? [],
       ),
     );
   }

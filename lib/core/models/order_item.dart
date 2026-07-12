@@ -40,21 +40,21 @@ class OrderItem {
     );
   }
 
-  // OrderItem copyWith({
-  //   String? productId,
-  //   String? productName,
-  //   int? qty,
-  //   double? price,
-  //   String? variant,
-  //   String? imageUrl,
-  // }) {
-  //   return OrderItem(
-  //     productId: productId ?? this.productId,
-  //     productName: productName ?? this.productName,
-  //     qty: qty ?? this.qty,
-  //     price: price ?? this.price,
-  //     variant: variant ?? this.variant,
-  //     imageUrl: imageUrl ?? this.imageUrl,
-  //   );
-  // }
+  OrderItem copyWith({
+    String? productId,
+    String? productName,
+    int? qty,
+    double? price,
+    String? variant,
+    String? imageUrl,
+  }) {
+    return OrderItem(
+      productId: productId ?? this.productId,
+      productName: productName ?? this.productName,
+      qty: qty ?? this.qty,
+      price: price ?? this.price,
+      variant: variant ?? this.variant,
+      imageUrl: imageUrl ?? this.imageUrl,
+    );
+  }
 }

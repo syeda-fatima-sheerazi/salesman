@@ -4,73 +4,49 @@ import 'package:get/get.dart';
 import 'package:practices/core/dialogs/app_result_dialog.dart';
 import 'package:practices/core/enums/app_dialog_variant.dart';
 import 'package:practices/core/models/order.dart';
-import 'package:practices/core/models/order_item.dart';
+import 'package:practices/core/screens/orders/repositories/order_repository.dart';
 
 class TodoController extends GetxController {
+  final OrderRepository _orderRepository = OrderRepository();
   final RxInt mainTabIndex = 0.obs;
-  final RxList<Order> orders = <Order>[
-    Order(
-      shopId: 'shop_3',
-      shopName: 'Metro Cash',
-      ownerName: 'Imran',
-      cell: '0300-5551212',
-      shopPhotoAsset: 'assets/images/shop.png',
-      orderNo: '#899',
-      orderDate: DateTime(2026, 4, 30),
-      items: const [
-        OrderItem(
-          productId: 'p4',
-          productName: 'Ketchup 800g',
-          qty: 6,
-          price: 450,
-        ),
-        OrderItem(
-          productId: 'p5',
-          productName: 'Mix Achar',
-          qty: 10,
-          price: 280,
-        ),
-        OrderItem(
-          productId: 'p6',
-          productName: 'Nihari Masala',
-          qty: 15,
-          price: 120,
-        ),
-      ],
-      totalBill: 7300,
-      remainingAmount: 7300,
-    ),
-  ].obs;
-  final RxList<Order> collections = <Order>[
-    Order(
-      shopId: 'shop_4',
-      orderNo: '#900',
-      items: [],
-      shopName: 'Jawad Super Mart',
-      ownerName: 'Jawad Khan',
-      cell: '0300-1112233',
-      remainingAmount: 18000,
-      isCollected: false,
-      totalBill: 22000,
-      collectedAmount: 4000,
-      shopPhotoAsset: 'assets/images/shop.png',
-    ),
-  ].obs;
+  final RxList<Order> orders = <Order>[].obs;
+  final RxList<Order> collections = <Order>[].obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    loadTodayData();
+  }
+
+  Future<void> loadTodayData() async {
+    final today = DateTime.now();
+    final todayOrders = await _orderRepository.getOrdersByDeliveryDate(today);
+    orders.assignAll(todayOrders.where((o) => !o.isDelivered));
+
+    final todayCollections =
+        await _orderRepository.getOrdersByPaymentDate(today);
+    collections.assignAll(
+        todayCollections.where((o) => !o.isCollected || o.collectedAmount < o.totalBill));
+  }
 
   Future<void> updateCollectionState(Order c) async {
     c.isCollected = true;
+    c.paymentDate = DateTime.now();
+    await _orderRepository.updateOrder(c);
     collections.refresh();
     await showDialoge();
     collections.remove(c);
-    update();
+    await loadTodayData();
   }
 
   Future<void> updateOrderState(Order o) async {
     o.isDelivered = true;
+    o.deliveryDate = DateTime.now();
+    await _orderRepository.updateOrder(o);
     orders.refresh();
     await showDialoge();
     orders.remove(o);
-    update();
+    await loadTodayData();
   }
 
   void onChangeTabIndex(int index) {
@@ -95,7 +71,11 @@ class TodoController extends GetxController {
     }
   }
 
-  void onEditOrder(Order item) {}
+  void onEditOrder(Order item) {
+    Get.toNamed('/order-detail', arguments: item.id);
+  }
 
-  void onEditCollection(Order item) {}
+  void onEditCollection(Order item) {
+    Get.toNamed('/order-detail', arguments: item.id);
+  }
 }
