@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:practices/core/screens/products/product_controller.dart';
-import 'package:practices/core/services/snackbar/app_snackbar_service.dart';
+import 'package:sales_man/core/screens/products/product_controller.dart';
+import 'package:sales_man/core/services/snackbar/app_snackbar_service.dart';
 
 /// Add / edit variant form — fields + submit. [onClose] par controllers dispose.
 final class VariantSheetController extends GetxController {
@@ -67,3 +67,4 @@ final class VariantSheetController extends GetxController {
     Navigator.of(dialogContext, rootNavigator: true).pop();
   }
 }
+

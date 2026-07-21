@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:practices/core/models/shop.dart';
+import 'package:sales_man/core/models/shop.dart';
 
 class ShopCard extends StatelessWidget {
   const ShopCard({
@@ -118,3 +118,4 @@ class ShopCard extends StatelessWidget {
     );
   }
 }
+

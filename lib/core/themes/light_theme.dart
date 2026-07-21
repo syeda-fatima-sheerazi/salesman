@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:practices/core/themes/app_theme.dart';
-import 'package:practices/core/themes/app_typography.dart';
+import 'package:sales_man/core/themes/app_theme.dart';
+import 'package:sales_man/core/themes/app_typography.dart';
 
 class LightTheme {
   static final ThemeData light = ThemeData(
@@ -135,3 +135,4 @@ class LightTheme {
     ),
   );
 }
+

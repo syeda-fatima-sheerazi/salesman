@@ -83,3 +83,4 @@ class VariantFieldsRow extends StatelessWidget {
     );
   }
 }
+

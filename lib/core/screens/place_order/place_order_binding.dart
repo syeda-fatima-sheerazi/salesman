@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:practices/core/screens/place_order/place_order_controller.dart';
+import 'package:sales_man/core/screens/place_order/place_order_controller.dart';
 
 class PlaceOrderBinding extends Bindings {
   @override
@@ -7,3 +7,4 @@ class PlaceOrderBinding extends Bindings {
     Get.put<PlaceOrderController>(PlaceOrderController());
   }
 }
+

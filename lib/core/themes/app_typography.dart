@@ -9,3 +9,4 @@ abstract final class AppTypography {
   static TextStyle apply(TextStyle style) =>
       GoogleFonts.plusJakartaSans(textStyle: style);
 }
+

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:practices/core/screens/profile/widgets/edit_profile_widget.dart';
-import 'package:practices/core/screens/profile/widgets/manage_widget.dart';
+import 'package:sales_man/core/screens/profile/widgets/edit_profile_widget.dart';
+import 'package:sales_man/core/screens/profile/widgets/manage_widget.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
@@ -111,3 +111,4 @@ class ProfileView extends StatelessWidget {
     );
   }
 }
+

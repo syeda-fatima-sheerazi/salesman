@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:practices/core/screens/products/widgets/add_variant_button.dart';
-import 'package:practices/core/utils/product_image_provider.dart';
-import 'package:practices/core/widgets/product_variant_item.dart';
+import 'package:sales_man/core/screens/products/widgets/add_variant_button.dart';
+import 'package:sales_man/core/utils/product_image_provider.dart';
+import 'package:sales_man/core/widgets/product_variant_item.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({
@@ -101,3 +101,4 @@ class ProductCard extends StatelessWidget {
     );
   }
 }
+

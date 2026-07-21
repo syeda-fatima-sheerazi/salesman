@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:practices/core/themes/app_theme.dart';
-import 'package:practices/core/widgets/app_primary_action_button.dart';
+import 'package:sales_man/core/themes/app_theme.dart';
+import 'package:sales_man/core/widgets/app_primary_action_button.dart';
 
 class ShopLocationSection extends StatelessWidget {
   final double latitude;
@@ -122,3 +122,4 @@ class ShopLocationSection extends StatelessWidget {
     );
   }
 }
+

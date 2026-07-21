@@ -1,4 +1,4 @@
-import 'package:practices/core/models/order.dart';
+import 'package:sales_man/core/models/order.dart';
 
 class Shop {
   final String? id;
@@ -135,3 +135,4 @@ class Shop {
     );
   }
 }
+

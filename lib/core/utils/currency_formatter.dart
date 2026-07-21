@@ -4,3 +4,4 @@ String formatMoney(num n, {String symbol = 'Rs'}) {
   final neg = n.isNegative;
   return '${neg ? '-' : ''}$symbol${cents ~/ 100},${(cents % 100).toString().padLeft(2, '0')}';
 }
+

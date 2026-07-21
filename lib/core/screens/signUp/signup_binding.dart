@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:practices/core/screens/signUp/sign_up_controller.dart';
+import 'package:sales_man/core/screens/signUp/sign_up_controller.dart';
 
 class SignUpBinding extends Bindings {
   @override
@@ -7,3 +7,4 @@ class SignUpBinding extends Bindings {
     Get.put<SignUpController>(SignUpController());
   }
 }
+

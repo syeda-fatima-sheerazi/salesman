@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:practices/core/models/user_model.dart';
-import 'package:practices/core/themes/app_theme.dart';
+import 'package:sales_man/core/models/user_model.dart';
+import 'package:sales_man/core/themes/app_theme.dart';
 
 class DrawerHeaderWidget extends StatelessWidget {
   const DrawerHeaderWidget({super.key, required this.user});
@@ -87,3 +87,4 @@ class DrawerHeaderWidget extends StatelessWidget {
     );
   }
 }
+

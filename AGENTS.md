@@ -1,4 +1,4 @@
-# SalesMan (package: `practices`)
+# SalesMan (package: `sales_man`)
 
 Flutter sales management app — GetX state management, local SQLite auth.
 
@@ -31,7 +31,7 @@ dart run flutter_launcher_icons   # app icon
 
 ## Conventions
 
-- **Imports**: use `package:practices/...` (not relative).
+- **Imports**: use `package:sales_man/...` (not relative).
 - **Route arguments**: passed via `Get.arguments` and type-checked (e.g. `UserModel` for dashboard).
 - **Validation**: `AppValidators` in `lib/core/utils/`.
 - **Currency**: `formatMoney()` outputs `Rs100,00` (comma decimal).

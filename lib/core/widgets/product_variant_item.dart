@@ -96,3 +96,4 @@ class ProductVariantItem extends StatelessWidget {
     );
   }
 }
+

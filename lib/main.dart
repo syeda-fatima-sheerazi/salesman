@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:practices/core/routes/app_pages.dart';
-import 'package:practices/core/services/database_service.dart';
-import 'package:practices/core/themes/app_theme.dart';
+import 'package:sales_man/core/routes/app_pages.dart';
+import 'package:sales_man/core/services/database_service.dart';
+import 'package:sales_man/core/themes/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,3 +33,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+

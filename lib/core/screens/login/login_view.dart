@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:practices/core/screens/login/login_controller.dart';
-import 'package:practices/core/themes/app_theme.dart';
-import 'package:practices/core/widgets/custom_input_field.dart';
-import 'package:practices/core/widgets/divider_with_text.dart';
-import 'package:practices/core/widgets/social_button.dart';
+import 'package:sales_man/core/screens/login/login_controller.dart';
+import 'package:sales_man/core/themes/app_theme.dart';
+import 'package:sales_man/core/widgets/custom_input_field.dart';
+import 'package:sales_man/core/widgets/divider_with_text.dart';
+import 'package:sales_man/core/widgets/social_button.dart';
 
 class LoginView extends GetView<LoginController> {
   const LoginView({super.key});
@@ -137,3 +137,4 @@ class LoginView extends GetView<LoginController> {
     );
   }
 }
+

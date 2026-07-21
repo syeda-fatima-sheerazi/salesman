@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:practices/core/models/user_model.dart';
-import 'package:practices/core/screens/dashboard/dashboard_controller.dart';
-import 'package:practices/core/screens/drawer/custom_drawer_view.dart';
-import 'package:practices/core/screens/notifications/notifications_controller.dart';
-import 'package:practices/core/widgets/notification_icon_widget.dart';
+import 'package:sales_man/core/models/user_model.dart';
+import 'package:sales_man/core/screens/dashboard/dashboard_controller.dart';
+import 'package:sales_man/core/screens/drawer/custom_drawer_view.dart';
+import 'package:sales_man/core/screens/notifications/notifications_controller.dart';
+import 'package:sales_man/core/widgets/notification_icon_widget.dart';
 
 class DashboardView extends StatelessWidget {
   const DashboardView({super.key, required this.user});
@@ -70,3 +70,4 @@ class DashboardView extends StatelessWidget {
     );
   }
 }
+

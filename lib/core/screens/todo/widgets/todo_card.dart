@@ -172,3 +172,4 @@ class _ShopThumb extends StatelessWidget {
     );
   }
 }
+

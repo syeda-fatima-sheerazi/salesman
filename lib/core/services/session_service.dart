@@ -26,3 +26,4 @@ class SessionService {
     await prefs.remove(_emailKey);
   }
 }
+

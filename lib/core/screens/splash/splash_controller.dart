@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
-import 'package:practices/core/routes/route_names.dart';
-import 'package:practices/core/services/database_service.dart';
-import 'package:practices/core/services/session_service.dart';
+import 'package:sales_man/core/routes/route_names.dart';
+import 'package:sales_man/core/services/database_service.dart';
+import 'package:sales_man/core/services/session_service.dart';
 import 'dart:async';
 
 class SplashController extends GetxController {
@@ -25,3 +25,4 @@ class SplashController extends GetxController {
     Get.offNamed(Routes.signup);
   }
 }
+

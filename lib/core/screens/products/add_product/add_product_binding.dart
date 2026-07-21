@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:practices/core/screens/products/add_product/add_product_controller.dart';
+import 'package:sales_man/core/screens/products/add_product/add_product_controller.dart';
 
 class AddProductBinding extends Bindings {
   @override
@@ -7,3 +7,4 @@ class AddProductBinding extends Bindings {
     Get.put<AddProductController>(AddProductController());
   }
 }
+

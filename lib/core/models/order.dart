@@ -1,4 +1,4 @@
-import 'package:practices/core/models/order_item.dart';
+import 'package:sales_man/core/models/order_item.dart';
 
 /// Complete Order model — supports display, draft building, and API.
 class Order {
@@ -86,3 +86,4 @@ class Order {
     );
   }
 }
+

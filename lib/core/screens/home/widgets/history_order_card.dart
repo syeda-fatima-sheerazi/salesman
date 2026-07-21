@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:practices/core/models/order.dart';
+import 'package:sales_man/core/models/order.dart';
 
 class HistoryOrderCard extends StatelessWidget {
   const HistoryOrderCard({super.key, required this.order});
@@ -44,3 +44,4 @@ class HistoryOrderCard extends StatelessWidget {
     );
   }
 }
+

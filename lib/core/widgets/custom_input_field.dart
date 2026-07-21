@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:practices/core/themes/app_theme.dart';
+import 'package:sales_man/core/themes/app_theme.dart';
 
 class CustomInputField extends StatelessWidget {
   final TextEditingController controller;
@@ -99,3 +99,4 @@ class CustomInputField extends StatelessWidget {
     );
   }
 }
+

@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
-import 'package:practices/core/screens/dashboard/dashboard_controller.dart';
-import 'package:practices/core/screens/home/home_controller.dart';
-import 'package:practices/core/screens/notifications/notifications_controller.dart';
-import 'package:practices/core/screens/products/product_controller.dart';
-import 'package:practices/core/screens/analytics/analytics_controller.dart';
-import 'package:practices/core/screens/todo/todo_controller.dart';
+import 'package:sales_man/core/screens/dashboard/dashboard_controller.dart';
+import 'package:sales_man/core/screens/home/home_controller.dart';
+import 'package:sales_man/core/screens/notifications/notifications_controller.dart';
+import 'package:sales_man/core/screens/products/product_controller.dart';
+import 'package:sales_man/core/screens/analytics/analytics_controller.dart';
+import 'package:sales_man/core/screens/todo/todo_controller.dart';
 
 class DashboardBinding extends Bindings {
   @override
@@ -17,3 +17,4 @@ class DashboardBinding extends Bindings {
     Get.lazyPut<AnalyticsController>(() => AnalyticsController());
   }
 }
+

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:practices/core/screens/add_shop/add_shop_controller.dart';
+import 'package:sales_man/core/screens/add_shop/add_shop_controller.dart';
 
 class AddShopBinding extends Bindings {
   @override
@@ -7,3 +7,4 @@ class AddShopBinding extends Bindings {
     Get.put<AddShopController>(AddShopController());
   }
 }
+

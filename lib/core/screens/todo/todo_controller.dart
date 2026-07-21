@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
-import 'package:practices/core/dialogs/app_result_dialog.dart';
-import 'package:practices/core/enums/app_dialog_variant.dart';
-import 'package:practices/core/models/order.dart';
-import 'package:practices/core/models/order_item.dart';
+import 'package:sales_man/core/dialogs/app_result_dialog.dart';
+import 'package:sales_man/core/enums/app_dialog_variant.dart';
+import 'package:sales_man/core/models/order.dart';
+import 'package:sales_man/core/models/order_item.dart';
 
 class TodoController extends GetxController {
   final RxInt mainTabIndex = 0.obs;
@@ -99,3 +99,4 @@ class TodoController extends GetxController {
 
   void onEditCollection(Order item) {}
 }
+

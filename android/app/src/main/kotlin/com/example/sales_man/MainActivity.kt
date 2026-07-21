@@ -1,4 +1,4 @@
-package com.example.practices
+package com.example.sales_man
 
 import io.flutter.embedding.android.FlutterActivity
 

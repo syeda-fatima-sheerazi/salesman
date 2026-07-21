@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:practices/core/enums/app_dialog_variant.dart';
+import 'package:sales_man/core/enums/app_dialog_variant.dart';
 
 /// Preset styles for [AppResultDialog].
 /// Icon, title, message, optional circular progress, and optional primary button.
@@ -163,3 +163,4 @@ class AppResultDialog extends StatelessWidget {
     );
   }
 }
+

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:practices/core/screens/todo/todo_controller.dart';
-import 'package:practices/core/screens/todo/widgets/todo_card.dart';
-import 'package:practices/core/screens/todo/widgets/tab_data_builder.dart';
+import 'package:sales_man/core/screens/todo/todo_controller.dart';
+import 'package:sales_man/core/screens/todo/widgets/todo_card.dart';
+import 'package:sales_man/core/screens/todo/widgets/tab_data_builder.dart';
 
 class TodoView extends GetView<TodoController> {
   const TodoView({super.key});
@@ -91,3 +91,4 @@ class TodoView extends GetView<TodoController> {
     );
   }
 }
+

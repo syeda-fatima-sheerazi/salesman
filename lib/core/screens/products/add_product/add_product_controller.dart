@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:practices/core/models/product_model.dart';
-import 'package:practices/core/screens/products/product_controller.dart';
-import 'package:practices/core/services/snackbar/app_snackbar_service.dart';
+import 'package:sales_man/core/models/product_model.dart';
+import 'package:sales_man/core/screens/products/product_controller.dart';
+import 'package:sales_man/core/services/snackbar/app_snackbar_service.dart';
 
 class _VariantRow {
   _VariantRow()
@@ -183,3 +183,4 @@ class AddProductController extends GetxController {
     imageErrorMessage.value = '';
   }
 }
+

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:practices/core/screens/notifications/notifications_controller.dart';
-import 'package:practices/core/widgets/notification_card.dart';
-import 'package:practices/core/widgets/products_search_bar.dart';
-import 'package:practices/core/screens/notifications/widgets/notification_tab_button.dart';
-import 'package:practices/core/screens/notifications/widgets/mark_all_read_button.dart';
+import 'package:sales_man/core/screens/notifications/notifications_controller.dart';
+import 'package:sales_man/core/widgets/notification_card.dart';
+import 'package:sales_man/core/widgets/products_search_bar.dart';
+import 'package:sales_man/core/screens/notifications/widgets/notification_tab_button.dart';
+import 'package:sales_man/core/screens/notifications/widgets/mark_all_read_button.dart';
 
 class NotificationsView extends GetView<NotificationsController> {
   const NotificationsView({super.key});
@@ -136,3 +136,4 @@ class NotificationsView extends GetView<NotificationsController> {
     
   }
 }
+

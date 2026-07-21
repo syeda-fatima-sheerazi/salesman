@@ -1,4 +1,4 @@
-import 'package:practices/core/enums/app_validation_kind.dart';
+import 'package:sales_man/core/enums/app_validation_kind.dart';
 
 /// Shared validation helpers for use across screens (sign up, login, add shop, etc.).
 class AppValidators {
@@ -103,3 +103,4 @@ class AppValidators {
     }
   }
 }
+

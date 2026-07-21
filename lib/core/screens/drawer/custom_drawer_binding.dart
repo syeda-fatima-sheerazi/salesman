@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:practices/core/screens/drawer/custom_drawer_controller.dart';
+import 'package:sales_man/core/screens/drawer/custom_drawer_controller.dart';
 
 class CustomDrawerBinding extends Bindings {
   @override
@@ -7,3 +7,4 @@ class CustomDrawerBinding extends Bindings {
     Get.lazyPut<CustomDrawerController>(() => CustomDrawerController());
   }
 }
+

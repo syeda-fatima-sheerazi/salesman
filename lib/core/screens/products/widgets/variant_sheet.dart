@@ -3,9 +3,9 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:practices/core/models/product_model.dart';
-import 'package:practices/core/screens/products/product_controller.dart';
-import 'package:practices/core/screens/products/widgets/variant_sheet_controller.dart';
+import 'package:sales_man/core/models/product_model.dart';
+import 'package:sales_man/core/screens/products/product_controller.dart';
+import 'package:sales_man/core/screens/products/widgets/variant_sheet_controller.dart';
 
 /// Floating card — add or edit variant ([StatelessWidget] + [VariantSheetController]).
 class VariantSheet extends StatelessWidget {
@@ -227,3 +227,4 @@ class VariantSheet extends StatelessWidget {
     );
   }
 }
+

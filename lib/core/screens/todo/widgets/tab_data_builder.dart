@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:practices/core/screens/todo/widgets/todo_tabs.dart';
+import 'package:sales_man/core/screens/todo/widgets/todo_tabs.dart';
 
 /// Shared shell for Todo **Orders** and **Collections**: segment tabs + title +
 /// scrollable list (or empty state). Props/callbacks only — no controller,
@@ -66,3 +66,4 @@ class TabDataBuilder extends StatelessWidget {
     );
   }
 }
+

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:practices/core/screens/products/product_controller.dart';
-import 'package:practices/core/widgets/app_primary_action_button.dart';
-import 'package:practices/core/widgets/product_card.dart';
-import 'package:practices/core/widgets/products_search_bar.dart';
+import 'package:sales_man/core/screens/products/product_controller.dart';
+import 'package:sales_man/core/widgets/app_primary_action_button.dart';
+import 'package:sales_man/core/widgets/product_card.dart';
+import 'package:sales_man/core/widgets/products_search_bar.dart';
 
 class ProductsView extends GetView<ProductController> {
   const ProductsView({super.key});
@@ -101,3 +101,4 @@ class ProductsView extends GetView<ProductController> {
     );
   }
 }
+

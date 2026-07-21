@@ -1,6 +1,6 @@
-import 'package:practices/core/models/order.dart';
-import 'package:practices/core/models/order_item.dart';
-import 'package:practices/core/models/shop.dart';
+import 'package:sales_man/core/models/order.dart';
+import 'package:sales_man/core/models/order_item.dart';
+import 'package:sales_man/core/models/shop.dart';
 
 class ShopService {
   /// Returns a list of dummy shops (simulates network/db).
@@ -56,3 +56,4 @@ class ShopService {
     ];
   }
 }
+

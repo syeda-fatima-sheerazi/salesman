@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:practices/core/routes/route_names.dart';
-import 'package:practices/core/services/database_service.dart';
-import 'package:practices/core/services/session_service.dart';
-import 'package:practices/core/utils/app_validators.dart';
-import 'package:practices/core/services/snackbar/app_snackbar_service.dart';
-import 'package:practices/core/models/user_model.dart';
+import 'package:sales_man/core/routes/route_names.dart';
+import 'package:sales_man/core/services/database_service.dart';
+import 'package:sales_man/core/services/session_service.dart';
+import 'package:sales_man/core/utils/app_validators.dart';
+import 'package:sales_man/core/services/snackbar/app_snackbar_service.dart';
+import 'package:sales_man/core/models/user_model.dart';
 
 class LoginController extends GetxController {
   bool _googleSignInInitialized = false;
@@ -162,3 +162,4 @@ class LoginController extends GetxController {
     loginWithGoogle();
   }
 }
+

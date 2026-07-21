@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:practices/core/widgets/drawer_item.dart';
+import 'package:sales_man/core/widgets/drawer_item.dart';
 
 class DrawerMenuWidget extends StatelessWidget {
   const DrawerMenuWidget({super.key, this.onTap, this.title = '1.0.0'});
@@ -116,3 +116,4 @@ class DrawerMenuWidget extends StatelessWidget {
     );
   }
 }
+

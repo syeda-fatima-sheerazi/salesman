@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:practices/core/screens/products/add_product/add_product_controller.dart';
-import 'package:practices/core/screens/products/widgets/variant_fields_row.dart';
+import 'package:sales_man/core/screens/products/add_product/add_product_controller.dart';
+import 'package:sales_man/core/screens/products/widgets/variant_fields_row.dart';
 
 /// Add product — name, required image, variants (≥1 complete row), save to [ProductController].
 class AddProductView extends GetView<AddProductController> {
@@ -356,3 +356,4 @@ class AddProductView extends GetView<AddProductController> {
     );
   }
 }
+

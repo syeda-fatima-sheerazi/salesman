@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:practices/core/models/product_model.dart';
-import 'package:practices/core/routes/route_names.dart';
-import 'package:practices/core/screens/products/add_product/add_product_controller.dart';
-import 'package:practices/core/screens/products/add_product/add_product_view.dart';
-import 'package:practices/core/screens/products/widgets/variant_sheet.dart';
+import 'package:sales_man/core/models/product_model.dart';
+import 'package:sales_man/core/routes/route_names.dart';
+import 'package:sales_man/core/screens/products/widgets/variant_sheet.dart';
 
 class ProductController extends GetxController {
   final RxString searchQuery = ''.obs;
@@ -170,3 +168,4 @@ class ProductController extends GetxController {
     }
   }
 }
+

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:practices/core/models/user_model.dart';
-import 'package:practices/core/screens/drawer/custom_drawer_controller.dart';
-import 'package:practices/core/screens/drawer/widgets/drawer_header.dart';
-import 'package:practices/core/screens/drawer/widgets/drawer_menu.dart';
+import 'package:sales_man/core/models/user_model.dart';
+import 'package:sales_man/core/screens/drawer/custom_drawer_controller.dart';
+import 'package:sales_man/core/screens/drawer/widgets/drawer_header.dart';
+import 'package:sales_man/core/screens/drawer/widgets/drawer_menu.dart';
 
 class CustomDrawerView extends GetView<CustomDrawerController> {
   const CustomDrawerView({super.key, required this.user});
@@ -40,3 +40,4 @@ class CustomDrawerView extends GetView<CustomDrawerController> {
     );
   }
 }
+

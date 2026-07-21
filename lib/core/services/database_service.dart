@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:practices/core/models/user_model.dart';
+import 'package:sales_man/core/models/user_model.dart';
 
 class DatabaseService {
   DatabaseService._();
@@ -82,3 +82,4 @@ class DatabaseService {
 
   String hashPassword(String password) => _hashPassword(password);
 }
+

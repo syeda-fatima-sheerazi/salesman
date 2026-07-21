@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:practices/core/screens/login/login_controller.dart';
+import 'package:sales_man/core/screens/login/login_controller.dart';
 
 class LoginBinding extends Bindings {
   @override
@@ -7,3 +7,4 @@ class LoginBinding extends Bindings {
     Get.put<LoginController>(LoginController());
   }
 }
+

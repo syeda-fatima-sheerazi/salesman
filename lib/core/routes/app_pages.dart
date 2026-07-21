@@ -1,30 +1,30 @@
 import 'package:get/get.dart';
-import 'package:practices/core/models/shop.dart';
-import 'package:practices/core/models/user_model.dart';
-import 'package:practices/core/screens/home/detailed/detailed_view_binding.dart';
-import 'package:practices/core/screens/products/add_product/add_product_binding.dart';
-import 'package:practices/core/screens/add_shop/add_shop_binding.dart';
-import 'package:practices/core/screens/dashboard/dashboard_binding.dart';
-import 'package:practices/core/screens/login/login_binding.dart';
-import 'package:practices/core/screens/place_order/place_order_binding.dart';
-import 'package:practices/core/screens/profile/profile_binding.dart';
-import 'package:practices/core/screens/signUp/signup_binding.dart';
-import 'package:practices/core/screens/splash/splash_binding.dart';
-import 'package:practices/core/routes/route_names.dart';
-import 'package:practices/core/screens/add_shop/add_shop_view.dart';
-import 'package:practices/core/screens/dashboard/dashboard_view.dart';
-import 'package:practices/core/screens/home/detailed/detailed_view.dart';
-import 'package:practices/core/screens/login/login_view.dart';
-import 'package:practices/core/screens/notifications/notifications_view.dart';
-import 'package:practices/core/screens/place_order/place_order_view.dart';
-import 'package:practices/core/screens/products/add_product/add_product_view.dart';
-import 'package:practices/core/screens/products/products_view.dart';
-import 'package:practices/core/screens/signUp/sign_up_view.dart';
-import 'package:practices/core/screens/splash/splash_view.dart';
-import 'package:practices/core/screens/todo/todo_view.dart';
-import 'package:practices/core/screens/profile/profile_view.dart';
-import 'package:practices/core/screens/home/home_view.dart';
-import 'package:practices/core/screens/analytics/analytics_view.dart';
+import 'package:sales_man/core/models/shop.dart';
+import 'package:sales_man/core/models/user_model.dart';
+import 'package:sales_man/core/screens/home/detailed/detailed_view_binding.dart';
+import 'package:sales_man/core/screens/products/add_product/add_product_binding.dart';
+import 'package:sales_man/core/screens/add_shop/add_shop_binding.dart';
+import 'package:sales_man/core/screens/dashboard/dashboard_binding.dart';
+import 'package:sales_man/core/screens/login/login_binding.dart';
+import 'package:sales_man/core/screens/place_order/place_order_binding.dart';
+import 'package:sales_man/core/screens/profile/profile_binding.dart';
+import 'package:sales_man/core/screens/signUp/signup_binding.dart';
+import 'package:sales_man/core/screens/splash/splash_binding.dart';
+import 'package:sales_man/core/routes/route_names.dart';
+import 'package:sales_man/core/screens/add_shop/add_shop_view.dart';
+import 'package:sales_man/core/screens/dashboard/dashboard_view.dart';
+import 'package:sales_man/core/screens/home/detailed/detailed_view.dart';
+import 'package:sales_man/core/screens/login/login_view.dart';
+import 'package:sales_man/core/screens/notifications/notifications_view.dart';
+import 'package:sales_man/core/screens/place_order/place_order_view.dart';
+import 'package:sales_man/core/screens/products/add_product/add_product_view.dart';
+import 'package:sales_man/core/screens/products/products_view.dart';
+import 'package:sales_man/core/screens/signUp/sign_up_view.dart';
+import 'package:sales_man/core/screens/splash/splash_view.dart';
+import 'package:sales_man/core/screens/todo/todo_view.dart';
+import 'package:sales_man/core/screens/profile/profile_view.dart';
+import 'package:sales_man/core/screens/home/home_view.dart';
+import 'package:sales_man/core/screens/analytics/analytics_view.dart';
 
 class AppPages {
   AppPages._();
@@ -111,3 +111,4 @@ class AppPages {
     ),
   ];
 }
+

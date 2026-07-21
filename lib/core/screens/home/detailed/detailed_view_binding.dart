@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:practices/core/screens/home/detailed/detailed_view_controller.dart';
+import 'package:sales_man/core/screens/home/detailed/detailed_view_controller.dart';
 
 class DetailedViewBinding extends Bindings {
   @override
@@ -7,3 +7,4 @@ class DetailedViewBinding extends Bindings {
     Get.put<DetailedViewController>(DetailedViewController());
   }
 }
+

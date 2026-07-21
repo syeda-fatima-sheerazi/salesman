@@ -9,3 +9,4 @@ ImageProvider productImageProvider(String imageRef) {
   }
   return FileImage(File(imageRef));
 }
+

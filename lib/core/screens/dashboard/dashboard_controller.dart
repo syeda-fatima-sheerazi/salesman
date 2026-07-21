@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:practices/core/routes/route_names.dart';
-import 'package:practices/core/screens/home/home_view.dart';
-import 'package:practices/core/screens/products/products_view.dart';
-import 'package:practices/core/screens/analytics/analytics_view.dart';
-import 'package:practices/core/screens/todo/todo_view.dart';
+import 'package:sales_man/core/routes/route_names.dart';
+import 'package:sales_man/core/screens/home/home_view.dart';
+import 'package:sales_man/core/screens/products/products_view.dart';
+import 'package:sales_man/core/screens/analytics/analytics_view.dart';
+import 'package:sales_man/core/screens/todo/todo_view.dart';
 
 class DashboardController extends GetxController {
   final RxInt currentIndex = 0.obs;
@@ -19,3 +19,4 @@ class DashboardController extends GetxController {
     Get.toNamed(Routes.notifications);
   }
 }
+

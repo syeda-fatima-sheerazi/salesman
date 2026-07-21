@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:practices/core/enums/data_state.dart';
-import 'package:practices/core/models/shop.dart';
-import 'package:practices/core/routes/route_names.dart';
-import 'package:practices/core/screens/home/home_controller.dart';
-import 'package:practices/core/widgets/app_primary_action_button.dart';
-import 'package:practices/core/widgets/shop_card.dart';
-import 'package:practices/core/widgets/custom_dropdown.dart';
-import 'package:practices/core/widgets/empty_state.dart';
+import 'package:sales_man/core/enums/data_state.dart';
+import 'package:sales_man/core/models/shop.dart';
+import 'package:sales_man/core/routes/route_names.dart';
+import 'package:sales_man/core/screens/home/home_controller.dart';
+import 'package:sales_man/core/widgets/app_primary_action_button.dart';
+import 'package:sales_man/core/widgets/shop_card.dart';
+import 'package:sales_man/core/widgets/custom_dropdown.dart';
+import 'package:sales_man/core/widgets/empty_state.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
@@ -119,3 +119,4 @@ class HomeView extends GetView<HomeController> {
     );
   }
 }
+

@@ -1,10 +1,10 @@
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:practices/core/enums/data_state.dart';
-import 'package:practices/core/models/shop.dart';
-import 'package:practices/core/routes/route_names.dart';
-import 'package:practices/core/services/shop_service.dart';
-import 'package:practices/core/services/location_service.dart';
+import 'package:sales_man/core/enums/data_state.dart';
+import 'package:sales_man/core/models/shop.dart';
+import 'package:sales_man/core/routes/route_names.dart';
+import 'package:sales_man/core/services/shop_service.dart';
+import 'package:sales_man/core/services/location_service.dart';
 
 class HomeController extends GetxController {
   final RxString selectedDistrict = "".obs;
@@ -49,3 +49,4 @@ class HomeController extends GetxController {
     //TODO: if shop is visited false he to true krna Hai
   }
 }
+

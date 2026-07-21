@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:practices/core/themes/app_theme.dart';
+import 'package:sales_man/core/themes/app_theme.dart';
 
 class CardInputField extends StatelessWidget {
   final TextEditingController controller;
@@ -118,3 +118,4 @@ class CardInputField extends StatelessWidget {
     );
   }
 }
+

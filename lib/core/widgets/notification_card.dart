@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:practices/core/models/notification_model.dart';
+import 'package:sales_man/core/models/notification_model.dart';
 
 class NotificationCard extends StatelessWidget {
   const NotificationCard({super.key, required this.notification, this.onTap});
@@ -106,3 +106,4 @@ class NotificationCard extends StatelessWidget {
     );
   }
 }
+

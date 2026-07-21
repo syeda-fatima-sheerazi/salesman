@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:geocoding/geocoding.dart';
 import 'dart:io';
-import 'package:practices/core/models/shop.dart';
-import 'package:practices/core/services/snackbar/app_snackbar_service.dart';
+import 'package:sales_man/core/models/shop.dart';
+import 'package:sales_man/core/services/snackbar/app_snackbar_service.dart';
 
 class AddShopController extends GetxController {
   // Text Controllers
@@ -292,3 +292,4 @@ class AddShopController extends GetxController {
     districtError.value = '';
   }
 }
+

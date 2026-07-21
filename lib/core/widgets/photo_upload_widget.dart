@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:practices/core/themes/app_theme.dart';
+import 'package:sales_man/core/themes/app_theme.dart';
 
 class PhotoUploadWidget extends StatelessWidget {
   final File? photo;
@@ -134,3 +134,4 @@ class PhotoUploadWidget extends StatelessWidget {
     );
   }
 }
+

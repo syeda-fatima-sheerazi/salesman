@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:practices/core/enums/notification_type.dart';
+import 'package:sales_man/core/enums/notification_type.dart';
 
 class NotificationModel {
   final String id;
@@ -50,3 +50,4 @@ class NotificationModel {
     }
   }
 }
+

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:practices/core/models/order.dart';
-import 'package:practices/core/models/shop.dart';
-import 'package:practices/core/screens/home/detailed/detailed_view_controller.dart';
-import 'package:practices/core/screens/home/widgets/history_order_card.dart';
+import 'package:sales_man/core/models/order.dart';
+import 'package:sales_man/core/models/shop.dart';
+import 'package:sales_man/core/screens/home/detailed/detailed_view_controller.dart';
+import 'package:sales_man/core/screens/home/widgets/history_order_card.dart';
 
 class DetailedView extends GetView<DetailedViewController> {
   const DetailedView({super.key, required this.shop});
@@ -83,3 +83,4 @@ class DetailedView extends GetView<DetailedViewController> {
     );
   }
 }
+

@@ -52,3 +52,4 @@ class AppPrimaryActionButton extends StatelessWidget {
     );
   }
 }
+

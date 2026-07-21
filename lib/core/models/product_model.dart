@@ -21,3 +21,4 @@ class ProductModel {
   String imageUrl;
   List<ProductVariantModel> variants;
 }
+

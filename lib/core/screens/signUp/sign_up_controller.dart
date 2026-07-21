@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:practices/core/dialogs/app_result_dialog.dart';
-import 'package:practices/core/enums/app_dialog_variant.dart';
-import 'package:practices/core/routes/route_names.dart';
-import 'package:practices/core/services/database_service.dart';
-import 'package:practices/core/services/session_service.dart';
-import 'package:practices/core/services/snackbar/app_snackbar_service.dart';
-import 'package:practices/core/utils/app_validators.dart';
-import 'package:practices/core/models/user_model.dart';
+import 'package:sales_man/core/dialogs/app_result_dialog.dart';
+import 'package:sales_man/core/enums/app_dialog_variant.dart';
+import 'package:sales_man/core/routes/route_names.dart';
+import 'package:sales_man/core/services/database_service.dart';
+import 'package:sales_man/core/services/session_service.dart';
+import 'package:sales_man/core/services/snackbar/app_snackbar_service.dart';
+import 'package:sales_man/core/utils/app_validators.dart';
+import 'package:sales_man/core/models/user_model.dart';
 
 class SignUpController extends GetxController {
   // Controllers
@@ -160,3 +160,4 @@ class SignUpController extends GetxController {
     Get.offAllNamed(Routes.dashboard, arguments: user);
   }
 }
+

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:practices/core/themes/dark_theme.dart';
-import 'package:practices/core/themes/light_theme.dart';
+import 'package:sales_man/core/themes/dark_theme.dart';
+import 'package:sales_man/core/themes/light_theme.dart';
 
 /// SalesMan distribution app — palette aligned with drawer / marketing UI
 /// (deep cadet teal header, light grey scaffold, navy menu text).
@@ -29,4 +29,5 @@ class AppTheme {
   static ThemeData light = LightTheme.light;
   static ThemeData dark = DarkTheme.dark;
 }
+
 

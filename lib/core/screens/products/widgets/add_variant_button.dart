@@ -45,3 +45,4 @@ class AddVariantButton extends StatelessWidget {
     );
   }
 }
+

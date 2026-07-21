@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:practices/core/models/user_model.dart';
-import 'package:practices/core/routes/route_names.dart';
+import 'package:sales_man/core/models/user_model.dart';
+import 'package:sales_man/core/routes/route_names.dart';
 
 class CustomDrawerController extends GetxController {
   final Rx<UserModel?> currentUser = Rx<UserModel?>(null);
@@ -37,3 +37,4 @@ class CustomDrawerController extends GetxController {
     Get.offAllNamed(Routes.login); // Adjust the route as per your app's routing
   }
 }
+
