@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:sales_man/core/screens/dashboard/dashboard_controller.dart';
+import 'package:sales_man/core/screens/drawer/custom_drawer_controller.dart';
 import 'package:sales_man/core/screens/home/home_controller.dart';
 import 'package:sales_man/core/screens/notifications/notifications_controller.dart';
 import 'package:sales_man/core/screens/products/product_controller.dart';
@@ -15,6 +16,6 @@ class DashboardBinding extends Bindings {
     Get.lazyPut<TodoController>(() => TodoController());
     Get.lazyPut<ProductController>(() => ProductController());
     Get.lazyPut<AnalyticsController>(() => AnalyticsController());
+    Get.lazyPut<CustomDrawerController>(() => CustomDrawerController());
   }
 }
-

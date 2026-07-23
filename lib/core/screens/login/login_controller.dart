@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sales_man/core/routes/route_names.dart';
-import 'package:sales_man/core/services/database_service.dart';
-import 'package:sales_man/core/services/session_service.dart';
-import 'package:sales_man/core/utils/app_validators.dart';
+import 'package:sales_man/core/services/auth_service.dart';
+import 'package:sales_man/core/services/auth_exception.dart';
 import 'package:sales_man/core/services/snackbar/app_snackbar_service.dart';
-import 'package:sales_man/core/models/user_model.dart';
+import 'package:sales_man/core/utils/app_validators.dart';
 
 class LoginController extends GetxController {
-  bool _googleSignInInitialized = false;
   // Controllers
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -41,7 +38,6 @@ class LoginController extends GetxController {
   bool _validateFields() {
     bool isValid = true;
 
-    // Validate mobile number
     final emailErr = AppValidators.emailError(emailController.text);
     if (emailErr != null) {
       emailError.value = emailErr;
@@ -50,7 +46,6 @@ class LoginController extends GetxController {
       emailError.value = '';
     }
 
-    // Validate password
     final passwordErr = AppValidators.passwordError(passwordController.text);
     if (passwordErr != null) {
       passwordError.value = passwordErr;
@@ -71,14 +66,13 @@ class LoginController extends GetxController {
       final email = emailController.text.trim();
       final password = passwordController.text;
 
-      final user = await DatabaseService.instance.loginUser(email, password);
-      if (user == null) {
-        AppSnackbarService.error('Invalid email or password.');
-        return;
-      }
-
-      await SessionService.instance.saveSession(email);
+      final user = await AuthService.instance.signInWithEmail(
+        email: email,
+        password: password,
+      );
       Get.offAllNamed(Routes.dashboard, arguments: user);
+    } on AuthException catch (e) {
+      AppSnackbarService.error(e.message);
     } catch (e) {
       AppSnackbarService.error('Failed to login. Please try again.');
     } finally {
@@ -86,9 +80,20 @@ class LoginController extends GetxController {
     }
   }
 
-  void forgotPassword() {
-    // TODO: Navigate to forgot password screen
-    Get.toNamed('/forgot-password');
+  Future<void> forgotPassword() async {
+    final email = emailController.text.trim();
+    if (email.isEmpty) {
+      AppSnackbarService.warning('Please enter your email address first.');
+      return;
+    }
+    try {
+      await AuthService.instance.sendPasswordResetEmail(email: email);
+      AppSnackbarService.success('Password reset email sent to $email');
+    } on AuthException catch (e) {
+      AppSnackbarService.error(e.message);
+    } catch (e) {
+      AppSnackbarService.error('Failed to send reset email.');
+    }
   }
 
   void signUp() {
@@ -97,60 +102,16 @@ class LoginController extends GetxController {
     Get.toNamed(Routes.signup);
   }
 
-  Future<void> _ensureGoogleSignInInitialized() async {
-    if (_googleSignInInitialized) return;
-    await GoogleSignIn.instance.initialize();
-    _googleSignInInitialized = true;
-  }
-
-  /// Interactive Google Sign-In. Configure OAuth client IDs in Google Cloud /
-  /// Firebase for release builds (see `google_sign_in` README).
   Future<void> loginWithGoogle() async {
     if (isLoading.value) return;
 
-    try {
-      await _ensureGoogleSignInInitialized();
-    } catch (e) {
-      AppSnackbarService.error(
-        'Could not start Google Sign-In. Check app configuration.',
-      );
-      return;
-    }
-
     isLoading.value = true;
     try {
-      if (!GoogleSignIn.instance.supportsAuthenticate()) {
-        AppSnackbarService.warning(
-          'Google Sign-In is not available on this platform.',
-          title: 'Not supported',
-        );
-        return;
-      }
-
-      final GoogleSignInAccount account = await GoogleSignIn.instance
-          .authenticate(scopeHint: const <String>['email', 'profile']);
-
-      final String? idToken = account.authentication.idToken;
-      debugPrint(
-        'Google sign-in: ${account.email} (idToken: ${idToken != null})',
-      );
-
-      final user = UserModel(
-        id: account.id ?? DateTime.now().millisecondsSinceEpoch.toString(),
-        name: account.displayName ?? account.email.split('@').first,
-        email: account.email,
-      );
-      await SessionService.instance.saveSession(account.email);
+      final user = await AuthService.instance.signInWithGoogle();
+      if (user == null) return;
       Get.offAllNamed(Routes.dashboard, arguments: user);
-    } on GoogleSignInException catch (e) {
-      if (e.code == GoogleSignInExceptionCode.canceled ||
-          e.code == GoogleSignInExceptionCode.interrupted) {
-        return;
-      }
-      AppSnackbarService.error(
-        e.description ?? e.toString(),
-        title: 'Google Sign-In failed',
-      );
+    } on AuthException catch (e) {
+      AppSnackbarService.error(e.message, title: 'Google Sign-In failed');
     } catch (e) {
       AppSnackbarService.error('Google Sign-In failed: $e');
     } finally {
@@ -162,4 +123,3 @@ class LoginController extends GetxController {
     loginWithGoogle();
   }
 }
-
