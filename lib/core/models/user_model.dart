@@ -50,5 +50,22 @@ class UserModel {
       'avatarUrl': avatarUrl,
     };
   }
+
+  Map<String, dynamic> toFirestore() {
+    return {
+      'name': name,
+      'email': email,
+      'avatarUrl': avatarUrl,
+    };
+  }
+
+  factory UserModel.fromFirestore(String id, Map<String, dynamic> data) {
+    return UserModel(
+      id: id,
+      name: data['name'] ?? '',
+      email: data['email'] ?? '',
+      avatarUrl: data['avatarUrl'] ?? 'assets/icons/user.png',
+    );
+  }
 }
 

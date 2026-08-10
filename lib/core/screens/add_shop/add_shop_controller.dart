@@ -1,13 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:geocoding/geocoding.dart';
-import 'dart:io';
 import 'package:sales_man/core/models/shop.dart';
+import 'package:sales_man/core/repositories/i_shop_repository.dart';
+import 'package:sales_man/core/routes/route_names.dart';
+import 'package:sales_man/core/screens/location_picker/location_picker_controller.dart';
+import 'package:sales_man/core/services/auth_service.dart';
 import 'package:sales_man/core/services/snackbar/app_snackbar_service.dart';
+import 'package:sales_man/core/services/storage_service.dart';
 
 class AddShopController extends GetxController {
-  // Text Controllers
   final shopNameController = TextEditingController();
   final ownerNameController = TextEditingController();
   final mobileNumberController = TextEditingController();
@@ -16,14 +20,11 @@ class AddShopController extends GetxController {
   final townController = TextEditingController();
   final districtController = TextEditingController();
 
-  // Observable variables
   final Rx<File?> shopPhoto = Rx<File?>(null);
   final RxDouble latitude = 0.0.obs;
   final RxDouble longitude = 0.0.obs;
-  final RxBool isGettingLocation = false.obs;
   final RxBool isSubmitting = false.obs;
 
-  // Form validation states
   final RxString shopNameError = ''.obs;
   final RxString ownerNameError = ''.obs;
   final RxString mobileNumberError = ''.obs;
@@ -33,6 +34,8 @@ class AddShopController extends GetxController {
   final RxString districtError = ''.obs;
 
   final ImagePicker _imagePicker = ImagePicker();
+  final IShopRepository _shopRepository = Get.find();
+  final StorageService _storageService = Get.find();
 
   @override
   void onClose() {
@@ -62,72 +65,17 @@ class AddShopController extends GetxController {
     }
   }
 
-  Future<void> getCurrentLocation() async {
-    isGettingLocation.value = true;
-    try {
-      // Simulate location fetching - replace with actual location service
-      await Future.delayed(const Duration(seconds: 2));
-      latitude.value = 24.8607; // Example: Karachi latitude
-      longitude.value = 67.0011; // Example: Karachi longitude
+  Future<void> openLocationPicker() async {
+    final result = await Get.toNamed(Routes.locationPicker);
+    if (result is SelectedLocation) {
+      latitude.value = result.latitude;
+      longitude.value = result.longitude;
 
-      // Perform reverse geocoding to get address details
-      await _performReverseGeocoding(latitude.value, longitude.value);
-
-      AppSnackbarService.success('Location captured successfully');
-    } catch (e) {
-      AppSnackbarService.error('Failed to get location: $e');
-    } finally {
-      isGettingLocation.value = false;
-    }
-  }
-
-  /// Performs reverse geocoding to auto-fill Area, Town, and District
-  Future<void> _performReverseGeocoding(double lat, double lng) async {
-    try {
-      final List<Placemark> placemarks = await placemarkFromCoordinates(
-        lat,
-        lng,
-      );
-
-      if (placemarks.isNotEmpty) {
-        final Placemark place = placemarks.first;
-
-        // Auto-fill the fields with geocoding data
-        // Note: In Pakistan context:
-        // - subLocality = Area/Neighborhood
-        // - locality = Town/City
-        // - subAdministrativeArea or administrativeArea = District
-        final String area = place.subLocality ?? place.locality ?? '';
-        final String town = place.locality ?? place.subAdministrativeArea ?? '';
-        final String district =
-            place.subAdministrativeArea ?? place.administrativeArea ?? '';
-
-        // Only update if fields are empty (preserve user edits if they exist)
-        if (areaController.text.isEmpty && area.isNotEmpty) {
-          areaController.text = area;
-        }
-        if (townController.text.isEmpty && town.isNotEmpty) {
-          townController.text = town;
-        }
-        if (districtController.text.isEmpty && district.isNotEmpty) {
-          districtController.text = district;
-        }
-
-        // Force UI rebuild to show updated text fields
-        // update();
-
-        // Show info snackbar if any fields were auto-filled
-        if (area.isNotEmpty || town.isNotEmpty || district.isNotEmpty) {
-          AppSnackbarService.info(
-            'Area, Town and District have been auto-filled from location. You can edit them if needed.',
-            title: 'Address Auto-detected',
-            duration: AppSnackbarService.longDuration,
-          );
-        }
+      if (result.address.isNotEmpty) {
+        areaController.text = result.address;
       }
-    } catch (e) {
-      // Silently fail - reverse geocoding is a nice-to-have, not required
-      debugPrint('Reverse geocoding failed: $e');
+
+      AppSnackbarService.success('Location selected');
     }
   }
 
@@ -168,7 +116,6 @@ class AddShopController extends GetxController {
       cnicError.value = '';
     }
 
-    // Area, Town, District are optional - clear any previous errors
     areaError.value = '';
     townError.value = '';
     districtError.value = '';
@@ -177,13 +124,11 @@ class AddShopController extends GetxController {
   }
 
   bool isValidMobileNumber(String number) {
-    // Pakistani mobile number format: 03XX-XXXXXXX
     final RegExp regex = RegExp(r'^03\d{2}-?\d{7}$');
     return regex.hasMatch(number.replaceAll('-', ''));
   }
 
   bool isValidCNIC(String cnic) {
-    // Pakistani CNIC format: XXXXX-XXXXXXX-X
     final RegExp regex = RegExp(r'^\d{5}-?\d{7}-?\d{1}$');
     return regex.hasMatch(cnic);
   }
@@ -197,10 +142,9 @@ class AddShopController extends GetxController {
       return;
     }
 
-    // Check if location is captured
     if (latitude.value == 0.0 || longitude.value == 0.0) {
       AppSnackbarService.warning(
-        'Please capture shop location',
+        'Please select shop location',
         title: 'Location Required',
       );
       return;
@@ -208,11 +152,20 @@ class AddShopController extends GetxController {
 
     isSubmitting.value = true;
     try {
-      // 3 seconds delay before processing
-      await Future.delayed(const Duration(seconds: 3));
+      final shopId = DateTime.now().millisecondsSinceEpoch.toString();
+      final uid = AuthService.instance.currentUser!.id;
 
-      // Create shop model
+      String imageUrl = 'assets/images/shop.png';
+      if (shopPhoto.value != null) {
+        imageUrl = await _storageService.uploadShopImage(
+          uid: uid,
+          shopId: shopId,
+          file: shopPhoto.value!,
+        );
+      }
+
       final shop = Shop(
+        id: shopId,
         shopName: shopNameController.text.trim(),
         shopOwner: ownerNameController.text.trim(),
         cellPhone: mobileNumberController.text.trim(),
@@ -224,46 +177,15 @@ class AddShopController extends GetxController {
         district: districtController.text.trim(),
         latitude: latitude.value,
         longitude: longitude.value,
-        photoPath: shopPhoto.value?.path,
+        shopImagUrl: imageUrl,
         createdAt: DateTime.now(),
       );
 
-      // TODO: Save shop to storage (SharedPreferences/Backend)
-      // For now, just print the shop data
-      print('Shop created: ${shop.toMap()}');
+      await _shopRepository.saveShop(shop);
 
-      // Show success dialog
-      Get.defaultDialog(
-        title: 'Success',
-        middleText: 'Shop added Successfully',
-        backgroundColor: Colors.white,
-        titleStyle: const TextStyle(
-          color: Colors.green,
-          fontWeight: FontWeight.bold,
-          fontSize: 20,
-        ),
-        middleTextStyle: const TextStyle(color: Colors.black87, fontSize: 16),
-        confirm: ElevatedButton(
-          onPressed: () {
-            Get.back(); // Close dialog
-            Get.back(); // Go back to home
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.green,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-          child: const Text(
-            'OK',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-        ),
-        barrierDismissible: false,
-      );
-
-      // Clear form after successful submission
+      AppSnackbarService.success('Shop added successfully');
       clearForm();
+      Get.back(result: true);
     } catch (e) {
       AppSnackbarService.error('Failed to add shop: $e');
     } finally {
@@ -292,4 +214,3 @@ class AddShopController extends GetxController {
     districtError.value = '';
   }
 }
-

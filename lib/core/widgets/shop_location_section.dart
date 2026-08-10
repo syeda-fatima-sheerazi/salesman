@@ -40,13 +40,13 @@ class ShopLocationSection extends StatelessWidget {
           Row(
             children: [
               Icon(
-                Icons.my_location_outlined,
+                Icons.map_outlined,
                 size: 18.w,
                 color: AppTheme.primaryColor,
               ),
               SizedBox(width: 8.w),
               Text(
-                'Current Location *',
+                'Shop Location *',
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w600,
@@ -109,9 +109,9 @@ class ShopLocationSection extends StatelessWidget {
                       )
                     : AppPrimaryActionButton(
                         label: hasLocation
-                            ? 'Update Location'
-                            : 'Get Current Location',
-                        icon: Icons.location_searching,
+                            ? 'Change Location'
+                            : 'Select Location',
+                        icon: Icons.map,
                         onPressed: onGetLocation,
                       ),
               ),

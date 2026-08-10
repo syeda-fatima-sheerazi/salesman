@@ -113,26 +113,13 @@ class AppSnackbarService {
   static (Color background, Color text) _getColors(SnackbarType type) {
     switch (type) {
       case SnackbarType.success:
-        return (
-          Colors.green.withValues(alpha: 0.1),
-          Colors.green,
-        );
+        return (Colors.green.withValues(alpha: 0.1), Colors.green);
       case SnackbarType.error:
-        return (
-          Colors.red.withValues(alpha: 0.1),
-          Colors.red,
-        );
+        return (Colors.red.withValues(alpha: 0.1), Colors.red);
       case SnackbarType.warning:
-        return (
-          Colors.orange.withValues(alpha: 0.1),
-          Colors.orange,
-        );
+        return (Colors.orange.withValues(alpha: 0.1), Colors.orange);
       case SnackbarType.info:
-        return (
-          Colors.blue.withValues(alpha: 0.1),
-          Colors.blue,
-        );
+        return (Colors.blue.withValues(alpha: 0.1), Colors.blue);
     }
   }
 }
-

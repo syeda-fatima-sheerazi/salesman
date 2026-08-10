@@ -40,6 +40,25 @@ class Order {
   String get displayShopPhotoAsset =>
       shopPhotoAsset ?? 'assets/images/shop.png';
 
+  Map<String, dynamic> toFirestore() {
+    return {
+      'shopId': shopId,
+      'createdBy': createdBy,
+      'shopName': shopName,
+      'ownerName': ownerName,
+      'cell': cell,
+      'shopPhotoAsset': shopPhotoAsset,
+      'orderNo': orderNo,
+      'isDelivered': isDelivered,
+      'orderDate': orderDate?.toIso8601String(),
+      'remainingAmount': remainingAmount,
+      'isCollected': isCollected,
+      'totalBill': totalBill,
+      'collectedAmount': collectedAmount,
+      'items': items.map((item) => item.toFirestore()).toList(),
+    };
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -83,6 +102,32 @@ class Order {
       items: List<OrderItem>.from(
         (map['items'] as List).map((item) => OrderItem.fromMap(item)),
       ),
+    );
+  }
+
+  factory Order.fromFirestore(String id, Map<String, dynamic> data) {
+    return Order(
+      id: id,
+      shopId: data['shopId'] ?? '',
+      createdBy: data['createdBy'],
+      shopName: data['shopName'] ?? '',
+      ownerName: data['ownerName'] ?? '',
+      cell: data['cell'] ?? '',
+      shopPhotoAsset: data['shopPhotoAsset'],
+      orderNo: data['orderNo'],
+      isDelivered: data['isDelivered'] ?? false,
+      orderDate: data['orderDate'] != null
+          ? DateTime.parse(data['orderDate'] as String)
+          : null,
+      remainingAmount: data['remainingAmount'] ?? 0,
+      isCollected: data['isCollected'] ?? false,
+      totalBill: data['totalBill'] ?? 0,
+      collectedAmount: data['collectedAmount'] ?? 0,
+      items: (data['items'] as List<dynamic>?)
+              ?.map((item) =>
+                  OrderItem.fromFirestore(item as Map<String, dynamic>))
+              .toList() ??
+          [],
     );
   }
 }

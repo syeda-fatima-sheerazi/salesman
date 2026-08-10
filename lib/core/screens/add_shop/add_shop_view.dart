@@ -142,7 +142,7 @@ class AddShopView extends GetView<AddShopController> {
             ),
             SizedBox(height: 4.h),
             Text(
-              'These fields are optional and will be auto-filled when you capture location',
+              'These fields are optional and will be auto-filled when you select location',
               style: TextStyle(
                 fontSize: 12.sp,
                 color: AppTheme.textSecondary,
@@ -212,8 +212,8 @@ class AddShopView extends GetView<AddShopController> {
               return ShopLocationSection(
                 latitude: controller.latitude.value,
                 longitude: controller.longitude.value,
-                isGettingLocation: controller.isGettingLocation.value,
-                onGetLocation: controller.getCurrentLocation,
+                isGettingLocation: false,
+                onGetLocation: controller.openLocationPicker,
               );
             }),
             SizedBox(height: 24.h),

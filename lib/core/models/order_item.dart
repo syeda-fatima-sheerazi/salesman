@@ -18,6 +18,8 @@ class OrderItem {
 
   double get getTotalPrice => price * qty;
 
+  Map<String, dynamic> toFirestore() => toMap();
+
   Map<String, dynamic> toMap() {
     return {
       'productId': productId,
@@ -28,6 +30,9 @@ class OrderItem {
       'imageUrl': imageUrl,
     };
   }
+
+  factory OrderItem.fromFirestore(Map<String, dynamic> data) =>
+      OrderItem.fromMap(data);
 
   factory OrderItem.fromMap(Map<String, dynamic> map) {
     return OrderItem(

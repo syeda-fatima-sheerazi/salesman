@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sales_man/core/models/product_model.dart';
+import 'package:sales_man/core/repositories/i_product_repository.dart';
 import 'package:sales_man/core/routes/route_names.dart';
 import 'package:sales_man/core/screens/products/widgets/variant_sheet.dart';
 
@@ -9,58 +12,32 @@ class ProductController extends GetxController {
   final RxList<ProductModel> products = <ProductModel>[].obs;
   final TextEditingController searchFieldController = TextEditingController();
 
+  final IProductRepository _productRepository = Get.find();
+  StreamSubscription? _productSubscription;
+
   @override
   void onInit() {
     super.onInit();
-    _loadDummyProducts();
+    _subscribeToProducts();
   }
 
   @override
   void onClose() {
+    _productSubscription?.cancel();
     searchFieldController.dispose();
     super.onClose();
   }
 
-  void _loadDummyProducts() {
-    products.assignAll([
-      ProductModel(
-        id: '1',
-        name: 'Different Ketchup',
-        imageUrl: 'assets/images/ketchup.jpg',
-        variants: [
-          ProductVariantModel(weight: '1 KG', price: 'Rs 350'),
-          ProductVariantModel(weight: '500g', price: 'Rs 200'),
-          ProductVariantModel(weight: '250g', price: 'Rs 100'),
-        ],
-      ),
-      ProductModel(
-        id: '2',
-        name: 'Nihari Masala',
-        imageUrl: 'assets/images/nihari_masala.jpg',
-        variants: [
-          ProductVariantModel(weight: '250g', price: 'Rs 180'),
-          ProductVariantModel(weight: '100g', price: 'Rs 80'),
-          ProductVariantModel(weight: '50g', price: 'Rs 50'),
-        ],
-      ),
-      ProductModel(
-        id: '3',
-        name: 'Mix Achar',
-        imageUrl: 'assets/images/mix_achar.jpg',
-        variants: [
-          ProductVariantModel(weight: '5 KG Bucket', price: 'Rs 1100'),
-          ProductVariantModel(weight: '1 KG Jar', price: 'Rs 240'),
-          ProductVariantModel(weight: '500g Jar', price: 'Rs 130'),
-        ],
-      ),
-    ]);
+  void _subscribeToProducts() {
+    _productSubscription = _productRepository.getProducts().listen((list) {
+      products.assignAll(list);
+    });
   }
 
   List<ProductModel> get filteredProducts {
     final searchValue = searchQuery.value.toLowerCase();
 
     if (searchValue.isEmpty) return products.toList();
-    // filter the products based on the search value
 
     return products
         .where((product) => product.name.toLowerCase().contains(searchValue))
@@ -76,20 +53,10 @@ class ProductController extends GetxController {
     searchQuery.value = '';
   }
 
-  // void addProduct() {
-  //   Get.to(
-  //     () => const AddProductView(),
-  //     binding: BindingsBuilder(() {
-  //       Get.put(AddProductController());
-  //     }),
-  //   );
-  // }
-
   void addProduct() {
     Get.toNamed(Routes.addProduct);
   }
 
-  /// New product: [imagePath] device file path from gallery, or omit for placeholder asset.
   void addProductWithName(
     String name, {
     String? imagePath,
@@ -100,15 +67,13 @@ class ProductController extends GetxController {
     final image = (imagePath != null && imagePath.trim().isNotEmpty)
         ? imagePath.trim()
         : 'assets/images/shop.png';
-    products.add(
-      ProductModel(
-        id: id,
-        name: trimmed,
-        imageUrl: image,
-        variants: List<ProductVariantModel>.from(variants),
-      ),
+    final product = ProductModel(
+      id: id,
+      name: trimmed,
+      imageUrl: image,
+      variants: List<ProductVariantModel>.from(variants),
     );
-    products.refresh();
+    _productRepository.saveProduct(product);
   }
 
   void addVariant(String productId, String weight, String price) {
@@ -118,7 +83,7 @@ class ProductController extends GetxController {
     final product = _productById(productId);
     if (product == null) return;
     product.variants.add(ProductVariantModel(weight: w, price: p));
-    products.refresh();
+    _productRepository.saveProduct(product);
   }
 
   void updateVariant(
@@ -135,7 +100,7 @@ class ProductController extends GetxController {
     if (variantIndex < 0 || variantIndex >= product.variants.length) return;
     product.variants[variantIndex].weight = w;
     product.variants[variantIndex].price = p;
-    products.refresh();
+    _productRepository.saveProduct(product);
   }
 
   void editVariant(String productId, int variantIndex) {
@@ -150,10 +115,9 @@ class ProductController extends GetxController {
     if (product == null) return;
     if (variantIndex < 0 || variantIndex >= product.variants.length) return;
     product.variants.removeAt(variantIndex);
-    products.refresh();
+    _productRepository.saveProduct(product);
   }
 
-  /// Add / edit variant — floating card ([VariantSheet.show]).
   void showVariantSheet(String productId, {int? variantIndex}) {
     final ctx = Get.context;
     if (ctx == null) return;

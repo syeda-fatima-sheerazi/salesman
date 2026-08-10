@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sales_man/core/models/product_model.dart';
-import 'package:sales_man/core/screens/products/product_controller.dart';
+import 'package:sales_man/core/repositories/i_product_repository.dart';
+import 'package:sales_man/core/services/auth_service.dart';
 import 'package:sales_man/core/services/snackbar/app_snackbar_service.dart';
+import 'package:sales_man/core/services/storage_service.dart';
 
 class _VariantRow {
   _VariantRow()
@@ -20,7 +24,6 @@ class _VariantRow {
   }
 }
 
-/// Add product screen: name + required gallery image + variants; save via [ProductController].
 class AddProductController extends GetxController {
   static const int initialVariantRows = 2;
   static const int maxVariantRows = 30;
@@ -34,6 +37,8 @@ class AddProductController extends GetxController {
 
   final ImagePicker _imagePicker = ImagePicker();
   final List<_VariantRow> _variantRows = [];
+  final IProductRepository _productRepository = Get.find();
+  final StorageService _storageService = Get.find();
 
   TextEditingController weightControllerAt(int index) =>
       _variantRows[index].weight;
@@ -72,7 +77,6 @@ class AddProductController extends GetxController {
     }
   }
 
-  /// `null` = valid. Trim ke baad khali naam allow nahi.
   String? _validateProductName(String? raw) {
     final name = raw?.trim() ?? '';
     if (name.isEmpty) {
@@ -104,7 +108,7 @@ class AddProductController extends GetxController {
     return variantList;
   }
 
-  void saveProduct() {
+  Future<void> saveProduct() async {
     final nameErr = _validateProductName(productNameController.text);
     final path = pickedImagePath.value?.trim();
     final imageErr = (path == null || path.isEmpty)
@@ -122,19 +126,39 @@ class AddProductController extends GetxController {
       return;
     }
 
-    final name = productNameController.text.trim();
-    final variants = _collectCompleteVariants();
-    Get.find<ProductController>().addProductWithName(
-      name,
-      imagePath: pickedImagePath.value,
-      variants: variants,
-    );
-    Get.back();
-    AppSnackbarService.success(
-      name,
-      title: 'Product added',
-      duration: const Duration(seconds: 2),
-    );
+    try {
+      final id = DateTime.now().millisecondsSinceEpoch.toString();
+      final uid = AuthService.instance.currentUser!.id;
+
+      String imageUrl = 'assets/images/shop.png';
+      if (pickedImagePath.value != null && pickedImagePath.value!.isNotEmpty) {
+        imageUrl = await _storageService.uploadProductImage(
+          uid: uid,
+          productId: id,
+          file: File(pickedImagePath.value!),
+        );
+      }
+
+      final name = productNameController.text.trim();
+      final variants = _collectCompleteVariants();
+      final product = ProductModel(
+        id: id,
+        name: name,
+        imageUrl: imageUrl,
+        variants: variants,
+      );
+
+      await _productRepository.saveProduct(product);
+
+      Get.back();
+      AppSnackbarService.success(
+        name,
+        title: 'Product added',
+        duration: const Duration(seconds: 2),
+      );
+    } catch (e) {
+      AppSnackbarService.error('Failed to save product: $e');
+    }
   }
 
   void moreVariants() {
