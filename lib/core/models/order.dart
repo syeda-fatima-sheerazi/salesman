@@ -18,6 +18,8 @@ class Order {
     this.isCollected = false,
     required this.totalBill,
     this.collectedAmount = 0,
+    this.deliveryDate,
+    this.paymentDate,
   });
 
   final String? id;
@@ -35,6 +37,8 @@ class Order {
   bool isCollected;
   final int totalBill;
   final int collectedAmount;
+  final DateTime? deliveryDate;
+  final DateTime? paymentDate;
 
   int get totalQuantity => items.fold(0, (sum, item) => sum + item.qty);
   String get displayShopPhotoAsset =>
@@ -55,6 +59,8 @@ class Order {
       'isCollected': isCollected,
       'totalBill': totalBill,
       'collectedAmount': collectedAmount,
+      'deliveryDate': deliveryDate?.toIso8601String(),
+      'paymentDate': paymentDate?.toIso8601String(),
       'items': items.map((item) => item.toFirestore()).toList(),
     };
   }
@@ -75,6 +81,8 @@ class Order {
       'isCollected': isCollected,
       'totalBill': totalBill,
       'collectedAmount': collectedAmount,
+      'deliveryDate': deliveryDate?.toIso8601String(),
+      'paymentDate': paymentDate?.toIso8601String(),
 
       'items': items.map((item) => item.toMap()).toList(),
     };
@@ -98,6 +106,12 @@ class Order {
       isCollected: map['isCollected'],
       totalBill: map['totalBill'],
       collectedAmount: map['collectedAmount'],
+      deliveryDate: map['deliveryDate'] != null
+          ? DateTime.parse(map['deliveryDate'])
+          : null,
+      paymentDate: map['paymentDate'] != null
+          ? DateTime.parse(map['paymentDate'])
+          : null,
 
       items: List<OrderItem>.from(
         (map['items'] as List).map((item) => OrderItem.fromMap(item)),
@@ -123,6 +137,12 @@ class Order {
       isCollected: data['isCollected'] ?? false,
       totalBill: data['totalBill'] ?? 0,
       collectedAmount: data['collectedAmount'] ?? 0,
+      deliveryDate: data['deliveryDate'] != null
+          ? DateTime.parse(data['deliveryDate'] as String)
+          : null,
+      paymentDate: data['paymentDate'] != null
+          ? DateTime.parse(data['paymentDate'] as String)
+          : null,
       items: (data['items'] as List<dynamic>?)
               ?.map((item) =>
                   OrderItem.fromFirestore(item as Map<String, dynamic>))
