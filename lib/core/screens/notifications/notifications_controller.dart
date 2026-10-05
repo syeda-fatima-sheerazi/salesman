@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sales_man/core/models/notification_model.dart';
-import 'package:sales_man/core/enums/notification_type.dart';
+import 'package:sales_man/core/repositories/i_notification_repository.dart';
 
 class NotificationsController extends GetxController {
+  final INotificationRepository _notificationRepository = Get.find();
+
   final RxList<NotificationModel> notifications = <NotificationModel>[].obs;
 
   final RxInt unreadCount = 0.obs;
@@ -12,73 +16,30 @@ class NotificationsController extends GetxController {
   final RxString searchQuery = ''.obs;
   final TextEditingController searchFieldController = TextEditingController();
 
+  StreamSubscription? _notificationSubscription;
+
   @override
   void onInit() {
     super.onInit();
-    _loadDummyData();
-    _updateUnreadCount();
+    _listenToNotifications();
   }
 
   @override
   void onClose() {
+    _notificationSubscription?.cancel();
     searchFieldController.dispose();
     super.onClose();
   }
 
-  void _loadDummyData() {
-    final now = DateTime.now();
-    notifications.value = [
-      NotificationModel(
-        id: '1',
-        type: NotificationType.order,
-        title: 'New Order from Ali Super Mart',
-        subtitle: '3 items ₹8,300',
-        time: '10:45 AM',
-        timestamp: now.subtract(const Duration(hours: 2)),
-        isRead: false,
-      ),
-      NotificationModel(
-        id: '2',
-        type: NotificationType.payment,
-        title: 'Payment of ₹7,000 received',
-        subtitle: 'from Noman General Store',
-        time: '10:05 AM',
-        timestamp: now.subtract(const Duration(hours: 3)),
-        isRead: false,
-      ),
-      NotificationModel(
-        id: '3',
-        type: NotificationType.visit,
-        title: 'Iqbal Traders marked as visited',
-        subtitle: '',
-        time: 'Today',
-        timestamp: now.subtract(const Duration(hours: 5)),
-        isRead: true,
-      ),
-      NotificationModel(
-        id: '4',
-        type: NotificationType.meeting,
-        title: 'Meeting scheduled with Ali Super Mart',
-        subtitle: 'at 2:00 PM tomorrow.',
-        time: 'Yesterday',
-        timestamp: now.subtract(const Duration(days: 1)),
-        isRead: true,
-      ),
-      NotificationModel(
-        id: '5',
-        type: NotificationType.report,
-        title: 'Monthly sales report for March',
-        subtitle: 'is ready to view.',
-        time: 'Yesterday',
-        timestamp: now.subtract(const Duration(days: 1, hours: 3)),
-        isRead: true,
-      ),
-    ];
+  void _listenToNotifications() {
+    _notificationSubscription = _notificationRepository.getNotifications().listen(
+      (notifs) {
+        notifications.value = notifs;
+        _updateUnreadCount();
+      },
+    );
   }
 
-  // notifications ab initializeNotifications() function mein set hoti hain, jahan static dummy list banai ja rahi hai.
-  // Jab bhi koi notification read mark ya delete hoti hai, _updateUnreadCount() call hota hai aur unreadCount update ho jata hai.
-  // Ye function unread notifications ki ginti (count) nikal ke unreadCount reactive variable me save karta hai.
   void _updateUnreadCount() {
     unreadCount.value = notifications.where((n) => !n.isRead).length;
   }
@@ -89,6 +50,7 @@ class NotificationsController extends GetxController {
       notifications[index].isRead = true;
       notifications.refresh();
       _updateUnreadCount();
+      _notificationRepository.markAsRead(id);
     }
   }
 
@@ -98,19 +60,19 @@ class NotificationsController extends GetxController {
     }
     notifications.refresh();
     _updateUnreadCount();
+    _notificationRepository.markAllAsRead();
   }
 
   void deleteNotification(String id) {
     notifications.removeWhere((n) => n.id == id);
     _updateUnreadCount();
+    _notificationRepository.deleteNotification(id);
   }
 
   void changeTab(int index) {
     selectedTabIndex.value = index;
   }
 
-  /// Tab 0: all notifications. Tab 1: unread only. Search applies within the
-  /// current tab’s list; empty query shows the full tab list.
   List<NotificationModel> get filteredNotifications {
     final tabIndex = selectedTabIndex.value;
     final q = searchQuery.value.trim().toLowerCase();
@@ -141,4 +103,3 @@ class NotificationsController extends GetxController {
     searchQuery.value = '';
   }
 }
-

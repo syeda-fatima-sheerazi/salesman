@@ -6,19 +6,56 @@ class NotificationModel {
   final NotificationType type;
   final String title;
   final String subtitle;
-  final String time;
   final DateTime timestamp;
   bool isRead;
+  final String orderId;
+  final String eventType;
+
+  String get time {
+    final diff = DateTime.now().difference(timestamp);
+    if (diff.inMinutes < 1) return 'Just now';
+    if (diff.inHours < 1) return '${diff.inMinutes}m ago';
+    if (diff.inDays < 1) return '${diff.inHours}h ago';
+    if (diff.inDays == 1) return 'Yesterday';
+    if (diff.inDays < 7) return '${diff.inDays}d ago';
+    return '${(diff.inDays / 7).floor()}w ago';
+  }
 
   NotificationModel({
     required this.id,
     required this.type,
     required this.title,
     required this.subtitle,
-    required this.time,
     required this.timestamp,
     this.isRead = false,
+    this.orderId = '',
+    this.eventType = '',
   });
+
+  Map<String, dynamic> toFirestore() {
+    return {
+      'type': type.name,
+      'title': title,
+      'subtitle': subtitle,
+      'timestamp': timestamp.toIso8601String(),
+      'isRead': isRead,
+      'orderId': orderId,
+      'eventType': eventType,
+    };
+  }
+
+  factory NotificationModel.fromFirestore(String id, Map<String, dynamic> data) {
+    return NotificationModel(
+      id: id,
+      type: NotificationType.values.firstWhere((e) => e.name == data['type']),
+      title: data['title'] ?? '',
+      subtitle: data['subtitle'] ?? '',
+      timestamp: DateTime.parse(data['timestamp'] as String),
+      isRead: data['isRead'] ?? false,
+      orderId: data['orderId'] ?? '',
+      eventType: data['eventType'] ?? '',
+    );
+  }
 
   IconData get iconData {
     switch (type) {
@@ -50,4 +87,3 @@ class NotificationModel {
     }
   }
 }
-

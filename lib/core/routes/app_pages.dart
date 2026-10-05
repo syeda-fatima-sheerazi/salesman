@@ -4,6 +4,8 @@ import 'package:sales_man/core/models/user_model.dart';
 import 'package:sales_man/core/screens/home/detailed/detailed_view_binding.dart';
 import 'package:sales_man/core/screens/products/add_product/add_product_binding.dart';
 import 'package:sales_man/core/screens/add_shop/add_shop_binding.dart';
+import 'package:sales_man/core/screens/location_picker/location_picker_binding.dart';
+import 'package:sales_man/core/screens/location_picker/location_picker_view.dart';
 import 'package:sales_man/core/screens/dashboard/dashboard_binding.dart';
 import 'package:sales_man/core/screens/login/login_binding.dart';
 import 'package:sales_man/core/screens/place_order/place_order_binding.dart';
@@ -68,6 +70,11 @@ class AppPages {
       name: Routes.addShop,
       page: () => const AddShopView(),
       binding: AddShopBinding(),
+    ),
+    GetPage(
+      name: Routes.locationPicker,
+      page: () => const LocationPickerView(),
+      binding: LocationPickerBinding(),
     ),
     GetPage(
       name: Routes.placeOrder,

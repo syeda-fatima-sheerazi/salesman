@@ -1,9 +1,9 @@
-import 'package:get/route_manager.dart';
-import 'package:get/state_manager.dart';
+import 'dart:async';
+import 'package:get/get.dart';
 import 'package:sales_man/core/enums/data_state.dart';
 import 'package:sales_man/core/models/shop.dart';
+import 'package:sales_man/core/repositories/i_shop_repository.dart';
 import 'package:sales_man/core/routes/route_names.dart';
-import 'package:sales_man/core/services/shop_service.dart';
 import 'package:sales_man/core/services/location_service.dart';
 
 class HomeController extends GetxController {
@@ -17,14 +17,27 @@ class HomeController extends GetxController {
   Map<String, dynamic> towns = {};
   Map<String, dynamic> areas = {};
 
-  final ShopService _shopService = ShopService();
+  final IShopRepository _shopRepository = Get.find();
   final LocationService _locationService = LocationService();
+  StreamSubscription? _shopSubscription;
 
   @override
   void onInit() {
     super.onInit();
     _loadLocationData();
-    loadDummyShops();
+    _subscribeToShops();
+  }
+
+  @override
+  void onClose() {
+    _shopSubscription?.cancel();
+    super.onClose();
+  }
+
+  void _subscribeToShops() {
+    _shopSubscription = _shopRepository.getShops().listen((shops) {
+      shopList.assignAll(shops);
+    });
   }
 
   Future<void> _loadLocationData() async {
@@ -34,11 +47,6 @@ class HomeController extends GetxController {
     areas = await _locationService.fetchAreas();
     dataState.value = DataState.loaded;
     update();
-  }
-
-  Future<void> loadDummyShops() async {
-    final shops = await _shopService.fetchDummyShops();
-    shopList.assignAll(shops);
   }
 
   void gotoDetailedView(Shop shop) {

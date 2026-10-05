@@ -15,6 +15,7 @@ abstract class Routes {
   static const products = '/products';
   static const addProduct = '/products/add';
   static const addShop = '/add-shop';
+  static const locationPicker = '/location-picker';
   static const placeOrder = '/place-order';
 }
 

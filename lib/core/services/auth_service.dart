@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sales_man/core/models/user_model.dart';
+import 'package:sales_man/core/repositories/i_user_repository.dart';
 import 'package:sales_man/core/services/auth_exception.dart';
 import 'package:sales_man/core/services/auth_user_mapper.dart';
 
@@ -43,6 +46,7 @@ class AuthService extends GetxService {
       if (user == null) {
         throw AuthException(code: 'unknown', message: 'User not found after sign up');
       }
+      unawaited(Get.find<IUserRepository>().createProfile(user));
       return user;
     } on FirebaseAuthException catch (e) {
       throw _mapFirebaseError(e);
@@ -62,6 +66,7 @@ class AuthService extends GetxService {
       if (user == null) {
         throw AuthException(code: 'not_found', message: 'User not found after sign in');
       }
+      unawaited(Get.find<IUserRepository>().updateLastLogin());
       return user;
     } on FirebaseAuthException catch (e) {
       throw _mapFirebaseError(e);
@@ -83,7 +88,11 @@ class AuthService extends GetxService {
         idToken: googleAuth.idToken,
       );
       final authResult = await _firebaseAuth.signInWithCredential(credential);
-      return _mapper.fromFirebaseUser(authResult.user);
+      final user = _mapper.fromFirebaseUser(authResult.user);
+      if (user != null) {
+        unawaited(Get.find<IUserRepository>().updateLastLogin());
+      }
+      return user;
     } on GoogleSignInException catch (e) {
       if (e.code == GoogleSignInExceptionCode.canceled ||
           e.code == GoogleSignInExceptionCode.interrupted) {

@@ -86,6 +86,49 @@ class Shop {
     );
   }
 
+  Map<String, dynamic> toFirestore() {
+    return {
+      'shopName': shopName,
+      'shopOwner': shopOwner,
+      'cellPhone': cellPhone,
+      'cnic': cnic,
+      'shopImagUrl': shopImagUrl,
+      'photoPath': photoPath,
+      'address': address,
+      'area': area,
+      'town': town,
+      'district': district,
+      'latitude': latitude,
+      'longitude': longitude,
+      'isVisited': isVisited,
+      'description': description,
+      'createdAt': createdAt?.toIso8601String(),
+    };
+  }
+
+  factory Shop.fromFirestore(String id, Map<String, dynamic> data) {
+    return Shop(
+      id: id,
+      shopName: data['shopName'] ?? '',
+      shopOwner: data['shopOwner'] ?? '',
+      cellPhone: data['cellPhone'] ?? '',
+      cnic: data['cnic'],
+      address: data['address'] ?? '',
+      area: data['area'],
+      town: data['town'],
+      district: data['district'],
+      latitude: (data['latitude'] as num?)?.toDouble(),
+      longitude: (data['longitude'] as num?)?.toDouble(),
+      photoPath: data['photoPath'],
+      shopImagUrl: data['shopImagUrl'] ?? 'assets/images/shop.png',
+      isVisited: data['isVisited'] ?? false,
+      description: data['description'],
+      createdAt: data['createdAt'] != null
+          ? DateTime.parse(data['createdAt'] as String)
+          : null,
+    );
+  }
+
   /// Create full address from area, town, district
   String get fullAddress {
     final parts = <String>[];

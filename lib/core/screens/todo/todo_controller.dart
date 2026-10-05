@@ -4,73 +4,83 @@ import 'package:get/get.dart';
 import 'package:sales_man/core/dialogs/app_result_dialog.dart';
 import 'package:sales_man/core/enums/app_dialog_variant.dart';
 import 'package:sales_man/core/models/order.dart';
-import 'package:sales_man/core/models/order_item.dart';
+import 'package:sales_man/core/repositories/i_order_repository.dart';
 
 class TodoController extends GetxController {
   final RxInt mainTabIndex = 0.obs;
-  final RxList<Order> orders = <Order>[
-    Order(
-      shopId: 'shop_3',
-      shopName: 'Metro Cash',
-      ownerName: 'Imran',
-      cell: '0300-5551212',
-      shopPhotoAsset: 'assets/images/shop.png',
-      orderNo: '#899',
-      orderDate: DateTime(2026, 4, 30),
-      items: const [
-        OrderItem(
-          productId: 'p4',
-          productName: 'Ketchup 800g',
-          qty: 6,
-          price: 450,
-        ),
-        OrderItem(
-          productId: 'p5',
-          productName: 'Mix Achar',
-          qty: 10,
-          price: 280,
-        ),
-        OrderItem(
-          productId: 'p6',
-          productName: 'Nihari Masala',
-          qty: 15,
-          price: 120,
-        ),
-      ],
-      totalBill: 7300,
-      remainingAmount: 7300,
-    ),
-  ].obs;
-  final RxList<Order> collections = <Order>[
-    Order(
-      shopId: 'shop_4',
-      orderNo: '#900',
-      items: [],
-      shopName: 'Jawad Super Mart',
-      ownerName: 'Jawad Khan',
-      cell: '0300-1112233',
-      remainingAmount: 18000,
-      isCollected: false,
-      totalBill: 22000,
-      collectedAmount: 4000,
-      shopPhotoAsset: 'assets/images/shop.png',
-    ),
-  ].obs;
+  final RxList<Order> orders = <Order>[].obs;
+  final RxList<Order> collections = <Order>[].obs;
 
-  Future<void> updateCollectionState(Order c) async {
-    c.isCollected = true;
-    collections.refresh();
-    await showDialoge();
-    collections.remove(c);
-    update();
+  final IOrderRepository _orderRepository = Get.find();
+  StreamSubscription? _deliverySubscription;
+  StreamSubscription? _collectionSubscription;
+
+  @override
+  void onInit() {
+    super.onInit();
+    _subscribeToOrders();
+  }
+
+  @override
+  void onClose() {
+    _deliverySubscription?.cancel();
+    _collectionSubscription?.cancel();
+    super.onClose();
+  }
+
+  void _subscribeToOrders() {
+    _deliverySubscription =
+        _orderRepository.getPendingDeliveries().listen((list) {
+      orders.assignAll(list);
+    });
+    _collectionSubscription =
+        _orderRepository.getPendingCollections().listen((list) {
+      collections.assignAll(list);
+    });
   }
 
   Future<void> updateOrderState(Order o) async {
-    o.isDelivered = true;
-    orders.refresh();
+    final updated = Order(
+      id: o.id,
+      shopId: o.shopId,
+      shopName: o.shopName,
+      ownerName: o.ownerName,
+      cell: o.cell,
+      items: o.items,
+      shopPhotoAsset: o.shopPhotoAsset,
+      createdBy: o.createdBy,
+      orderNo: o.orderNo,
+      isDelivered: true,
+      orderDate: o.orderDate,
+      remainingAmount: o.remainingAmount,
+      isCollected: o.isCollected,
+      totalBill: o.totalBill,
+      collectedAmount: o.collectedAmount,
+    );
+    await _orderRepository.saveOrder(updated);
     await showDialoge();
-    orders.remove(o);
-    update();
+  }
+
+  Future<void> updateCollectionState(Order c) async {
+    final updated = Order(
+      id: c.id,
+      shopId: c.shopId,
+      shopName: c.shopName,
+      ownerName: c.ownerName,
+      cell: c.cell,
+      items: c.items,
+      shopPhotoAsset: c.shopPhotoAsset,
+      createdBy: c.createdBy,
+      orderNo: c.orderNo,
+      isDelivered: c.isDelivered,
+      orderDate: c.orderDate,
+      remainingAmount: c.remainingAmount,
+      isCollected: true,
+      totalBill: c.totalBill,
+      collectedAmount: c.collectedAmount,
+    );
+    await _orderRepository.saveOrder(updated);
+    await showDialoge();
   }
 
   void onChangeTabIndex(int index) {
