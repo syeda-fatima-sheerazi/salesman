@@ -38,7 +38,7 @@ class DashboardView extends StatelessWidget {
           ),
         ],
       ),
-      drawer: CustomDrawerView(user: user),
+      drawer: const CustomDrawerView(),
       body: Obx(() {
         return IndexedStack(
           index: dashboardController.currentIndex.value,

@@ -108,12 +108,7 @@ class SignUpView extends GetView<SignUpController> {
                       SizedBox(height: 20.h),
 
                       SocialButton(
-                        // onTap: controller.signUpWithGoogle,
-                        onTap: () {
-                          // Implement Google sign-up logic here
-                          controller
-                              .dummySignUp(); // Call the dummy sign-up method
-                        },
+                        onTap: controller.signUpWithGoogle,
                         icon: 'assets/images/google.png',
                         text: 'Sign up with Google',
                       ),

@@ -3,11 +3,10 @@ import 'package:get/get.dart';
 import 'package:sales_man/core/dialogs/app_result_dialog.dart';
 import 'package:sales_man/core/enums/app_dialog_variant.dart';
 import 'package:sales_man/core/routes/route_names.dart';
-import 'package:sales_man/core/services/database_service.dart';
-import 'package:sales_man/core/services/session_service.dart';
+import 'package:sales_man/core/services/auth_service.dart';
+import 'package:sales_man/core/services/auth_exception.dart';
 import 'package:sales_man/core/services/snackbar/app_snackbar_service.dart';
 import 'package:sales_man/core/utils/app_validators.dart';
-import 'package:sales_man/core/models/user_model.dart';
 
 class SignUpController extends GetxController {
   // Controllers
@@ -93,28 +92,11 @@ class SignUpController extends GetxController {
 
     try {
       final email = emailController.text.trim();
-      final existing = await DatabaseService.instance.getUserByEmail(email);
-      if (existing != null) {
-        AppSnackbarService.error(
-          'An account with this email already exists.',
-        );
-        return;
-      }
-
-      final user = UserModel(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
+      final user = await AuthService.instance.signUpWithEmail(
         name: fullNameController.text.trim(),
         email: email,
         password: passwordController.text,
       );
-
-      final success = await DatabaseService.instance.registerUser(user);
-      if (!success) {
-        AppSnackbarService.error('Failed to create account. Please try again.');
-        return;
-      }
-
-      await SessionService.instance.saveSession(email);
 
       AppResultDialog.show(
         title: 'Success',
@@ -127,6 +109,8 @@ class SignUpController extends GetxController {
         Get.back();
       }
       Get.offAllNamed(Routes.dashboard, arguments: user);
+    } on AuthException catch (e) {
+      AppSnackbarService.error(e.message);
     } catch (e) {
       AppSnackbarService.error('Failed to create account. Please try again.');
     } finally {
@@ -135,7 +119,6 @@ class SignUpController extends GetxController {
   }
 
   void login() {
-    // Navigate to login screen
     emailError.value = '';
     passwordError.value = '';
     confirmPasswordError.value = '';
@@ -143,21 +126,15 @@ class SignUpController extends GetxController {
     Get.toNamed(Routes.login);
   }
 
-  void signUpWithGoogle() {
-    // TODO: Implement Google Sign Up
-  }
-
-  void dummySignUp() {
-    final email = emailController.text.trim();
-    final user = UserModel(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      name: fullNameController.text.trim(),
-      email: email,
-      password: passwordController.text,
-    );
-    DatabaseService.instance.registerUser(user);
-    SessionService.instance.saveSession(email);
-    Get.offAllNamed(Routes.dashboard, arguments: user);
+  Future<void> signUpWithGoogle() async {
+    try {
+      final user = await AuthService.instance.signInWithGoogle();
+      if (user == null) return;
+      Get.offAllNamed(Routes.dashboard, arguments: user);
+    } on AuthException catch (e) {
+      AppSnackbarService.error(e.message, title: 'Google Sign-In failed');
+    } catch (e) {
+      AppSnackbarService.error('Google Sign-In failed: $e');
+    }
   }
 }
-

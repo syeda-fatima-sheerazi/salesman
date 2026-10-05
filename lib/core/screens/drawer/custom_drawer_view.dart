@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:sales_man/core/models/user_model.dart';
 import 'package:sales_man/core/screens/drawer/custom_drawer_controller.dart';
 import 'package:sales_man/core/screens/drawer/widgets/drawer_header.dart';
 import 'package:sales_man/core/screens/drawer/widgets/drawer_menu.dart';
 
 class CustomDrawerView extends GetView<CustomDrawerController> {
-  const CustomDrawerView({super.key, required this.user});
-  final UserModel user;
+  const CustomDrawerView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -23,13 +22,10 @@ class CustomDrawerView extends GetView<CustomDrawerController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Brand header (teal gradient — same on light & dark)
-            DrawerHeaderWidget(user: user),
-
-            // Menu sheet — follows theme surface (light white / dark elevated)
+            DrawerHeaderWidget(user: controller.currentUser!),
             DrawerMenuWidget(
               onTap: () {
-                Get.back(); // Close the drawer
+                Get.back();
                 controller.logout();
               },
               title: '1.0.0',

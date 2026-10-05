@@ -99,14 +99,12 @@ class DrawerMenuWidget extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 14.h),
-              child: Obx(
-                () => Text(
-                  'App Version: $title',
-                  textAlign: TextAlign.center,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    fontSize: 12.sp,
-                    color: cs.onSurfaceVariant,
-                  ),
+              child: Text(
+                'App Version: $title',
+                textAlign: TextAlign.center,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  fontSize: 12.sp,
+                  color: cs.onSurfaceVariant,
                 ),
               ),
             ),
@@ -116,4 +114,3 @@ class DrawerMenuWidget extends StatelessWidget {
     );
   }
 }
-
